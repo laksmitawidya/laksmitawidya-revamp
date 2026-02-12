@@ -1,1 +1,9 @@
-{"nlp":2,"bert":2,"transformer":1,"deep-learning":2,"architecture":1,"machine-learning":1,"ai":1}
+{
+  "nlp": 2,
+  "bert": 2,
+  "machine-learning": 1,
+  "deep-learning": 2,
+  "ai": 1,
+  "transformer": 1,
+  "architecture": 1
+}
