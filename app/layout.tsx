@@ -15,6 +15,7 @@ const rethink_sans = Rethink_Sans({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-rethink-sans',
+  preload: true,
 })
 
 const meow_script = Meow_Script({
@@ -22,6 +23,7 @@ const meow_script = Meow_Script({
   display: 'swap',
   variable: '--font-meow',
   weight: '400',
+  preload: true,
 })
 
 export const metadata: Metadata = {
@@ -73,6 +75,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${rethink_sans.variable} ${meow_script.variable} scroll-smooth`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+      </head>
       <link
         rel="apple-touch-icon"
         sizes="76x76"

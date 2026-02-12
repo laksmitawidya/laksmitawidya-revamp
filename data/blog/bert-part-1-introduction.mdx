@@ -1,0 +1,111 @@
+﻿---
+title: 'BERT Part 1 - Why Pretrained Language Models Matter'
+date: '2026-02-10'
+tags: ['nlp', 'bert', 'machine-learning', 'deep-learning', 'ai']
+draft: false
+summary: 'Exploring why pretrained language models like BERT are practical when labeled data and compute are limited'
+---
+
+# Introduction
+
+Natural Language Processing (NLP) is fascinating because it enables computers to understand everyday language. In modern practice, many NLP solutions rely on deep learning. However, deep learning is not always the most efficient answer because the architecture can be complex, it often requires large amounts of data, and it comes with many hyperparameters that take time to tune.
+
+This article sets the context for why pretrained language models such as BERT are a strong practical approach, especially when:
+
+- labeled data is limited
+- compute is limited
+- you need a model that can adapt quickly to a specific task
+
+## 1) Why Deep Learning NLP Is Not Always "Enough"
+
+Deep learning can deliver high performance, but it often comes with trade-offs:
+
+- **Data**: large datasets are usually required for good generalization
+- **Complexity**: it can be hard to interpret models in a whitebox way due to many hidden layers
+- **Tuning cost**: experimentation can be expensive because there are many parameters and configurations
+
+Because of this, improving performance does not always mean "use a bigger model". Sometimes it is more effective to improve the data or to start from a model that has already learned general language patterns.
+
+## 2) Two Ways to Improve Performance: Data-Centric vs Model-Centric
+
+At a high level, an AI system is built from two main elements:
+
+1. **Code** (the model)
+2. **Data**
+
+There are two common improvement strategies.
+
+### 2.1 Data-Centric AI
+
+This approach focuses on making the data clearer and more consistent so the model learns the right signal.
+
+Typical focus areas include:
+
+- consistent labeling
+- data management (versioning, auditing)
+- slicing (understanding weak segments)
+- augmentation
+- data cleaning and curation
+
+In many real-world settings, the model is relatively fixed, and most gains come from improving the data.
+
+### 2.2 Model-Centric AI
+
+This approach focuses on experimenting with model architectures and tuning.
+
+It can be effective, but the experimentation cost can be high, especially when data and compute are limited.
+
+## 3) A Problem I Find Interesting: Code-Mixed Text (Indonesian-English)
+
+I became interested in **code-mixing**, which is the use of two or more languages within a single sentence or utterance. In Indonesia, a common example is Indonesian-English mixing in social media text.
+
+Conceptually, code-mixing refers to using linguistic units such as words, phrases, or clauses from different languages within the same sentence context. It is often observed in informal language, especially on social platforms.
+
+### The Challenge
+
+A major challenge for Indonesian NLP in this area is **data availability**. Koto et al. (2020) noted that one key reason Indonesian NLP is less represented in research is the lack of annotated datasets, language resources, and standardization.
+
+## 4) Why Pretrained Models Are a Strong Candidate
+
+To handle code-mixed text, I considered several pretrained models, such as:
+
+- **IndoBERTweet**
+- **multilingual BERT (mBERT)**
+- **BERTweet**
+
+### 4.1 What Is a Pretrained Model?
+
+A pretrained model is a model (in this context: deep learning) trained on very large corpora (for example, Wikipedia or Twitter) so it learns general language patterns.
+
+These models can then be fine-tuned for specific tasks, such as:
+
+- sentiment analysis
+- question answering
+- summarization
+- intent classification
+
+### Key Advantages
+
+- **Lower compute cost** to get started
+- **Faster time** to a strong baseline
+- **No need to train from scratch**
+
+This makes pretrained models particularly valuable when you have limited resources but need production-ready results quickly.
+
+## 5) What Comes Next
+
+In the next article, I will cover:
+
+- how BERT works conceptually (a whitebox view)
+- what BERT learns during pretraining
+- why the architecture is relevant for code-mixed text
+
+---
+
+## References
+
+Koto, F., Rahimi, A., Lau, J. H., & Baldwin, T. (2020). IndoLEM and IndoBERT: A Benchmark Dataset and Pre-trained Language Model for Indonesian NLP. _Proceedings of the 28th International Conference on Computational Linguistics_, 757-770.
+
+---
+
+_This is part 1 of a series exploring BERT and its applications in multilingual NLP contexts._

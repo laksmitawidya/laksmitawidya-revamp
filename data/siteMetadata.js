@@ -1,24 +1,24 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'Laksmita Widya Portfolio',
-  author: 'laksmitawidya',
+  title: 'Laksmita Widya Astuti - Front End Engineer',
+  author: 'Laksmita Widya Astuti',
   headerTitle: 'laksmitawidya',
   description:
-    'A personal website created with Next.js and Tailwind.css using tailwind-nextjs-starter-blog',
+    'Front End Engineer with 5+ years of experience specializing in React, TypeScript, and modern web technologies. Building scalable applications across web, desktop, and mobile platforms.',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://laksmitawidya.com',
   siteRepo: 'https://github.com/laksmitawidya',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
-  email: 'address@yoursite.com',
-  github: 'https://github.com',
+  email: 'mithawid@gmail.com',
+  github: 'https://github.com/laksmitawidya',
   // x: 'https://twitter.com/x',
-  facebook: 'https://facebook.com',
+  // facebook: 'https://facebook.com',
   // youtube: 'https://youtube.com',
-  linkedin: 'https://www.linkedin.com',
+  linkedin: 'https://www.linkedin.com/in/laksmita-widya-astuti-4a392010b',
   // threads: 'https://www.threads.net',
-  instagram: 'https://www.instagram.com',
+  // instagram: 'https://www.instagram.com',
   // medium: 'https://medium.com',
   locale: 'en-US',
   // set to true if you want a navbar fixed to the top

@@ -1,0 +1,176 @@
+﻿---
+title: 'BERT Part 2 - Understanding the Architecture'
+date: '2026-02-12'
+tags: ['nlp', 'bert', 'transformer', 'deep-learning', 'architecture']
+draft: false
+summary: 'A deep dive into BERT architecture exploring the Transformer encoder and multi-head self-attention mechanism'
+---
+
+In Part 1, we covered the NLP landscape, why deep learning can be expensive to build and tune, and why pretrained language models are often a practical shortcut. In Part 2, we go more technical: how BERT works (a whitebox conceptual view), what it learns during pretraining, and why this architecture is a strong fit for code-mixed text (for example, Indonesian–English).
+
+For text classification, BERT uses the Transformer encoder portion of the architecture. At a high level, the model can be understood as three stacked stages:
+
+1. an **input layer** (embeddings)
+2. a **sequence of self-attention encoder layers**
+3. a **classification head**
+
+In many applied settings, BERT Base is used as the starting point and then adapted (fine-tuned) to match a specific domain.
+
+## 1) BERT Base vs the Original Transformer Configuration
+
+Compared to the original Transformer configuration described by Vaswani et al. (2017), BERT uses a larger encoder stack.
+
+BERT comes in two common sizes:
+
+- **BERT Base**
+- **BERT Large**
+
+### Key differences (typical configurations):
+
+| Configuration                | BERT Base | BERT Large |
+| ---------------------------- | --------- | ---------- |
+| Hidden size / embedding size | 768       | 1024       |
+| Number of attention heads    | 12        | 16         |
+| Number of encoder layers     | 12        | 24         |
+
+These are larger than the default settings often referenced from the initial Transformer paper (for example, 6 encoder layers, 512 hidden size, and 8 attention heads).
+
+## 2) Encoder Input: Token Embeddings and Padding
+
+The Transformer encoder receives input embeddings as vectors.
+
+A common way to represent the input is a matrix shaped like:
+
+$$\text{sequence length} \times \text{hidden size}$$
+
+For example, you might use a maximum sequence length of 128 tokens. Sentences are tokenized, and then **padded** up to 128 tokens so all inputs have a consistent length.
+
+## 3) Mapping Tokens into the Vocabulary Embedding Matrix
+
+After tokenization, token IDs are mapped into a vocabulary embedding lookup table.
+
+A typical size for this embedding matrix is:
+
+$$\text{vocab size} \times \text{hidden size}$$
+
+For BERT Base, this is commonly:
+
+$$30{,}000 \times 768$$
+
+Where:
+
+- **30,000** is the vocabulary size
+- **768** is the embedding dimension for each token
+
+## 4) Example: How the Lookup Works
+
+Consider a simple example where the first token is **"saya"** ("I").
+
+If "saya" corresponds to some token ID (for example, ID = 1), then the embedding vector for that token is taken from the corresponding row in the embedding matrix.
+
+In other words, the model retrieves a 768-dimensional vector:
+
+$$w[1][1] \text{ through } w[1][768]$$
+
+This embedding becomes part of the encoder input.
+
+## 5) Multi-Head Self-Attention (Conceptual Steps)
+
+Next, BERT computes **multi-head self-attention**.
+
+For BERT Base:
+
+- hidden size = 768
+- number of heads = 12
+- per-head dimension = 768 / 12 = 64
+
+### Attention Mechanism
+
+In the attention mechanism, the input embeddings are projected into three matrices:
+
+- **Q** (Query)
+- **K** (Key)
+- **V** (Value)
+
+### A simplified attention computation:
+
+1. Compute the dot product $QK^T$.
+2. Scale by $\sqrt{d_k}$, where $d_k = 64$, so the scale factor is $\sqrt{64} = 8$.
+3. Apply softmax to obtain attention weights.
+4. Multiply by $V$ to produce the attention output.
+
+The attention formula can be expressed as:
+
+$$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
+
+With a max sequence length of 128, the attention weights form a matrix of size:
+
+$$128 \times 128$$
+
+## 6) The [CLS] Representation and the Classification Head
+
+This attention-and-feed-forward computation is repeated across encoder layers.
+
+For classification tasks, the final hidden representation of the first special token, **[CLS]**, is used as a single "summary" vector for the whole sequence.
+
+Many BERT implementations then apply a **pooler**:
+
+- a linear transformation
+- followed by a **tanh** activation
+
+This pooled vector becomes the input to the classification layer.
+
+### Visual Flow:
+
+```
+Input Tokens -> Embeddings -> Encoder Layers -> [CLS] Token -> Pooler -> Classifier
+```
+
+## 7) Probabilities, Loss, and Model Selection (Sentiment Analysis Example)
+
+For a sentiment analysis setup, the pooled output is passed to a classifier to produce probabilities (or logits), and training uses a loss function.
+
+### A common configuration includes:
+
+- **sigmoid** for producing probabilities (often used for binary or multi-label setups)
+- **binary cross-entropy loss** (BCE / BCELoss)
+
+The model outputs logits that can be used to decide whether sentiment is, for example, neutral, positive, or negative (depending on the exact labeling setup).
+
+### During training, the loss is used to:
+
+- validate and select the best checkpoint
+- detect whether the model is **overfitting**, **underfitting**, or has a **good fit**
+
+### Loss Function
+
+For binary classification, the binary cross-entropy loss is:
+
+$$\text{BCE} = -\frac{1}{N}\sum_{i=1}^{N} \left[y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i)\right]$$
+
+Where:
+
+- $y_i$ is the true label
+- $\hat{y}_i$ is the predicted probability
+- $N$ is the number of samples
+
+## Summary
+
+BERT's architecture for text classification consists of:
+
+1. **Token embeddings** that map vocabulary to dense vectors
+2. **Multi-head self-attention** that captures contextual relationships
+3. **[CLS] token pooling** that summarizes the sequence
+4. **Classification head** that produces final predictions
+
+---
+
+## References
+
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, L., & Polosukhin, I. (2017). Attention is all you need. _Advances in Neural Information Processing Systems_, 30.
+
+Devlin, J., Chang, M. W., Lee, K., & Toutanova, K. (2018). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. _arXiv preprint arXiv:1810.04805_.
+
+---
+
+_This is part 2 of a series exploring BERT and its applications in multilingual NLP contexts._

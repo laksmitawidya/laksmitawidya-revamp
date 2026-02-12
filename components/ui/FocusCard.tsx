@@ -16,30 +16,102 @@ export const Card = React.memo(
     index: number
     hovered: number | null
     setHovered: React.Dispatch<React.SetStateAction<number | null>>
-  }) => (
-    <div
-      onMouseEnter={() => setHovered(index)}
-      onMouseLeave={() => setHovered(null)}
-      className={cn(
-        'relative h-60 w-full overflow-hidden rounded-lg bg-gray-100 transition-all duration-300 ease-out dark:bg-neutral-900 md:h-96',
-        hovered !== null && hovered !== index && 'scale-[0.98] blur-sm'
-      )}
-    >
-      {card.imgSrc && (
-        <Image src={card.imgSrc} alt={card.title} fill className="absolute inset-0 object-cover" />
-      )}
+  }) => {
+    const CardContent = (
       <div
+        onMouseEnter={() => setHovered(index)}
+        onMouseLeave={() => setHovered(null)}
         className={cn(
-          'absolute inset-0 flex items-end bg-black/50 px-4 py-8 transition-opacity duration-300',
-          hovered === index ? 'opacity-100' : 'opacity-0'
+          'group relative h-60 w-full overflow-hidden rounded-xl border border-gray-200 bg-white transition-all duration-300 ease-out dark:border-gray-800 dark:bg-gray-900/50 md:h-64',
+          hovered !== null && hovered !== index && 'scale-[0.98] opacity-50',
+          card.href &&
+            'cursor-pointer hover:border-gray-300 hover:shadow-xl dark:hover:border-gray-700'
         )}
       >
-        <div className="bg-gradient-to-b from-neutral-50 to-neutral-200 bg-clip-text text-xl font-medium text-transparent md:text-2xl">
-          {card.title}
+        {/* Subtle gradient overlay on hover */}
+        <div
+          className={cn(
+            'absolute inset-0 bg-gradient-to-br from-blue-50/50 via-transparent to-purple-50/50 opacity-0 transition-opacity duration-500 dark:from-blue-950/20 dark:to-purple-950/20',
+            hovered === index && 'opacity-100'
+          )}
+        />
+
+        {/* Content */}
+        <div className="relative flex h-full flex-col justify-between p-6 md:p-8">
+          {/* Title and number */}
+          <div className="space-y-2">
+            <div className="text-sm font-medium text-gray-400 dark:text-gray-600">
+              {String(index + 1).padStart(2, '0')}
+            </div>
+            <h3 className="text-xl font-bold leading-tight text-gray-900 dark:text-gray-100 md:text-2xl">
+              {card.title}
+            </h3>
+          </div>
+
+          {/* Description - always visible but subtle */}
+          <div className="space-y-3">
+            {card.description && (
+              <p
+                className={cn(
+                  'line-clamp-3 text-sm leading-relaxed text-gray-600 transition-all duration-300 dark:text-gray-400',
+                  hovered === index ? 'opacity-100' : 'opacity-60'
+                )}
+              >
+                {card.description}
+              </p>
+            )}
+
+            {/* View project link */}
+            {card.href && (
+              <div
+                className={cn(
+                  'flex items-center gap-2 text-sm font-medium text-gray-900 transition-all duration-300 dark:text-gray-100',
+                  hovered === index ? 'translate-x-0 opacity-100' : '-translate-x-2 opacity-0'
+                )}
+              >
+                <span>View Project</span>
+                <svg
+                  className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </div>
+            )}
+          </div>
         </div>
+
+        {/* Decorative corner accent */}
+        <div
+          className={cn(
+            'absolute right-0 top-0 h-20 w-20 bg-gradient-to-br from-blue-100 to-purple-100 opacity-0 transition-opacity duration-500 dark:from-blue-900/30 dark:to-purple-900/30',
+            hovered === index && 'opacity-100'
+          )}
+          style={{
+            clipPath: 'polygon(100% 0, 100% 100%, 0 0)',
+          }}
+        />
       </div>
-    </div>
-  )
+    )
+
+    if (card.href) {
+      return (
+        <a
+          href={card.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block transition-transform hover:scale-[1.02]"
+        >
+          {CardContent}
+        </a>
+      )
+    }
+
+    return CardContent
+  }
 )
 
 Card.displayName = 'Card'
@@ -48,7 +120,7 @@ export function FocusCards({ cards }: { cards: Project[] }) {
   const [hovered, setHovered] = useState<number | null>(null)
 
   return (
-    <div className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-10 md:grid-cols-3 md:px-8">
+    <div className="mx-auto grid h-full w-full max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 md:px-8">
       {cards.map((card, index) => (
         <Card
           key={card.title}
