@@ -222,10 +222,10 @@ export default function Home({ posts }) {
               </div>
               <div className="space-y-1">
                 <h3 className="font-bold text-gray-900 dark:text-gray-100">
-                  AWS Certified Cloud Practitioner (2025)
+                  AWS Certified Cloud Practitioner
                 </h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Issued Nov 2025 · Expires Nov 2028· Credential ID
+                  Issued Nov 2025 · Expires Nov 2028 · Credential ID
                   9b7b8876-15c5-451a-b7f7-1989920a44d5
                 </p>
               </div>
