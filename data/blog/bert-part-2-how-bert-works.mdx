@@ -1,0 +1,115 @@
+﻿---
+title: 'How BERT Works and Why It Helps Code-Mixed Text'
+date: '2025-05-09'
+tags: ['nlp', 'bert', 'transformer', 'deep-learning', 'code-mixing']
+draft: false
+summary: 'A whitebox conceptual view of how BERT works, what it learns during pretraining, and why it fits code-mixed text'
+---
+
+## Summary
+
+In Part 1, we covered the NLP landscape, why deep learning can be expensive to build and tune, and why pretrained language models are often a practical shortcut. In Part 2, we go more technical: how BERT works (a whitebox conceptual view), what it learns during pretraining, and why this architecture is a strong fit for code-mixed text (for example, Indonesian-English).
+
+## 1) From Static Word Embeddings to Contextual Embeddings
+
+Classic representations such as Word2Vec or GloVe produce a single, fixed vector for each word. The problem is that meaning depends on context.
+
+**Example:**
+
+- "bank" in "bank transfer" vs "bank" in "sit on a park bench"
+
+BERT produces **contextual embeddings**: the vector for a token is computed based on the surrounding tokens, so the same word can have different representations in different sentences.
+
+## 2) Transformer - The Core Engine Behind BERT
+
+BERT is built on the **Transformer Encoder** architecture.
+
+**Key components:**
+
+- **Tokenization** (commonly WordPiece)
+- **Embeddings** (token, position, and segment embeddings)
+- **Self-attention** (each token can "look at" other tokens)
+- **Feed-forward network** (non-linear transformation per token)
+- **Residual connections + LayerNorm** (training stability)
+
+### Self-attention intuition
+
+When processing a token, the model computes how much other tokens matter for understanding it.
+
+## 3) What Does BERT Learn During Pretraining?
+
+BERT is trained on very large corpora using **self-supervised objectives** (no manual labels needed).
+
+### 3.1 Masked Language Modeling (MLM)
+
+Some tokens are masked, and the model is trained to predict the missing tokens.
+
+**Simple example:**
+
+> I like drinking [MASK] every morning.
+
+**Why this matters:** BERT learns syntactic and semantic relationships **bidirectionally**, not only left-to-right.
+
+### 3.2 Next Sentence Prediction (NSP) (historical)
+
+In the original BERT formulation, a second task predicts whether sentence B is the real continuation of sentence A.
+
+**Note:** Many modern variants reduce or replace NSP, but the idea is to help with sentence-to-sentence coherence.
+
+## 4) Why BERT Works Well for Code-Mixed Text
+
+Code-mixed Indonesian-English text is challenging because it often includes:
+
+- mixed vocabulary and grammar
+- language switching within a single sentence
+- informal spelling, abbreviations, and social media style
+
+**BERT helps because:**
+
+- **It is contextual**: token meaning is shaped by surrounding context, not a fixed dictionary vector
+- **Subword tokenization (WordPiece)**: unknown words can be decomposed into smaller pieces
+- **Multilingual representations** (for certain models): the embedding space can include multiple languages
+
+**However, model choice still matters:**
+
+- **mBERT**: more general across languages
+- **IndoBERTweet / BERTweet**: often stronger for Twitter-like text, slang, and informal spelling
+
+## 5) Fine-tuning - Adapting BERT to a Specific Task
+
+After pretraining, we typically **fine-tune** BERT for a downstream task, such as:
+
+- sentiment analysis
+- intent classification
+- NER (Named Entity Recognition)
+- QA (Question Answering)
+
+**Common approach:**
+
+1. Add a task head (for example, a classification layer)
+2. Train on labeled data
+3. Use a small learning rate (BERT can be sensitive to learning rate)
+
+## 6) A Minimal Text Classification Pipeline (High-Level)
+
+A typical workflow looks like this:
+
+1. Light text cleaning (avoid overly aggressive normalization; context matters)
+2. Tokenize (WordPiece)
+3. Feed tokens into BERT
+4. Use a pooled representation (commonly the [CLS] token embedding) as input to a classifier head
+5. Fine-tune end-to-end on labeled data
+
+**Note:** Some implementations use mean pooling over all token embeddings instead of [CLS].
+
+## Closing
+
+BERT is not "magic". Its strength comes from the Transformer encoder plus large-scale pretraining objectives that produce high-quality language representations. For code-mixed text, model choice (mBERT vs Twitter-domain models) and data quality (labeling consistency, coverage, and balance) often determine the final performance.
+
+---
+
+If you are interested in a code-mixed dataset for English-Indonesian with sentiment labels, you can check out my dataset here: [indonglish-dataset](https://github.com/laksmitawidya/indonglish-dataset)
+
+---
+
+_This is part 2 of a series exploring BERT and its applications in multilingual NLP contexts._

@@ -86,6 +86,9 @@ export default function Footer() {
                 <span className="text-red-500">♥</span>
                 <span>using Next.js</span>
               </div>
+              <div className="text-xs text-gray-400 dark:text-gray-500">
+                Powered by AI — Kiro, Claude & ChatGPT
+              </div>
             </div>
           </div>
         </div>
