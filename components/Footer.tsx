@@ -8,43 +8,86 @@ import SocialMedia from './SocialMedia'
 
 export default function Footer() {
   return (
-    <footer className="mt-20">
-      <hr className="border-t-1 dark:border-gray-700 " />
+    <footer className="mt-32 border-t border-gray-200 dark:border-gray-800">
       <SectionContainer>
-        <div className="flex flex-col py-10">
-          <div className="flex flex-col gap-y-5 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-col items-center sm:items-start">
-              <div className="mb-2 flex space-x-2">
-                <div className="font-script text-lg sm:text-xl">{siteMetadata.author}</div>
+        <div className="py-12">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Brand Section */}
+            <div className="space-y-4">
+              <div className="font-script text-xl text-gray-900 dark:text-gray-100">
+                {siteMetadata.author}
               </div>
-
+              <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                Front End Engineer specializing in React, TypeScript, and modern web technologies.
+              </p>
               <SocialMedia />
             </div>
-            <div className="flex flex-col">
-              <div className="mb-2 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                Quick navigation
-              </div>
-              <div className="mb-3 flex flex-col gap-y-4">
+
+            {/* Navigation */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                Navigation
+              </h3>
+              <div className="flex flex-col gap-3">
                 {headerNavLinks.map((link) => (
                   <Link
                     key={link.title}
                     href={link.href}
-                    className="block text-sm text-gray-900 hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400"
+                    className="text-sm text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
                   >
                     {link.title}
                   </Link>
                 ))}
               </div>
             </div>
+
+            {/* Contact */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                Get in Touch
+              </h3>
+              <div className="flex flex-col gap-3 text-sm text-gray-600 dark:text-gray-400">
+                <a
+                  href={`mailto:${siteMetadata.email}`}
+                  className="transition-colors hover:text-gray-900 dark:hover:text-gray-100"
+                >
+                  {siteMetadata.email}
+                </a>
+                <a
+                  href={siteMetadata.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-gray-900 dark:hover:text-gray-100"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href={siteMetadata.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-gray-900 dark:hover:text-gray-100"
+                >
+                  GitHub
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
-        <hr className="my-5 border-t-1 dark:border-gray-700" />
-        <div className="flex justify-center gap-x-2 pb-5  text-sm text-gray-500 dark:text-gray-400">
-          <div>{siteMetadata.author}</div>
-          <div>{` • `}</div>
-          <div>{`© ${new Date().getFullYear()}`}</div>
-          <div>{` • `}</div>
-          <Link href="/">{siteMetadata.title}</Link>
+
+          {/* Bottom Bar */}
+          <div className="mt-12 border-t border-gray-200 pt-8 dark:border-gray-800">
+            <div className="flex flex-col items-center justify-between gap-4 text-sm text-gray-500 dark:text-gray-400 sm:flex-row">
+              <div className="flex items-center gap-2">
+                <span>© {new Date().getFullYear()}</span>
+                <span>•</span>
+                <span>{siteMetadata.author}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span>Built with</span>
+                <span className="text-red-500">♥</span>
+                <span>using Next.js</span>
+              </div>
+            </div>
+          </div>
         </div>
       </SectionContainer>
     </footer>

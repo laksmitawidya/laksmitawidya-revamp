@@ -1,11 +1,13 @@
 'use client'
 import { IconArrowNarrowRight } from '@tabler/icons-react'
 import { useState, useRef, useId, useEffect } from 'react'
+import Image from 'next/image'
 
 interface SlideData {
   title: string
   button: string
   src: string
+  navigate: string
 }
 
 interface SlideProps {
@@ -58,11 +60,7 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
     yRef.current = 0
   }
 
-  const imageLoaded = (event: React.SyntheticEvent<HTMLImageElement>) => {
-    event.currentTarget.style.opacity = '1'
-  }
-
-  const { src, button, title } = slide
+  const { src, button, title, navigate } = slide
 
   return (
     <div className="[perspective:1200px] [transform-style:preserve-3d]">
@@ -87,16 +85,17 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
                 : 'none',
           }}
         >
-          <img
-            className="duration-600 absolute inset-0 h-[120%] w-[120%] object-cover opacity-100 transition-opacity ease-in-out"
+          <Image
+            className="duration-600 absolute inset-0 h-[120%] w-[120%] object-cover transition-opacity ease-in-out"
             style={{
               opacity: current === index ? 1 : 0.5,
             }}
             alt={title}
             src={src}
-            onLoad={imageLoaded}
-            loading="eager"
-            decoding="sync"
+            fill
+            sizes="70vmin"
+            priority={index === 0}
+            quality={85}
           />
           {current === index && (
             <div className="absolute inset-0 bg-black/30 transition-all duration-1000" />
@@ -110,7 +109,12 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
         >
           <h2 className="relative text-lg font-semibold md:text-2xl  lg:text-4xl">{title}</h2>
           <div className="flex justify-center">
-            <button className="mx-auto  mt-6 flex h-12 w-fit items-center justify-center rounded-2xl border border-transparent bg-white px-4 py-2 text-xs text-black shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200 hover:shadow-lg sm:text-sm">
+            <button
+              onClick={() => {
+                window.open(navigate)
+              }}
+              className="mx-auto  mt-6 flex h-12 w-fit items-center justify-center rounded-2xl border border-transparent bg-white px-4 py-2 text-xs text-black shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200 hover:shadow-lg sm:text-sm"
+            >
               {button}
             </button>
           </div>
@@ -129,7 +133,7 @@ interface CarouselControlProps {
 const CarouselControl = ({ type, title, handleClick }: CarouselControlProps) => {
   return (
     <button
-      className={`border-3 mx-2 flex h-10 w-10 items-center justify-center rounded-full border-transparent bg-neutral-200 transition duration-200 hover:-translate-y-0.5 focus:border-[#6D64F7] focus:outline-none active:translate-y-0.5 dark:bg-neutral-800 ${
+      className={`mx-2 flex h-10 w-10 items-center justify-center rounded-full border-3 border-transparent bg-neutral-200 transition duration-200 hover:-translate-y-0.5 focus:border-[#6D64F7] focus:outline-none active:translate-y-0.5 dark:bg-neutral-800 ${
         type === 'previous' ? 'rotate-180' : ''
       }`}
       title={title}

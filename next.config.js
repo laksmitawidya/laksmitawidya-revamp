@@ -77,8 +77,15 @@ module.exports = () => {
           protocol: 'https',
           hostname: 'picsum.photos',
         },
+        {
+          protocol: 'https',
+          hostname: 'images.unsplash.com',
+        },
       ],
       unoptimized,
+    },
+    experimental: {
+      optimizePackageImports: ['@tabler/icons-react', 'framer-motion', 'lucide-react'],
     },
     async headers() {
       return [
