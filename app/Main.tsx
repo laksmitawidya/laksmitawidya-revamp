@@ -18,40 +18,47 @@ const MAX_DISPLAY = 5
 
 const workHighlights = [
   {
-    title: 'AI-Powered Admin Portal & Chatbot Integration POC',
+    title: 'AI Admin Portal & Chatbot',
     description:
-      'Delivered a POC for AI solution integrating chatbot and admin portal with Jira and multiple data sources (PDF, web crawl). Leveraged AWS CDK, QuickSight, and Sonnet 4 to achieve 75%+ chatbot accuracy. Successfully handled complex AI prompt engineering for specialized use cases despite steep learning curve.',
-    tags: ['AWS', 'CDK', 'QuickSight', 'AI', 'Chatbot'],
+      'Production RAG chatbot with 75%+ accuracy using AWS CDK, QuickSight, and Sonnet 4.',
+    tags: ['AWS', 'CDK', 'AI', 'Chatbot'],
+    stat: '75%+',
+    statLabel: 'Accuracy',
   },
   {
-    title: 'Text Extraction Frontend Admin Portal',
-    description:
-      'Designed and delivered a scalable React + TypeScript admin portal with text extraction capabilities based on backend image processing. Implemented reusable UI components, CI/CD automation, and maintained production stability through continuous support and bug fixes.',
-    tags: ['React', 'TypeScript', 'CI/CD', 'AdminPortal'],
+    title: 'Text Extraction Admin Portal',
+    description: 'Scalable React + TypeScript portal with CI/CD automation and image processing.',
+    tags: ['React', 'TypeScript', 'CI/CD'],
+    stat: 'Go-Live',
+    statLabel: 'Production',
   },
   {
-    title: 'Redshift Knowledge Base Integration',
-    description:
-      'Explored and implemented Redshift knowledge base integration for a POC chatbot, successfully connecting alternative data sources beyond S3. Strengthened backend and data integration skills while expanding knowledge base architecture understanding.',
-    tags: ['Redshift', 'AWS', 'DataIntegration', 'KnowledgeBase'],
+    title: 'Redshift Knowledge Base',
+    description: 'Integrated Redshift as alternative knowledge base source for POC chatbot.',
+    tags: ['Redshift', 'AWS', 'KnowledgeBase'],
+    stat: 'POC',
+    statLabel: 'Delivered',
   },
   {
-    title: 'Data Asset Management Admin Portal',
-    description:
-      'Architected and delivered admin portal from ground up with improved code structure and maintainability. Established end-to-end testing with Playwright through iterative configuration, mentored team on implementation, and ensured VAPT compliance for secure production deployment.',
-    tags: ['React', 'TypeScript', 'Playwright', 'VAPT', 'E2E Testing'],
+    title: 'Data Asset Management Portal',
+    description: 'Built from scratch with Playwright E2E testing and VAPT compliance.',
+    tags: ['React', 'Playwright', 'VAPT'],
+    stat: 'Go-Live',
+    statLabel: 'Production',
   },
   {
-    title: 'Chatbot & Speech-to-Speech Solution',
-    description:
-      'First project at Axrail: delivered chatbot and speech-to-speech solution for company event using internal Q&A knowledge base. Solution was later enhanced with multi-model selection capability, allowing users to switch between knowledge base and general knowledge modes, and reused for subsequent demos.',
-    tags: ['Chatbot', 'Speech-to-Speech', 'AI', 'KnowledgeBase'],
+    title: 'Chatbot & Speech-to-Speech',
+    description: 'Chatbot with multi-model selection, reused across subsequent demos.',
+    tags: ['Chatbot', 'AI', 'Speech'],
+    stat: '2+',
+    statLabel: 'Reuses',
   },
   {
-    title: 'Agronomy Admin Portal - Cross-Team Collaboration',
-    description:
-      'Contributed to scalable frontend delivery using React and TypeScript best practices. Developed postMessage-based login flow POC for secure cross-application authentication, implemented linting and pre-commit hooks for code quality, and mentored team members for smooth knowledge transfer.',
-    tags: ['React', 'TypeScript', 'Authentication', 'Mentoring'],
+    title: 'Agronomy Admin Portal',
+    description: 'Cross-team delivery with postMessage auth POC and team mentoring.',
+    tags: ['React', 'TypeScript', 'Auth'],
+    stat: '3+',
+    statLabel: 'Teams',
   },
 ]
 
@@ -83,17 +90,27 @@ function WorkCarousel() {
               <div className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-gray-300 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900/50 dark:hover:border-gray-700 md:p-8">
                 <div className="space-y-4">
                   <div className="flex items-start justify-between gap-4">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 md:text-2xl">
-                      {work.title}
-                    </h3>
-                    <span className="text-sm font-medium text-gray-400 dark:text-gray-600">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
+                    <div className="flex-1">
+                      <span className="text-xs font-medium text-gray-400 dark:text-gray-600">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <h3 className="mt-1 text-xl font-bold text-gray-900 dark:text-gray-100 md:text-2xl">
+                        {work.title}
+                      </h3>
+                    </div>
+                    <div className="flex-shrink-0 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-center dark:border-gray-700 dark:bg-gray-800">
+                      <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                        {work.stat}
+                      </div>
+                      <div className="text-[10px] text-gray-500 dark:text-gray-400">
+                        {work.statLabel}
+                      </div>
+                    </div>
                   </div>
-                  <p className="leading-relaxed text-gray-600 dark:text-gray-400">
+                  <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
                     {work.description}
                   </p>
-                  <div className="flex flex-wrap gap-2 pt-2">
+                  <div className="flex flex-wrap gap-2">
                     {work.tags.map((tag) => (
                       <span key={tag} className="text-xs text-gray-500 dark:text-gray-500">
                         #{tag}
@@ -165,23 +182,29 @@ export default function Home({ posts }) {
         <h2 className="font-sans text-2xl font-bold tracking-tight text-black dark:text-white md:text-4xl lg:text-7xl">
           Hi, I'm Mita!
         </h2>
-        <div className="my-5 text-base leading-relaxed md:text-lg">
-          I'm a Front-End Engineer with 5+ years of experience building production-ready
-          applications across web, desktop, and mobile platforms. Currently at Axrail.ai, I
-          specialize in React, TypeScript, and modern frontend technologies.
+        <div className="my-4 max-w-2xl text-base leading-relaxed md:text-lg">
+          Front-End Engineer crafting production-ready apps with React & TypeScript. Currently
+          building AI-powered solutions at Axrail.ai.
         </div>
-        <div className="my-5 text-base leading-relaxed md:text-lg">
-          My journey started in Quality Assurance, which gave me a unique perspective on software
-          development. I don't just write code—I build reliable, tested, and maintainable solutions
-          that users love. From gaming backend portals at AccelByte to mobile apps at Okkami, I've
-          delivered impactful products that scale.
-        </div>
-        <div className="my-5 text-base leading-relaxed md:text-lg">
-          Beyond coding, I'm passionate about mentoring and empowering women in tech. Let's connect
-          and create something amazing together!
-        </div>
-        <div className="my-5 font-sans font-bold tracking-tight text-black dark:text-white sm:text-xl">
-          Let's connect!
+
+        {/* Stats */}
+        <div className="my-6 flex flex-wrap justify-center gap-4 md:gap-6">
+          <div className="rounded-lg border border-gray-200/50 bg-white/80 px-4 py-3 text-center backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-900/80">
+            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">5+</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Years Exp</div>
+          </div>
+          <div className="rounded-lg border border-gray-200/50 bg-white/80 px-4 py-3 text-center backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-900/80">
+            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">10+</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Projects</div>
+          </div>
+          <div className="rounded-lg border border-gray-200/50 bg-white/80 px-4 py-3 text-center backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-900/80">
+            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">AWS</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Certified</div>
+          </div>
+          <div className="rounded-lg border border-gray-200/50 bg-white/80 px-4 py-3 text-center backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-900/80">
+            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">AI</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">& NLP</div>
+          </div>
         </div>
 
         <SocialMedia />
