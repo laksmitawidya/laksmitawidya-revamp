@@ -27,13 +27,6 @@ const projectsData: Project[] = [
     href: 'https://www.okkami.com/',
   },
   {
-    title: 'Personal Portfolio Website',
-    description: `Designed and developed my personal portfolio using Next.js, TypeScript, and TailwindCSS. 
-    Features a modern, responsive design with optimized performance and accessibility. Showcases my projects, 
-    blog posts, and professional journey.`,
-    href: 'https://www.laksmitawidya.com/',
-  },
-  {
     title: 'Tiket.com - QA Engineering',
     description: `Performed comprehensive quality assurance testing for Tiket.com's web and mobile platforms. 
     Developed automated test scripts using Selenium and conducted manual testing to ensure platform reliability 
