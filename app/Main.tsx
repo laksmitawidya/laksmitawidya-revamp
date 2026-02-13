@@ -36,7 +36,7 @@ const workHighlights = [
     tags: ['Redshift', 'AWS', 'DataIntegration', 'KnowledgeBase'],
   },
   {
-    title: 'WrapObtainer Admin Portal',
+    title: 'Data Asset Management Admin Portal',
     description:
       'Architected and delivered admin portal from ground up with improved code structure and maintainability. Established end-to-end testing with Playwright through iterative configuration, mentored team on implementation, and ensured VAPT compliance for secure production deployment.',
     tags: ['React', 'TypeScript', 'Playwright', 'VAPT', 'E2E Testing'],
@@ -199,6 +199,38 @@ export default function Home({ posts }) {
           </div>
 
           <WorkCarousel />
+        </div>
+
+        {/* Achievements */}
+        <div className="mt-24">
+          <div className="mb-8 space-y-2">
+            <div className="flex items-center gap-3">
+              <div className="h-px w-12 bg-gradient-to-r from-transparent to-gray-300 dark:to-gray-700" />
+              <h2 className="text-sm font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                Certifications
+              </h2>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <a
+              href="https://www.credly.com/badges/9b7b8876-15c5-451a-b7f7-1989920a44d5/linked_in_profile"
+              target="_blank"
+              className="group flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-5 transition-all hover:border-gray-300 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900/50 dark:hover:border-gray-700"
+            >
+              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-amber-50 text-2xl dark:bg-amber-950/30">
+                🏅
+              </div>
+              <div className="space-y-1">
+                <h3 className="font-bold text-gray-900 dark:text-gray-100">
+                  AWS Certified Cloud Practitioner
+                </h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Issued Nov 2025 · Expires Nov 2028 · Credential ID
+                  9b7b8876-15c5-451a-b7f7-1989920a44d5
+                </p>
+              </div>
+            </a>
+          </div>
         </div>
 
         <div className="mt-24">

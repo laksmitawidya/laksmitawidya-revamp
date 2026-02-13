@@ -1,0 +1,122 @@
+﻿---
+title: 'How to Determine Sentiment Polarity for Annotation'
+date: '2025-11-08'
+tags: ['nlp', 'sentiment-analysis', 'annotation', 'machine-learning']
+draft: false
+summary: 'A practical guide to labeling sentiment polarity for ML annotation'
+---
+
+# How to Label Sentiment Like a Pro (No Random Guessing Allowed)
+
+Ever wondered how people decide if a tweet is positive, negative, or neutral when doing sentiment analysis? You can't just wing it—annotators need solid rules so the ML models they're training actually work well. This guide breaks down how to determine sentiment polarity consistently, based on real research from my thesis project.
+
+## What Even Is Sentiment Polarity?
+
+Before we dive in, here's the basic breakdown:
+
+| **Polarity** | **What It Means**                                                                 |
+| ------------ | --------------------------------------------------------------------------------- |
+| **Positive** | Reactions or attitudes that increase the value/perception of someone or something |
+| **Negative** | Statements that decrease the value/perception of something                        |
+| **Neutral**  | Doesn't take sides—just states facts or asks general questions                    |
+
+## The 4 Ways to Determine Sentiment
+
+We categorize sentiment based on **4 main factors**: sentiment expressions, emojis, context, and emotions. Let's break each one down.
+
+### 1. Sentiment Expressions (Words & Phrases)
+
+These are specific words or phrases that clearly signal how someone feels. When you spot these in a tweet, the polarity becomes pretty obvious.
+
+| **Positive** | **Negative**              | **Neutral**                |
+| ------------ | ------------------------- | -------------------------- |
+| Good         | Duh                       | No positive/negative terms |
+| Healing      | Overthinking              |                            |
+| Perfect      | Bete                      |                            |
+| Breathtaking | Fuck off                  |                            |
+| Santuy       | Yaelah (sarkas, sindiran) |                            |
+| Yeay         | Wtf                       |                            |
+
+**Example:**
+
+- "This vacation is so healing" → **Positive** (healing = positive expression)
+- "Overthinking again, great" → **Negative** (overthinking = negative expression)
+
+### 2. Emojis/Emoticons
+
+Since we're dealing with tweets, emojis matter A LOT. They're basically visual expressions of feelings.
+
+**Example:**
+
+- "Just got my exam results 😂" → **Positive** (laughing emoji suggests relief/happiness)
+- "Just got my exam results 😭" → **Negative** (crying emoji = disappointed)
+
+### 3. Context (What's Really Being Said)
+
+Context is about understanding the **actual message** behind the words. This is where pragmatics comes in—you need to consider the situation, timing, cultural background, and emotional state of the person tweeting.
+
+The main sentence usually reveals the context. If it's just stating facts or reporting something, it's neutral.
+
+**Example:**
+
+- "Congrats on the promotion! You deserve it" → **Positive** (compliment)
+- "Oh wow, you're _so_ smart" (after someone makes a dumb mistake) → **Negative** (sarcasm)
+- "What time does the store close?" → **Neutral** (just asking for info)
+
+### 4. Emotions (The Vibe Check)
+
+Emotions show up through sentiment expressions, emojis, and context combined. Sometimes the emotion is crystal clear, other times you need to read between the lines.
+
+**Tricky example:** Sarcastic tweets might use positive words and emojis but have a negative underlying emotion.
+
+**Example:**
+
+- "So grateful for my friends rn" → **Positive** (grateful emotion)
+- "Can't believe they ghosted me" → **Negative** (heartbroken/sad emotion)
+- "The meeting starts at 2pm" → **Neutral** (no emotion, just facts)
+
+## The Majority Voting System
+
+When multiple annotators label the same data, we use **majority voting** to decide the final label. Here's how it works:
+
+- **To win:** A sentiment needs >50% of votes (so with 5 annotators, you need at least 3 votes)
+- **If there's a tie:** Use the votes from the first 2 annotators (determined by registration order)
+
+This keeps things consistent and reduces individual bias.
+
+## Quick Examples to Test Yourself
+
+Try labeling these:
+
+1. "This coffee is perfect"
+2. "Ugh, traffic again"
+3. "The concert is tomorrow at 7pm"
+4. "Wow, you're _really_ helping here" (said sarcastically)
+
+<details>
+<summary>Answers</summary>
+
+1. **Positive** - "perfect" + happy context
+2. **Negative** - "ugh" = frustrated
+3. **Neutral** - just stating a fact
+4. **Negative** - sarcasm (positive words, negative intent)
+
+</details>
+
+## Pro Tips for Annotators
+
+- **Don't rush** - context matters more than you think
+- **Watch for sarcasm** - it's everywhere on Twitter
+- **Emojis aren't optional** - they often flip the meaning
+- **When in doubt, check the vibe** - what emotion does the overall tweet give off?
+- **Stay consistent** - use these guidelines every single time
+
+## Why This Matters
+
+Consistent labeling = better training data = more accurate ML models. If annotators just randomly label stuff, the model learns garbage and gives you garbage predictions. Following these rules keeps everyone on the same page.
+
+---
+
+**Want to dive deeper into sentiment analysis and code-mixed text?** Check out how BERT handles Indonesian-English sentiment analysis in multilingual contexts.
+
+**Dataset alert:** If you need a labeled English-Indonesian code-mixed dataset for sentiment analysis, check out [indonglish-dataset](https://github.com/laksmitawidya/indonglish-dataset)
