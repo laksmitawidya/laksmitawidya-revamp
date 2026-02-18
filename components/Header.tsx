@@ -20,7 +20,7 @@ const Header = () => {
   }, [])
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 flex w-full items-center justify-end py-4 sm:justify-center">
+    <header className="fixed left-0 right-0 top-0 z-50 flex w-full items-center justify-end py-6 sm:justify-center">
       <div
         className={`mr-5 flex items-center space-x-4 rounded-2xl px-5 py-3 leading-5 transition-all duration-300 sm:mr-0 sm:space-x-6 ${
           scrolled
