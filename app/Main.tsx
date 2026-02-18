@@ -189,7 +189,7 @@ export default function Home({ posts }) {
       <div className="relative flex h-96 w-full flex-col items-center justify-center overflow-hidden md:h-[40rem]">
         <BackgroundRippleEffect />
         <div className="relative z-10 flex flex-col items-center px-4 sm:px-6 ">
-          <h2 className="pt-20 font-sans text-2xl font-bold tracking-tight text-black dark:text-white md:text-4xl lg:text-7xl">
+          <h2 className="pt-20 font-sans text-2xl font-bold tracking-tight text-black dark:text-white md:text-4xl lg:text-7xl xl:pt-0">
             Hi, I'm Mita!
           </h2>
           <div className="my-4 max-w-2xl text-center text-base leading-relaxed md:text-lg">
