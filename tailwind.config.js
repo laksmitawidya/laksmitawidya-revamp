@@ -28,6 +28,8 @@ module.exports = {
       },
       animation: {
         spotlight: 'spotlight 2s ease .75s 1 forwards',
+        ripple: 'ripple 4s ease-in-out infinite',
+        'cell-ripple': 'cell-ripple var(--duration, 200ms) ease-out none 1 var(--delay, 0ms)',
       },
       keyframes: {
         spotlight: {
@@ -39,6 +41,21 @@ module.exports = {
             opacity: 1,
             transform: 'translate(-50%,-40%) scale(1)',
           },
+        },
+        ripple: {
+          '0%, 100%': {
+            transform: 'scale(1)',
+            opacity: '1',
+          },
+          '50%': {
+            transform: 'scale(1.08)',
+            opacity: '0.5',
+          },
+        },
+        'cell-ripple': {
+          '0%': { opacity: '0.4' },
+          '50%': { opacity: '0.8' },
+          '100%': { opacity: '0.4' },
         },
       },
       lineHeight: {

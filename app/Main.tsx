@@ -7,58 +7,63 @@ import SocialMedia from '@/components/SocialMedia'
 import siteMetadata from '@/data/siteMetadata'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import { formatDate } from 'pliny/utils/formatDate'
-import dynamic from 'next/dynamic'
-
-const BackgroundBeamsWithCollision = dynamic(
-  () => import('@/components/ui/Explosion').then((mod) => mod.BackgroundBeamsWithCollision),
-  { ssr: false }
-)
+import { BackgroundRippleEffect } from '@/components/ui/Ripple'
 
 const MAX_DISPLAY = 5
 
 const workHighlights = [
   {
-    title: 'AI Admin Portal & Chatbot',
+    title: 'Chatbot Admin Portal & RAG Chatbot',
     description:
-      'Production RAG chatbot with 75%+ accuracy using AWS CDK, QuickSight, and Sonnet 4.',
-    tags: ['AWS', 'CDK', 'AI', 'Chatbot'],
-    stat: '75%+',
-    statLabel: 'Accuracy',
+      'RAG chatbot achieving 75%+ accuracy, powered by AWS CDK, QuickSight, and Nova Pro.',
+    tags: ['React', 'AWS', 'CDK', 'QuickSight', 'Chatbot', 'Bedrock Agent', 'RAG'],
+    stat: 'POC',
+    statLabel: 'Delivered',
+  },
+  {
+    title: 'Litigation Text Extraction',
+    description:
+      'Document extraction with ~90% accuracy across 3 types — newspapers, CEDs, and Gazettes — using Sonnet 4.',
+    tags: ['Lambda', 'S3', 'Textract', 'Bedrock'],
+    stat: 'POC',
+    statLabel: 'Delivered',
   },
   {
     title: 'Text Extraction Admin Portal',
-    description: 'Scalable React + TypeScript portal with CI/CD automation and image processing.',
+    description:
+      'Scalable React + TypeScript portal with automated CI/CD pipeline and image processing.',
     tags: ['React', 'TypeScript', 'CI/CD'],
     stat: 'Go-Live',
     statLabel: 'Production',
   },
   {
     title: 'Redshift Knowledge Base',
-    description: 'Integrated Redshift as alternative knowledge base source for POC chatbot.',
-    tags: ['Redshift', 'AWS', 'KnowledgeBase'],
+    description: 'Integrated Redshift as an alternative knowledge base source for the POC chatbot.',
+    tags: ['Redshift', 'AWS', 'Bedrock', 'Lambda', 'KnowledgeBase', 'RAG'],
     stat: 'POC',
     statLabel: 'Delivered',
   },
   {
     title: 'Data Asset Management Portal',
-    description: 'Built from scratch with Playwright E2E testing and VAPT compliance.',
+    description: 'Built from scratch with Playwright E2E testing and full VAPT compliance.',
     tags: ['React', 'Playwright', 'VAPT'],
     stat: 'Go-Live',
     statLabel: 'Production',
   },
   {
-    title: 'Chatbot & Speech-to-Speech',
-    description: 'Chatbot with multi-model selection, reused across subsequent demos.',
-    tags: ['Chatbot', 'AI', 'Speech'],
-    stat: '2+',
-    statLabel: 'Reuses',
+    title: 'Agronomy Admin Portal',
+    description: 'Cross-team delivery featuring postMessage auth POC and hands-on team mentoring.',
+    tags: ['React', 'TypeScript', 'Auth'],
+    stat: 'Go-Live',
+    statLabel: 'Production',
   },
   {
-    title: 'Agronomy Admin Portal',
-    description: 'Cross-team delivery with postMessage auth POC and team mentoring.',
-    tags: ['React', 'TypeScript', 'Auth'],
-    stat: '3+',
-    statLabel: 'Teams',
+    title: 'Healthcare Admin Portal',
+    description:
+      'Refactored codebase to reduce complexity and resolve circular dependencies, ensuring VAPT and SonarQube compliance across cross-functional teams.',
+    tags: ['React', 'SonarQube', 'VAPT', 'E2E Testing'],
+    stat: 'Go-Live',
+    statLabel: 'Production',
   },
 ]
 
@@ -112,8 +117,11 @@ function WorkCarousel() {
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {work.tags.map((tag) => (
-                      <span key={tag} className="text-xs text-gray-500 dark:text-gray-500">
-                        #{tag}
+                      <span
+                        key={tag}
+                        className="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
+                      >
+                        {tag}
                       </span>
                     ))}
                   </div>
@@ -178,37 +186,40 @@ function WorkCarousel() {
 export default function Home({ posts }) {
   return (
     <>
-      <BackgroundBeamsWithCollision>
-        <h2 className="font-sans text-2xl font-bold tracking-tight text-black dark:text-white md:text-4xl lg:text-7xl">
-          Hi, I'm Mita!
-        </h2>
-        <div className="my-4 max-w-2xl text-base leading-relaxed md:text-lg">
-          Front-End Engineer crafting production-ready apps with React & TypeScript. Currently
-          building AI-powered solutions at Axrail.ai.
-        </div>
+      <div className="relative flex h-96 w-full flex-col items-center justify-center overflow-hidden md:h-[40rem]">
+        <BackgroundRippleEffect />
+        <div className="relative z-10 flex flex-col items-center px-4 sm:px-6">
+          <h2 className="font-sans text-2xl font-bold tracking-tight text-black dark:text-white md:text-4xl lg:text-7xl">
+            Hi, I'm Mita!
+          </h2>
+          <div className="my-4 max-w-2xl text-center text-base leading-relaxed md:text-lg">
+            Front-End Engineer building production-ready apps with React & TypeScript. Currently
+            crafting AI-powered solutions at Axrail.ai.
+          </div>
 
-        {/* Stats */}
-        <div className="my-6 flex flex-wrap justify-center gap-4 md:gap-6">
-          <div className="rounded-lg border border-gray-200/50 bg-white/80 px-4 py-3 text-center backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-900/80">
-            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">5+</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Years Exp</div>
+          {/* Stats */}
+          <div className="my-6 flex flex-wrap justify-center gap-4 md:gap-6">
+            <div className="rounded-lg border border-gray-200/50 bg-white/80 px-4 py-3 text-center backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-900/80">
+              <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">5+</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Years Exp</div>
+            </div>
+            <div className="rounded-lg border border-gray-200/50 bg-white/80 px-4 py-3 text-center backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-900/80">
+              <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">10+</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Projects</div>
+            </div>
+            <div className="rounded-lg border border-gray-200/50 bg-white/80 px-4 py-3 text-center backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-900/80">
+              <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">AWS</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Certified</div>
+            </div>
+            <div className="rounded-lg border border-gray-200/50 bg-white/80 px-4 py-3 text-center backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-900/80">
+              <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">Remote</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">GMT+7</div>
+            </div>
           </div>
-          <div className="rounded-lg border border-gray-200/50 bg-white/80 px-4 py-3 text-center backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-900/80">
-            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">10+</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Projects</div>
-          </div>
-          <div className="rounded-lg border border-gray-200/50 bg-white/80 px-4 py-3 text-center backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-900/80">
-            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">AWS</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Certified</div>
-          </div>
-          <div className="rounded-lg border border-gray-200/50 bg-white/80 px-4 py-3 text-center backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-900/80">
-            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">AI</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">& NLP</div>
-          </div>
-        </div>
 
-        <SocialMedia />
-      </BackgroundBeamsWithCollision>
+          <SocialMedia />
+        </div>
+      </div>
 
       <SectionContainer>
         <div className="my-8">
