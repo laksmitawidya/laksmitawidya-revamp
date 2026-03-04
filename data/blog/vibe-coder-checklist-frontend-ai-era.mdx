@@ -1,0 +1,370 @@
+﻿---
+title: 'Vibe Coder Checklist: Front-End Engineer in the AI Era'
+date: '2026-03-04'
+tags: ['react', 'ai', 'frontend', 'productivity', 'best-practices']
+draft: false
+summary: 'How to ship production-quality React apps faster by letting AI do the heavy lifting, without losing control of quality.'
+---
+
+# Vibe Coder Checklist: Front-End Engineer in the AI Era
+
+How to ship production-quality React apps faster by letting AI do the heavy lifting without losing control of quality.
+
+---
+
+## Part 1 Project Setup: Build the Rails Before You Code
+
+The biggest mistake vibe coders make is jumping straight into features. Spend 30 minutes on setup and your AI assistant becomes 10x more useful. Skip it and you will spend hours fixing inconsistencies.
+
+### MCP Playwright
+
+Give your AI eyes. MCP Playwright lets your AI agent actually open a browser, click around, and verify what it built works visually.
+
+Find your favorite code editor powered by AI (in this case I use Kiro), and add this to `.kiro/settings/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "uvx",
+      "args": ["mcp-server-playwright@latest"]
+    }
+  }
+}
+```
+
+Now when you say "check if the login page looks right", the AI can actually navigate to it, take a screenshot, and verify not just guess.
+
+### Steering Files
+
+Steering files are your project's constitution. They live in `.kiro/steering/` and get injected into every AI conversation automatically. Think of them as a README that the AI actually reads.
+
+The ones that matter most:
+
+- `page-development-checklist.md` enforces module structure, route patterns, data fetching conventions
+- `ui-components.md` typography scale, color system, component patterns
+- `dark-light-theme.md` semantic color classes, dark mode variants
+- `api-pattern.md` single `makeApiCall` utility, no raw fetch/axios
+- `web-interface-guidelines.md` accessibility, forms, animation rules
+
+Without these, every AI-generated component will look slightly different. With them, the AI follows your design system automatically.
+
+> Key principle: steering files are not documentation for humans they are constraints for AI. Write them like rules, not explanations.
+
+### Pre-commit Hooks
+
+Never let broken code reach the repo. Set up Husky to block commits that fail linting or type checks:
+
+```bash
+npm install --save-dev husky lint-staged
+npx husky init
+```
+
+`.husky/pre-commit`:
+
+```bash
+npx lint-staged
+```
+
+`package.json`:
+
+```json
+"lint-staged": {
+  "*.{ts,tsx}": ["eslint --fix", "prettier --write"]
+}
+```
+
+Now every commit is automatically linted and formatted. The AI can generate messy code the hook cleans it up before it matters.
+
+### Agent Hooks
+
+Go further with Kiro agent hooks. These trigger AI actions automatically on IDE events:
+
+- On file save ➜ run linter, fix issues
+- On new page created ➜ auto-generate e2e smoke test
+- On API file changed ➜ update `api-contract.md`
+
+```json
+{
+  "name": "Update API Docs on Save",
+  "version": "1.0.0",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["src/views/**/api/**/*.ts", "src/constants/endpoints.ts"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Update docs/api-contract.md to reflect the latest changes in the edited API file."
+  }
+}
+```
+
+### Brand UI: Light vs Dark from Day One
+
+Do not add dark mode later. It is 10x harder to add after the fact. Set it up on day one with semantic color classes.
+
+The pattern: never use hardcoded hex values. Always use semantic tokens that resolve differently per theme.
+
+```tsx
+// Bad: hardcoded hex values
+<div className="bg-white text-gray-900 border-gray-200">
+
+// Good: semantic tokens
+<div className="bg-card text-foreground border-border">
+```
+
+Define your brand palette in `index.css` as CSS variables, then map them to Tailwind in `tailwind.config.ts`. Your AI will follow this pattern automatically once it is in the steering file.
+
+**Typography system two fonts, one rule:**
+
+- Headings: Poppins (`text-heading-xl`, `text-heading-lg`, etc.)
+- Body: Inter (`text-body-sm`, `text-body-xs`, etc.)
+
+Status colors always include dark variants:
+
+```tsx
+// Success
+'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300'
+
+// Error
+'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300'
+```
+
+---
+
+## Part 2 Develop Phase: The Checklist That Keeps AI Honest
+
+AI writes fast. It also cuts corners fast. This checklist is what you run through before marking any feature done.
+
+### Module Structure (Non-Negotiable)
+
+Every module follows the same shape:
+
+```
+src/
+ routes/[module]/index.tsx        # thin, createFileRoute only
+ views/[module]/
+     pages/                       # all JSX and logic lives here
+     components/                  # module-specific components
+     hooks/                       # useQuery/useMutation wrappers
+     api/                         # API call wrappers
+     mock/                        # mock data (swap later)
+```
+
+Route files are thin just a pointer:
+
+```tsx
+// src/routes/dashboard/index.tsx
+import { createFileRoute } from '@tanstack/react-router'
+import { TaskStatusDashboard } from '@/views/dashboard/pages/TaskStatusDashboard'
+
+export const Route = createFileRoute('/dashboard/')({
+  component: TaskStatusDashboard,
+})
+```
+
+All the JSX goes in the view. If your AI starts putting hundreds of lines in the route file, redirect it.
+
+### Data Fetching Pattern
+
+Start with mock data, graduate to real API by swapping one line:
+
+```ts
+// hooks/useReport.ts
+export function useReport() {
+  return useQuery({
+    queryKey: ['report'],
+    // Variant A  mock (start here)
+    queryFn: async () => ({ rows: MOCK_ROWS, summary: MOCK_SUMMARY }),
+
+    // Variant B  real API (swap when backend is ready)
+    // queryFn: async () => reportApi.getReport(),
+  })
+}
+```
+
+Pages never import mock data directly. Always through hooks. This keeps the swap clean.
+
+### Component Checklist
+
+Before shipping any component, e.g verify:
+
+- Uses semantic color classes (`bg-card`, `text-foreground`, `border-border`) no hardcoded hex
+- Dark mode variants included for status colors
+- Typography uses the defined scale (`text-heading-md`, `text-body-sm`)
+- Responsive: mobile-first grid (`grid-cols-1 md:grid-cols-2 lg:grid-cols-3`)
+- Tables use a shared `DataTable` component no raw HTML table elements or any reusable components if already available
+- Icon-only buttons have `aria-label`
+- Decorative icons have `aria-hidden="true"`
+- Form inputs have associated `label` with `htmlFor`
+- No `transition: all` list properties explicitly
+- No `outline-none` without a `focus-visible:ring-*` replacement
+- Empty states handled no broken UI for empty arrays
+- Loading states show skeleton or spinner
+
+### Layout Patterns
+
+Pick the right layout for the job do not force everything into the same shape.
+
+**Dashboard with tabs (reports, analytics):**
+
+```tsx
+<div className="flex h-full flex-col">
+  <DashboardTabs tabs={DASHBOARD_TABS} currentPath={currentPath} />
+  <main className="bg-background flex-1 overflow-auto p-4 md:p-6">// content goes here</main>
+</div>
+```
+
+**Detail/Form page (edit, create):**
+
+```tsx
+<div className="bg-background flex h-full flex-col">
+  <div className="border-border flex items-center justify-between border-b px-6 py-4">
+    <div className="flex items-center gap-3">
+      <Button variant="ghost" size="icon" asChild>
+        <Link to="/parent">
+          <ArrowLeft aria-hidden="true" />
+        </Link>
+      </Button>
+      <h1 className="text-heading-xl text-foreground font-semibold">Title</h1>
+    </div>
+    <Button className="bg-primary-700 hover:bg-primary-800 text-white">Save</Button>
+  </div>
+  <div className="flex flex-1 flex-col gap-6 overflow-auto p-6">// content goes here</div>
+</div>
+```
+
+**Listing page (tables, search):**
+
+```tsx
+<div className="bg-background flex h-full flex-col">
+  <div className="border-border flex flex-col gap-4 border-b px-6 py-4 md:flex-row md:items-center md:justify-between">
+    <h1 className="text-heading-xl text-foreground font-semibold">Title</h1>
+    <Button className="bg-primary-700 hover:bg-primary-800 w-full text-white md:w-auto">
+      Add New
+    </Button>
+  </div>
+  <div className="flex-1 overflow-auto p-6">// filters and table go here</div>
+</div>
+```
+
+### Performance Checklist
+
+- No `transition: all` it hurts rendering performance
+- Large lists (50+ items) use virtualization
+- Icon imports are direct, not barrel: `import Check from "lucide-react/dist/esm/icons/check"` not `import { Check } from "lucide-react"`
+- `useCallback` with functional `setState` updates to avoid stale closures
+- Charts lazy-loaded with dynamic imports
+- `useMemo` for expensive data transformations
+
+---
+
+## Part 3 Testing & API Contract: Ship with Confidence
+
+This is where vibe coding usually falls apart. Tests feel slow to write, so they get skipped. The fix: automate the boring parts and focus human attention on what matters.
+
+### API Contract as Living Documentation
+
+Your `api-contract.md` is the source of truth between frontend and backend. Keep it updated automatically with an agent hook:
+
+```json
+{
+  "name": "Sync API Contract",
+  "version": "1.0.0",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["src/views/**/api/**/*.ts", "src/constants/endpoints.ts"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Review the changed API file and update docs/api-contract.md. Document the endpoint, method, request params, response shape, and any auth requirements."
+  }
+}
+```
+
+Every time you add or change an API call, the contract updates itself. The backend team always has an accurate spec.
+
+### E2E Tests with Playwright
+
+Smoke tests cover the critical paths login, main pages render, no console errors:
+
+```ts
+// e2e/tests/smoke.spec.ts
+test('Dashboard renders without error', async ({ page }) => {
+  await page.goto('/dashboard')
+  await expect(page.getByRole('heading')).toBeVisible()
+
+  const errors = []
+  page.on('console', (msg) => {
+    if (msg.type() === 'error') errors.push(msg.text())
+  })
+
+  expect(errors).toHaveLength(0)
+})
+```
+
+Auto-generate tests when new pages are created:
+
+```json
+{
+  "name": "Generate Smoke Test on New Page",
+  "version": "1.0.0",
+  "when": {
+    "type": "fileCreated",
+    "patterns": ["src/views/**/pages/*.tsx"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A new page component was created. Generate a Playwright smoke test in e2e/tests/ that verifies the page renders without errors and key UI elements are visible."
+  }
+}
+```
+
+### Auth Fixture Pattern
+
+Do not repeat login logic in every test. Centralize it:
+
+```ts
+// e2e/fixtures/auth.ts
+export const test = base.extend({
+  authenticatedPage: async ({ page }, use) => {
+    await page.goto('/login')
+    await page.fill('[name="email"]', process.env.E2E_USERNAME)
+    await page.fill('[name="password"]', process.env.E2E_PASSWORD)
+    await page.click('[type="submit"]')
+    await page.waitForURL('**/dashboard**', { timeout: 30000 })
+    await use(page)
+  },
+})
+```
+
+Tests that need auth just use `authenticatedPage` instead of `page`.
+
+### The Full Pre-Ship Checklist
+
+```bash
+# Run these before every PR
+npm run lint          # ESLint  must pass clean
+npm run typecheck     # TypeScript  zero errors
+npm run test -- --run # Unit tests  no watch mode in CI
+npx playwright test   # E2E smoke suite
+```
+
+Pre-commit hooks catch lint and types automatically. The E2E suite runs in CI. You only need to run Playwright locally when you are touching auth flows or critical paths.
+
+---
+
+## The Mindset Shift
+
+Vibe coding in the AI era is not about writing less code it is about writing the right constraints so AI writes good code for you.
+
+- Steering files are your constraints.
+- Pre-commit hooks are your safety net.
+- Agent hooks are your automation layer.
+- The checklist is your quality gate.
+
+Set these up once. Then move fast without breaking things.
+
+---
+
+_Built from real patterns used in production React + TanStack Router + Tailwind projects._
