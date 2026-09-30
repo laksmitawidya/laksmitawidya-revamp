@@ -65,7 +65,7 @@ module.exports = {
         14: '3.5rem',
       },
       fontFamily: {
-        sans: ['var(--font-rethink-sans)', ...fontFamily.sans],
+        sans: ['var(--font-space-grotesk)', ...fontFamily.sans],
         script: ['var(--font-meow)'],
       },
       colors: {
