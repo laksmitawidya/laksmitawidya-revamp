@@ -66,6 +66,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-space-grotesk)', ...fontFamily.sans],
+        heading: ['var(--font-heading)', ...fontFamily.sans],
         script: ['var(--font-meow)'],
       },
       colors: {

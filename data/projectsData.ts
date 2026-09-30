@@ -46,6 +46,12 @@ const projectsData: Project[] = [
     href: 'https://accelbyte.io/',
   },
   {
+    title: 'AccelByte Development Toolkit (ADT)',
+    description:
+      'Built the frontend for ADT, a platform that helps development and QA teams get the right game build to testers, collect structured bug reports, and understand crashes without chasing missing details. Covers playtesting management, crash reporting, and build distribution workflows used by game studios worldwide.',
+    href: 'https://accelbyte.io/development-toolkit',
+  },
+  {
     title: 'Okkami — Hotel Guest Experience App',
     description:
       'Mobile applications for hotel guest services using React Native, Redux, and Sagas — deployed across iOS and Android. Improved code documentation, resolved performance bottlenecks, and maintained high test coverage with Jest to keep the app reliable at scale.',

@@ -85,7 +85,7 @@ export default function ListLayoutWithTags({
             </h1>
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-gray-300 dark:to-gray-700" />
           </div>
-          <h2 className="text-3xl font-bold leading-tight text-gray-900 dark:text-gray-100 sm:text-4xl md:text-5xl">
+          <h2 className="font-heading text-3xl font-bold leading-tight text-gray-900 dark:text-gray-100 sm:text-4xl md:text-5xl">
             Thoughts & Insights
           </h2>
           <p className="mx-auto max-w-2xl text-base leading-relaxed text-gray-600 dark:text-gray-400">

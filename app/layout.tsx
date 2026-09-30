@@ -2,7 +2,7 @@ import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
 
-import { Meow_Script, Space_Grotesk, Vibur } from 'next/font/google'
+import { Meow_Script, Rethink_Sans, Space_Grotesk, Vibur } from 'next/font/google'
 import { Analytics, AnalyticsConfig } from 'pliny/analytics'
 import { SearchProvider, SearchConfig } from 'pliny/search'
 import Header from '@/components/Header'
@@ -10,6 +10,13 @@ import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
+
+const rethink_sans = Rethink_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-heading',
+  preload: true,
+})
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -72,7 +79,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang={siteMetadata.language}
-      className={`${space_grotesk.variable} ${meow_script.variable} scroll-smooth`}
+      className={`${rethink_sans.variable} ${space_grotesk.variable} ${meow_script.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <head>
