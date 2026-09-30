@@ -1,4 +1,4 @@
-# Laksmita Widya — Personal Portfolio V2 Revampped
+# Laksmita Widya — Personal Portfolio V2 Revamped
 
 Personal portfolio and blog site for **Laksmita Widya Astuti**, Front End Engineer with 5+ years of experience in React, TypeScript, and modern web technologies.
 
