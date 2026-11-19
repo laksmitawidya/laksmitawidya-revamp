@@ -70,19 +70,79 @@ export function Polaroid({
   )
 }
 
-/** Section heading that sits on a polka-dot band, like a label stuck on fabric. */
-export function StripeHeading({ children, note }: { children: ReactNode; note?: string }) {
+/** Hand-drawn wavy line, used as a section divider. Color comes from text-* utilities. */
+export function Squiggle({ className }: { className?: string }) {
   return (
-    <div className="polka-blue relative mb-10 flex items-center justify-center rounded-xl border-2 border-cocoa px-4 py-6 dark:border-sand/40">
-      <h2 className="shadow-sticker -rotate-1 rounded-lg border-2 border-cocoa bg-cream px-5 py-2 font-heading text-xl font-extrabold uppercase tracking-wide text-cocoa dark:border-sand/60 dark:bg-cocoa-900 dark:text-cream md:text-2xl">
-        {children}
-      </h2>
-      {note && (
-        <span className="absolute -bottom-4 right-4 rotate-3 rounded-md bg-cream-paper px-2 font-hand text-xl font-bold text-coral-deep ring-1 ring-cocoa/15 dark:bg-cocoa-900 dark:text-coral md:right-10">
-          {note}
-        </span>
-      )}
-    </div>
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 180 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={3}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={cn('h-4 w-44', className)}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M3 9c8-7 14-7 22 0s14 7 22 0 14-7 22 0 14 7 22 0 14-7 22 0 14 7 22 0 14-7 22 0 13 6 18 1" />
+    </svg>
+  )
+}
+
+/** Doodled pencil lying on its side, tip pointing right. */
+export function Pencil({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 200 30"
+      className={cn('h-auto w-40', className)}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g stroke="#3A2D1B" strokeWidth={2} strokeLinejoin="round">
+        <rect x="2" y="5" width="22" height="20" rx="5" fill="#E8A497" />
+        <rect x="24" y="5" width="11" height="20" fill="#E5D4B7" />
+        <path d="M35 5h127v20H35z" fill="#60A8AD" />
+        <path d="M35 15h127" strokeOpacity={0.35} />
+        <path d="M162 5l33 10-33 10z" fill="#F5E6CC" />
+        <path d="M184 11.7l11 3.3-11 3.3z" fill="#3A2D1B" />
+      </g>
+    </svg>
+  )
+}
+
+/** Doodled ruler with tick marks. */
+export function Ruler({ className }: { className?: string }) {
+  const ticks = Array.from({ length: 23 }, (_, i) => i)
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 240 44"
+      className={cn('h-auto w-56', className)}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="2"
+        y="2"
+        width="236"
+        height="40"
+        rx="5"
+        fill="#CFE4F4"
+        stroke="#3A2D1B"
+        strokeWidth={2}
+      />
+      <g stroke="#3A2D1B" strokeWidth={1.5} strokeLinecap="round">
+        {ticks.map((i) => (
+          <line key={i} x1={10 + i * 10} y1="3" x2={10 + i * 10} y2={i % 5 === 0 ? 17 : 11} />
+        ))}
+      </g>
+      <g fill="#3A2D1B" fontSize="9" fontWeight="700" textAnchor="middle" fontFamily="sans-serif">
+        {[0, 5, 10, 15, 20].map((i) => (
+          <text key={i} x={10 + i * 10} y="30">
+            {i / 5 + 1}
+          </text>
+        ))}
+      </g>
+    </svg>
   )
 }
 

@@ -1,0 +1,105 @@
+---
+title: 'My AI Workday: From Jira Ticket to Ready for QA with Kiro and MCP'
+date: '2026-11-19'
+tags: ['ai', 'kiro', 'mcp', 'productivity', 'workflow']
+draft: false
+summary: "How my daily routine as a frontend engineer changed with AI. Kiro picks up my Jira tickets through MCP, helps me build, checks the result with Playwright MCP, and reports back to Jira, while I stay in charge of every decision."
+---
+
+# My AI Workday: From Jira Ticket to Ready for QA with Kiro and MCP
+
+A year ago my morning started with five browser tabs: Jira, Confluence, Slack, the repo, and the app running locally. Today it starts with one window. This is how my workday looks now, and which parts I still keep firmly in my own hands.
+
+---
+
+## The short version
+
+1. Open Kiro and ask what my highest priority tickets are.
+2. Kiro reads Jira through MCP and lists them, sorted by priority.
+3. I pick the top one, and we work on it together.
+4. When the code is done, Kiro checks it in a real browser with Playwright MCP.
+5. The test result and screenshots go back to the Jira ticket.
+6. The ticket moves to **Ready for QA**.
+
+The rest of this post walks through each step.
+
+---
+
+## What MCP is, in one paragraph
+
+MCP (Model Context Protocol) is a standard way to give an AI assistant tools. Instead of copying ticket text into a chat, the assistant can call a Jira tool, a browser tool, or a Git tool directly. In Kiro, MCP servers are configured once in `.kiro/settings/mcp.json`, and after that they are available in every session. I use two every day: the **Atlassian MCP** for Jira and Confluence, and the **Playwright MCP** for the browser.
+
+---
+
+## Step 1: Morning, open Kiro and ask for my priorities
+
+The first message of my day is usually something like:
+
+```text
+What are my to-do tickets in the current sprint? Sort them by priority.
+```
+
+Kiro calls Jira through the Atlassian MCP, runs a JQL search for tickets assigned to me, and gives me a short list: ticket key, title, priority, and status. No tab switching, no filter hunting.
+
+This sounds small, but it changes the feel of the morning. I start by thinking about the work, not by navigating tools.
+
+## Step 2: Work on the highest priority first
+
+I pick the top ticket and ask Kiro to read it properly: the description, acceptance criteria, linked tickets, and any Confluence page it references. Then we agree on a plan before anyone writes code.
+
+For small fixes I stay in a quick back-and-forth chat. For bigger features I use a **spec**: Kiro writes the requirements, a design, and a task list, and I review each one before implementation starts. This is the part where my experience matters most. I catch the edge cases the ticket did not mention, push back on designs that do not fit the codebase, and decide what is out of scope.
+
+## Step 3: Kiro writes the code, I review it
+
+Kiro implements the tasks, following the project rules in `.kiro/steering/` (our conventions, folder structure, testing standards). I read every diff. If something looks off, I say so and we fix it together. AI makes the typing fast. It does not make the judgment optional.
+
+## Step 4: Validate in a real browser with Playwright MCP
+
+This is my favourite part, and it comes from my QA background. Instead of trusting that the code "should work", I ask Kiro to prove it:
+
+```text
+Open the page locally, go through the acceptance criteria one by one,
+and take a screenshot of each result.
+```
+
+With the Playwright MCP, Kiro opens a real browser, clicks through the flow, fills in forms, checks what is on the screen, and saves screenshots. When something fails, we fix it and run the check again. When everything passes, I look at the screenshots myself before moving on.
+
+## Step 5: Report back to the Jira ticket
+
+Once I am happy with the result, Kiro writes a comment on the Jira ticket through the Atlassian MCP:
+
+- What changed, in plain words
+- Which acceptance criteria were checked, and how
+- The screenshots from the Playwright run
+- Anything QA should pay extra attention to
+
+QA gets context instead of a bare "done", and I do not have to write the summary from scratch at the end of a long day.
+
+## Step 6: Move the ticket to Ready for QA
+
+Finally, Kiro transitions the ticket to **Ready for QA**. Then I ask for the next priority, and the loop starts again.
+
+---
+
+## What I still do myself
+
+AI handles a lot of the busywork, but some things stay with me on purpose:
+
+- **Choosing the work.** Kiro lists the tickets. I decide what matters today.
+- **Reviewing every line.** I read every diff before it leaves my machine.
+- **Looking at the screenshots.** An automated check passing is not the same as the UI looking right.
+- **Asking before risky actions.** Kiro asks me before it comments on a ticket or changes its status, and I keep it that way.
+- **Talking to people.** Unclear requirements still go to the PM or designer, not to a guess.
+
+---
+
+## Tips if you want to try this
+
+- **Start with read-only.** Let the assistant read tickets for a week before you let it write comments or move statuses.
+- **Write steering files.** A few pages of project conventions make the generated code much closer to what your team expects.
+- **Make validation a habit, not an afterthought.** Ask for the browser check every time, even for "tiny" changes.
+- **Keep secrets out of prompts.** MCP servers authenticate on their own. Never paste tokens or passwords into a chat.
+
+---
+
+_AI did not take my job away. It took away the tab switching, so I can spend more time on the parts of engineering I actually enjoy._

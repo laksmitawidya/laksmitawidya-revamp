@@ -44,11 +44,11 @@ export default function IntroLoader() {
 
   return (
     <div aria-hidden="true" className={`intro-overlay bg-paper ${leaving ? 'intro-leaving' : ''}`}>
-      <div className="intro-card shadow-sticker border-cocoa bg-cream-paper dark:border-sand/50 dark:bg-cocoa-900 relative flex flex-col items-center rounded-xl border-2 px-10 pb-7 pt-6">
+      <div className="intro-card shadow-sticker relative flex flex-col items-center rounded-xl border-2 border-cocoa bg-cream-paper px-10 pb-7 pt-6 dark:border-sand/50 dark:bg-cocoa-900">
         <span className="washi-tape intro-tape bg-teal" />
         <svg
           viewBox="0 0 260 130"
-          className="text-cocoa-800 dark:text-cream w-56 sm:w-64"
+          className="w-56 text-cocoa-800 dark:text-cream sm:w-64"
           xmlns="http://www.w3.org/2000/svg"
         >
           <text x="50%" y="84" textAnchor="middle" className="intro-name">
@@ -64,15 +64,15 @@ export default function IntroLoader() {
         </svg>
         <div className="mt-1 flex items-center gap-2.5">
           <span
-            className="intro-dot border-cocoa bg-coral dark:border-sand/60 h-3 w-3 rounded-full border-2"
+            className="intro-dot h-3 w-3 rounded-full border-2 border-cocoa bg-coral dark:border-sand/60"
             style={{ animationDelay: '620ms, 1000ms' }}
           />
           <span
-            className="intro-dot border-cocoa bg-teal dark:border-sand/60 h-3 w-3 rounded-full border-2"
+            className="intro-dot h-3 w-3 rounded-full border-2 border-cocoa bg-teal dark:border-sand/60"
             style={{ animationDelay: '720ms, 1150ms' }}
           />
           <span
-            className="intro-dot border-cocoa bg-sand dark:border-sand/60 h-3 w-3 rounded-full border-2"
+            className="intro-dot h-3 w-3 rounded-full border-2 border-cocoa bg-sand dark:border-sand/60"
             style={{ animationDelay: '820ms, 1300ms' }}
           />
         </div>

@@ -2,7 +2,7 @@ import projectsData from '@/data/projectsData'
 import { genPageMetadata } from 'app/seo'
 import SectionContainer from '@/components/SectionContainer'
 import { FocusCards } from '@/components/ui/FocusCard'
-import { DoodleArrow } from '@/components/ui/Doodles'
+import { DoodleArrow, Squiggle } from '@/components/ui/Doodles'
 
 export const metadata = genPageMetadata({ title: 'Projects' })
 
@@ -20,10 +20,7 @@ export default function Projects() {
               things I&apos;ve built &amp; been part of!
             </span>
           </div>
-          <div
-            aria-hidden="true"
-            className="polka-ribbon-pink h-6 w-48 rounded-full border-2 border-cocoa dark:border-sand/40"
-          />
+          <Squiggle className="w-40 text-coral" />
         </div>
         <div className="py-8">
           <FocusCards cards={projectsData} />

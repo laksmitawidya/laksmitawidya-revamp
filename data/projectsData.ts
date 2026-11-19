@@ -9,7 +9,7 @@ const projectsData: Project[] = [
   {
     title: 'LAD Platform — Banking Sector',
     description:
-      'Full-stack Gen AI solution for a major banking group, built on top of a LAD (Loan Administration & Documentation) platform. Delivered the admin portal in React + TypeScript, set up AWS CDK infrastructure, integrated QuickSight analytics, and extended beyond frontend scope to build Python-based BFF services and third-party API integrations on AWS Lambda.',
+      'Full-stack delivery for a LAD platform at a major banking group. Built the frontend in React and the backend services on AWS Lambda with Python, including integrations with external third-party APIs, working closely with backend engineers on data flow and API contracts.',
   },
   {
     title: 'Data Asset Management Portal',

@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import type { Authors } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
-import { DoodleArrow, Polaroid, Sparkle } from '@/components/ui/Doodles'
+import { DoodleArrow, Polaroid, Sparkle, Squiggle } from '@/components/ui/Doodles'
 
 interface Props {
   children: ReactNode
@@ -25,18 +25,17 @@ export default function AuthorLayout({ children, content }: Props) {
               about me!
             </span>
           </div>
-          <div
-            aria-hidden="true"
-            className="polka-ribbon-pink h-6 w-48 rounded-full border-2 border-cocoa dark:border-sand/40"
-          />
+          <Squiggle className="w-40 text-coral" />
         </div>
         <div className="items-start space-y-2 xl:grid xl:grid-cols-3 xl:gap-x-10 xl:space-y-0">
           <div className="flex flex-col items-center pt-10">
             <div className="relative isolate">
               <div
                 aria-hidden="true"
-                className="polka-cocoa absolute -inset-x-5 -inset-y-4 -z-10 rotate-6 rounded-[1.75rem] border-2 border-cocoa dark:border-sand/40"
-              />
+                className="cutout-shadow absolute -inset-x-5 -inset-y-4 -z-10 rotate-6"
+              >
+                <div className="paper-cutout grid-paper-pink h-full w-full" />
+              </div>
               <Polaroid caption="Mita" className="-rotate-2" tapeClassName="bg-teal">
                 <Image
                   src="/static/images/me.jpg"

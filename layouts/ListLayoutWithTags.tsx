@@ -2,7 +2,7 @@
 
 import Link from '@/components/Link'
 import SectionContainer from '@/components/SectionContainer'
-import { Sparkle, Tape } from '@/components/ui/Doodles'
+import { Sparkle, Squiggle, Tape } from '@/components/ui/Doodles'
 import Reveal from '@/components/ui/Reveal'
 import tagData from 'app/tag-data.json'
 import type { Blog } from 'contentlayer/generated'
@@ -97,10 +97,7 @@ export default function ListLayoutWithTags({
             Sharing my journey in front-end engineering, best practices, and lessons learned across
             different industries. Plus occasional musings on hobbies and life beyond code.
           </p>
-          <div
-            aria-hidden="true"
-            className="polka-ribbon-pink mx-auto h-6 w-48 rounded-full border-2 border-cocoa dark:border-sand/40"
-          />
+          <Squiggle className="mx-auto w-40 text-coral" />
         </div>
       </div>
       <div>

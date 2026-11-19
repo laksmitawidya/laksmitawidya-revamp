@@ -21,7 +21,7 @@ export default function Loading() {
           />
         ))}
       </div>
-      <span className="font-hand text-cocoa dark:text-sand text-2xl font-bold">
+      <span className="font-hand text-2xl font-bold text-cocoa dark:text-sand">
         Hold on a sec...
       </span>
       <span className="sr-only">Loading</span>

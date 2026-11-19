@@ -92,7 +92,7 @@ body {
   border-color: rgba(229, 212, 183, 0.15);
 }
 
-/* Polka dots, used sparingly as fabric swatches and dotted dividers.
+/* Polka-dot fabric for the Recent Work Highlights band.
    Two offset dot layers give the staggered pattern. */
 .polka-blue {
   background-color: #cfe4f4;
@@ -103,71 +103,183 @@ body {
     0 0,
     13px 13px;
 }
+/* Dark mode flips the fabric: brown background with light blue dots */
 .dark .polka-blue {
-  background-color: #3a444b;
-  background-image: radial-gradient(circle, rgba(229, 212, 183, 0.75) 3px, transparent 3.6px),
-    radial-gradient(circle, rgba(229, 212, 183, 0.75) 3px, transparent 3.6px);
-}
-.polka-cocoa {
-  background-color: #4a3822;
-  background-image: radial-gradient(circle, #f0c5bc 5px, transparent 5.6px),
-    radial-gradient(circle, #f0c5bc 5px, transparent 5.6px);
-  background-size: 30px 30px;
-  background-position:
-    0 0,
-    15px 15px;
-}
-.dark .polka-cocoa {
   background-color: #3a2d1b;
-  background-image: radial-gradient(circle, #cfa59c 5px, transparent 5.6px),
-    radial-gradient(circle, #cfa59c 5px, transparent 5.6px);
-}
-/* Polka-dot ribbon for title underlines: pink dots on brown, scattered by hand.
-   One 120x20 SVG tile with dots at uneven positions and sizes, so the repeat is hard to spot. */
-.polka-ribbon-pink {
-  background-color: #4a3822;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20' fill='%23f0c5bc'%3E%3Ccircle cx='7' cy='6' r='2.6'/%3E%3Ccircle cx='16' cy='14.5' r='1.9'/%3E%3Ccircle cx='29' cy='9' r='2.2'/%3E%3Ccircle cx='38' cy='15' r='2.8'/%3E%3Ccircle cx='47' cy='4.5' r='1.7'/%3E%3Ccircle cx='58' cy='11' r='2.5'/%3E%3Ccircle cx='70' cy='5' r='2.1'/%3E%3Ccircle cx='74' cy='15.5' r='1.6'/%3E%3Ccircle cx='86' cy='9.5' r='2.9'/%3E%3Ccircle cx='98' cy='4' r='1.8'/%3E%3Ccircle cx='103' cy='14' r='2.3'/%3E%3Ccircle cx='114' cy='8' r='2'/%3E%3C/svg%3E");
-  background-size: auto 100%;
-  background-repeat: repeat-x;
-}
-.dark .polka-ribbon-pink {
-  background-color: #3a2d1b;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20' fill='%23cfa59c'%3E%3Ccircle cx='7' cy='6' r='2.6'/%3E%3Ccircle cx='16' cy='14.5' r='1.9'/%3E%3Ccircle cx='29' cy='9' r='2.2'/%3E%3Ccircle cx='38' cy='15' r='2.8'/%3E%3Ccircle cx='47' cy='4.5' r='1.7'/%3E%3Ccircle cx='58' cy='11' r='2.5'/%3E%3Ccircle cx='70' cy='5' r='2.1'/%3E%3Ccircle cx='74' cy='15.5' r='1.6'/%3E%3Ccircle cx='86' cy='9.5' r='2.9'/%3E%3Ccircle cx='98' cy='4' r='1.8'/%3E%3Ccircle cx='103' cy='14' r='2.3'/%3E%3Ccircle cx='114' cy='8' r='2'/%3E%3C/svg%3E");
+  background-image: radial-gradient(circle, #9dbfdb 3px, transparent 3.6px),
+    radial-gradient(circle, #9dbfdb 3px, transparent 3.6px);
 }
 
-/* Vertical candy stripes: light blue, white, thin brown. Footer ribbon only. */
-.stripe-band {
-  background-color: #fffdf8;
-  background-image: repeating-linear-gradient(
-    90deg,
-    #9dbfdb 0 18px,
-    #fffdf8 18px 36px,
-    #9dbfdb 36px 54px,
-    #fffdf8 54px 66px,
-    #665132 66px 70px,
-    #fffdf8 70px 82px
-  );
+/* Pastel yellow grid paper with pink lines, used behind the photos */
+.grid-paper-pink {
+  background-color: #fff9d0;
+  background-image: linear-gradient(#f28db2 1.5px, transparent 1.5px),
+    linear-gradient(90deg, #f28db2 1.5px, transparent 1.5px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
 }
-.dark .stripe-band {
-  background-color: #2a2118;
-  background-image: repeating-linear-gradient(
-    90deg,
-    rgba(157, 191, 219, 0.45) 0 18px,
-    #2a2118 18px 36px,
-    rgba(157, 191, 219, 0.45) 36px 54px,
-    #2a2118 54px 66px,
-    rgba(229, 212, 183, 0.5) 66px 70px,
-    #2a2118 70px 82px
-  );
+.dark .grid-paper-pink {
+  background-color: #3a2d1b;
+  background-image: linear-gradient(rgba(240, 197, 188, 0.55) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(240, 197, 188, 0.55) 1.5px, transparent 1.5px);
 }
 
-/* A line drawn with dots. Color comes from text-* utilities. */
-.polka-line {
-  height: 8px;
-  background-image: radial-gradient(circle, currentColor 3px, transparent 3.5px);
-  background-size: 16px 8px;
-  background-repeat: repeat-x;
-  background-position: center;
+/* Paper cut-out behind a photo: ragged scissor-cut edges on all four sides.
+   Wrap it in .cutout-shadow so the drop shadow follows the cut shape. */
+.cutout-shadow {
+  filter: drop-shadow(3px 4px 0 rgba(102, 81, 50, 0.55));
+}
+.dark .cutout-shadow {
+  filter: drop-shadow(3px 4px 0 rgba(0, 0, 0, 0.5));
+}
+.paper-cutout {
+  clip-path: polygon(
+    2% 3%,
+    12% 0,
+    24% 2.5%,
+    37% 0.5%,
+    50% 3%,
+    63% 0,
+    76% 2%,
+    88% 0.5%,
+    98% 2.5%,
+    100% 12%,
+    97.5% 24%,
+    100% 37%,
+    98% 50%,
+    100% 63%,
+    97.5% 76%,
+    100% 88%,
+    98% 98%,
+    87% 100%,
+    75% 97.5%,
+    62% 100%,
+    49% 98%,
+    37% 100%,
+    24% 97.5%,
+    12% 100%,
+    1.5% 98%,
+    0 87%,
+    2.5% 75%,
+    0 62%,
+    2% 50%,
+    0 37%,
+    2.5% 24%,
+    0 12%
+  );
+}
+/* Scrolling text ribbon in the footer. Content is duplicated once, so -50% loops seamlessly. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 32s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* Torn paper band: a cream sheet with ragged top/bottom edges, and a polka-dot layer
+   inside with its own ragged edge, so a thin paper rim shows around the fabric. */
+.torn-band-shadow {
+  filter: drop-shadow(0 4px 0 rgba(102, 81, 50, 0.28));
+}
+.dark .torn-band-shadow {
+  filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.45));
+}
+.torn-paper {
+  clip-path: polygon(
+    0 10px,
+    5% 2px,
+    9% 12px,
+    14% 4px,
+    19% 14px,
+    24% 3px,
+    29% 10px,
+    34% 0,
+    40% 12px,
+    45% 5px,
+    50% 14px,
+    56% 2px,
+    61% 11px,
+    66% 4px,
+    71% 13px,
+    77% 1px,
+    82% 10px,
+    87% 3px,
+    92% 12px,
+    96% 5px,
+    100% 11px,
+    100% calc(100% - 9px),
+    95% calc(100% - 1px),
+    90% calc(100% - 12px),
+    85% calc(100% - 3px),
+    80% calc(100% - 14px),
+    74% 100%,
+    69% calc(100% - 10px),
+    63% calc(100% - 2px),
+    58% calc(100% - 13px),
+    52% calc(100% - 4px),
+    47% calc(100% - 11px),
+    42% 100%,
+    36% calc(100% - 12px),
+    31% calc(100% - 3px),
+    26% calc(100% - 13px),
+    20% calc(100% - 1px),
+    15% calc(100% - 10px),
+    10% calc(100% - 2px),
+    5% calc(100% - 12px),
+    0 calc(100% - 4px)
+  );
+}
+.torn-paper-inner {
+  clip-path: polygon(
+    0 18px,
+    4% 11px,
+    8% 20px,
+    13% 12px,
+    18% 21px,
+    23% 10px,
+    28% 18px,
+    33% 8px,
+    39% 20px,
+    44% 13px,
+    49% 22px,
+    55% 10px,
+    60% 19px,
+    65% 12px,
+    70% 21px,
+    76% 9px,
+    81% 18px,
+    86% 11px,
+    91% 20px,
+    95% 13px,
+    100% 19px,
+    100% calc(100% - 17px),
+    96% calc(100% - 9px),
+    91% calc(100% - 20px),
+    86% calc(100% - 11px),
+    81% calc(100% - 21px),
+    75% calc(100% - 8px),
+    70% calc(100% - 18px),
+    64% calc(100% - 10px),
+    59% calc(100% - 21px),
+    53% calc(100% - 12px),
+    48% calc(100% - 19px),
+    43% calc(100% - 8px),
+    37% calc(100% - 20px),
+    32% calc(100% - 11px),
+    27% calc(100% - 21px),
+    21% calc(100% - 9px),
+    16% calc(100% - 18px),
+    11% calc(100% - 10px),
+    6% calc(100% - 20px),
+    0 calc(100% - 12px)
+  );
 }
 
 /* Translucent washi tape strip with torn ends. Set color with bg-* utilities. */
@@ -227,6 +339,8 @@ body {
 
 /* Tape "presses down" when its card is hovered (works with Tailwind transform utilities) */
 .washi-tape {
+  /* Tape always sits on top of the label, card, or photo it holds down */
+  z-index: 10;
   transition: transform 200ms ease-out;
 }
 .group:hover .washi-tape {

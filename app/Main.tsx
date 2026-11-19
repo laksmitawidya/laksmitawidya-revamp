@@ -12,10 +12,12 @@ import Reveal from '@/components/ui/Reveal'
 import { Bot, Database, FileText, HeartPulse, Settings, ShieldCheck, Sprout } from 'lucide-react'
 import {
   DoodleArrow,
+  Pencil,
   Polaroid,
+  Ruler,
   Sparkle,
+  Squiggle,
   StickerHeading,
-  StripeHeading,
   Tape,
 } from '@/components/ui/Doodles'
 
@@ -27,7 +29,7 @@ const workHighlights = [
     category: 'Gen AI',
     title: 'Chatbot Admin Portal & RAG Chatbot',
     description:
-      'RAG chatbot achieving 75%+ accuracy, powered by AWS CDK, QuickSight, and Nova Pro.',
+      'RAG chatbot reaching ~90% answer accuracy, powered by AWS CDK, QuickSight, and Nova Pro.',
     tags: ['React', 'AWS', 'CDK', 'Bedrock', 'RAG'],
     stat: 'POC',
   },
@@ -291,12 +293,14 @@ export default function Home({ posts }) {
             </div>
           </div>
 
-          {/* Taped polaroid on a polka-dot fabric swatch */}
+          {/* Taped polaroid on a solid paper cut-out */}
           <div className="relative isolate mx-auto w-56 sm:w-64 lg:w-72">
             <div
               aria-hidden="true"
-              className="polka-blue absolute -inset-x-5 -inset-y-4 -z-10 -rotate-6 rounded-[2rem] border-2 border-cocoa dark:border-sand/40 sm:-inset-x-7 sm:-inset-y-6"
-            />
+              className="cutout-shadow absolute -inset-x-5 -inset-y-4 -z-10 -rotate-6 sm:-inset-x-7 sm:-inset-y-6"
+            >
+              <div className="paper-cutout grid-paper-pink h-full w-full" />
+            </div>
             <Polaroid
               caption="that's me!"
               className="rotate-3 transition-transform duration-300 hover:rotate-1 hover:scale-[1.02]"
@@ -321,20 +325,43 @@ export default function Home({ posts }) {
         </div>
       </section>
 
-      <SectionContainer>
-        {/* Recent Work Highlights */}
-        <div className="my-8">
-          <Reveal tilt={1}>
-            <StripeHeading note="things I shipped lately">Recent Work Highlights</StripeHeading>
-          </Reveal>
-          <WorkBento />
+      {/* Recent Work Highlights: a torn sheet of polka-dot paper pasted across the page */}
+      <section aria-labelledby="work-heading" className="relative my-10">
+        <div className="torn-band-shadow">
+          <div className="torn-paper relative bg-cream-paper dark:bg-cocoa-900">
+            <div aria-hidden="true" className="torn-paper-inner polka-blue absolute inset-0" />
+            <div className="relative py-20 md:py-24">
+              <SectionContainer>
+                <Reveal tilt={1}>
+                  <div className="mb-12 flex flex-col items-center gap-3">
+                    <div className="relative">
+                      <Tape className="-top-3 left-5 h-5 w-16 -rotate-6 bg-coral" />
+                      <Tape className="-top-3 right-5 h-5 w-16 rotate-6 bg-teal" />
+                      <h2
+                        id="work-heading"
+                        className="shadow-sticker -rotate-1 rounded-lg border-2 border-cocoa bg-cream-paper px-6 py-2.5 text-center font-heading text-2xl font-extrabold uppercase tracking-wide text-cocoa-800 dark:border-sand/60 dark:bg-cocoa-900 dark:text-cream md:text-3xl"
+                      >
+                        Recent Work Highlights
+                      </h2>
+                    </div>
+                    <span className="rotate-2 rounded-md bg-cream-paper px-2.5 font-hand text-xl font-bold text-coral-deep ring-1 ring-cocoa/15 dark:bg-cocoa-900 dark:text-coral">
+                      things I shipped lately
+                    </span>
+                  </div>
+                </Reveal>
+                <WorkBento />
+              </SectionContainer>
+            </div>
+          </div>
         </div>
+        {/* Desk doodles poking over the torn edges */}
+        <Pencil className="pointer-events-none absolute -top-3 right-[7%] hidden w-44 -rotate-[14deg] md:block" />
+        <Ruler className="pointer-events-none absolute -bottom-5 left-[5%] hidden w-60 rotate-[7deg] lg:block" />
+      </section>
 
-        {/* Polka-dot divider */}
-        <div aria-hidden="true" className="polka-line mx-auto mt-16 w-44 text-coral" />
-
+      <SectionContainer>
         {/* Certification: cream card with tape and a stamp badge */}
-        <div className="mt-12">
+        <div className="mt-16">
           <Reveal>
             <StickerHeading note="officially stamped!">Certification</StickerHeading>
           </Reveal>
@@ -391,8 +418,8 @@ export default function Home({ posts }) {
           </Reveal>
         </div>
 
-        {/* Polka-dot divider */}
-        <div aria-hidden="true" className="polka-line mx-auto mt-16 w-44 text-teal" />
+        {/* Hand-drawn divider */}
+        <Squiggle className="mx-auto mt-16 text-teal" />
 
         {/* Latest Posts */}
         <div className="mt-12">
