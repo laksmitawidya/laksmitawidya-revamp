@@ -22,18 +22,16 @@ const Header = () => {
   return (
     <header className="fixed left-0 right-0 top-0 z-50 flex w-full items-center justify-end py-6 sm:justify-center">
       <div
-        className={`mr-5 flex items-center space-x-4 rounded-2xl px-5 py-3 leading-5 transition-all duration-300 sm:mr-0 sm:space-x-6 ${
-          scrolled
-            ? 'border border-gray-200/50 bg-white/80 shadow-lg backdrop-blur-md dark:border-gray-700/50 dark:bg-gray-900/80'
-            : 'bg-gray-200/85 dark:bg-gray-800/85'
+        className={`mr-5 flex items-center space-x-4 rounded-2xl border-2 border-cocoa px-5 py-3 leading-5 transition-all duration-300 dark:border-sand/50 sm:mr-0 sm:space-x-6 ${
+          scrolled ? 'shadow-sticker bg-cream-paper dark:bg-cocoa-900' : 'bg-sand dark:bg-cocoa-800'
         }`}
       >
-        <div className="no-scrollbar mr-5 hidden max-w-40 items-center space-x-4 overflow-x-auto sm:flex sm:space-x-6 md:max-w-72 lg:max-w-96">
+        <div className="no-scrollbar mr-5 hidden max-w-40 items-center space-x-1 overflow-x-auto sm:flex sm:space-x-2 md:max-w-72 lg:max-w-96">
           {headerNavLinks.map((link) => (
             <Link
               key={link.title}
               href={link.href}
-              className="block whitespace-nowrap font-medium text-gray-900 hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400"
+              className="block whitespace-nowrap rounded-lg px-2.5 py-1 font-semibold text-cocoa-800 transition duration-200 hover:bg-blush motion-safe:hover:-translate-y-0.5 motion-safe:hover:-rotate-2 dark:text-cream dark:hover:bg-cocoa-950"
             >
               {link.title}
             </Link>

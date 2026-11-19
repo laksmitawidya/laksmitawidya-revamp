@@ -1,6 +1,6 @@
-# Laksmita Widya — Personal Portfolio
+# Laksmita Widya: Personal Portfolio
 
-Personal portfolio and blog site for **Laksmita Widya Astuti**, Front End Engineer with 5+ years of experience in React, TypeScript, and modern web technologies.
+Personal portfolio and blog site for **Laksmita Widya Astuti (Mita)**, Frontend Engineer with 7+ years of experience building visual, production-ready interfaces for web, desktop, and mobile with React, Remix, Astro, Electron, and React Native.
 
 Live at: [laksmitawidya.com](https://laksmitawidya.com)
 
@@ -69,14 +69,14 @@ Copy `.env.example` to `.env.local` and fill in the values you need:
 cp .env.example .env.local
 ```
 
-| Variable | Description |
-|---|---|
-| `NEXT_PUBLIC_GISCUS_REPO` | GitHub repo used by Giscus for comments |
-| `NEXT_PUBLIC_GISCUS_REPOSITORY_ID` | Giscus repository ID |
-| `NEXT_PUBLIC_GISCUS_CATEGORY` | Giscus discussion category |
-| `NEXT_PUBLIC_GISCUS_CATEGORY_ID` | Giscus category ID |
-| `NEXT_UMAMI_ID` | Umami analytics website ID |
-| `BASE_PATH` | Base path when deploying to a subdirectory |
+| Variable                           | Description                                |
+| ---------------------------------- | ------------------------------------------ |
+| `NEXT_PUBLIC_GISCUS_REPO`          | GitHub repo used by Giscus for comments    |
+| `NEXT_PUBLIC_GISCUS_REPOSITORY_ID` | Giscus repository ID                       |
+| `NEXT_PUBLIC_GISCUS_CATEGORY`      | Giscus discussion category                 |
+| `NEXT_PUBLIC_GISCUS_CATEGORY_ID`   | Giscus category ID                         |
+| `NEXT_UMAMI_ID`                    | Umami analytics website ID                 |
+| `BASE_PATH`                        | Base path when deploying to a subdirectory |
 
 See `.env.example` for the full list including optional newsletter provider keys.
 
@@ -98,6 +98,10 @@ data/         # MDX blog posts, authors, and site metadata
 public/       # Static assets
 css/          # Global styles
 ```
+
+## Acknowledgements
+
+This site started from the [Tailwind Nextjs Starter Blog](https://github.com/timlrx/tailwind-nextjs-starter-blog) boilerplate by Timothy Lin ([@timlrx](https://github.com/timlrx)). Thank you for building and sharing it!
 
 ## License
 

@@ -6,6 +6,381 @@ body {
   @apply overflow-x-hidden;
 }
 
+/* ---------- Handmade paper theme ---------- */
+
+/* Notebook paper: thin ruled lines on cream, plus a blush margin line on wider screens */
+.bg-paper {
+  background-color: #fbf7f0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    rgba(157, 191, 219, 0.35) 31px,
+    rgba(157, 191, 219, 0.35) 32px
+  );
+}
+@media (min-width: 768px) {
+  .bg-paper {
+    background-image: linear-gradient(
+        to right,
+        transparent 72px,
+        rgba(232, 164, 151, 0.45) 72px,
+        rgba(232, 164, 151, 0.45) 74px,
+        transparent 74px
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 31px,
+        rgba(157, 191, 219, 0.35) 31px,
+        rgba(157, 191, 219, 0.35) 32px
+      );
+  }
+}
+.dark .bg-paper {
+  background-color: #1f1811;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    rgba(229, 212, 183, 0.06) 31px,
+    rgba(229, 212, 183, 0.06) 32px
+  );
+}
+
+/* Grey square-grid frame around the viewport edges (decorative, sits under the header) */
+.grid-frame {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  padding: 6px;
+  background-color: #efeae1;
+  background-image: linear-gradient(rgba(102, 81, 50, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(102, 81, 50, 0.13) 1px, transparent 1px);
+  background-size: 12px 12px;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+.grid-frame-edge {
+  position: fixed;
+  inset: 6px;
+  z-index: 40;
+  pointer-events: none;
+  border: 1px solid rgba(102, 81, 50, 0.18);
+}
+@media (min-width: 768px) {
+  .grid-frame {
+    padding: 18px;
+  }
+  .grid-frame-edge {
+    inset: 18px;
+    border-radius: 6px;
+  }
+}
+.dark .grid-frame {
+  background-color: #2a2118;
+  background-image: linear-gradient(rgba(229, 212, 183, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(229, 212, 183, 0.08) 1px, transparent 1px);
+}
+.dark .grid-frame-edge {
+  border-color: rgba(229, 212, 183, 0.15);
+}
+
+/* Polka dots, used sparingly as fabric swatches and dotted dividers.
+   Two offset dot layers give the staggered pattern. */
+.polka-blue {
+  background-color: #cfe4f4;
+  background-image: radial-gradient(circle, #3a2d1b 3px, transparent 3.6px),
+    radial-gradient(circle, #3a2d1b 3px, transparent 3.6px);
+  background-size: 26px 26px;
+  background-position:
+    0 0,
+    13px 13px;
+}
+.dark .polka-blue {
+  background-color: #3a444b;
+  background-image: radial-gradient(circle, rgba(229, 212, 183, 0.75) 3px, transparent 3.6px),
+    radial-gradient(circle, rgba(229, 212, 183, 0.75) 3px, transparent 3.6px);
+}
+.polka-cocoa {
+  background-color: #4a3822;
+  background-image: radial-gradient(circle, #f0c5bc 5px, transparent 5.6px),
+    radial-gradient(circle, #f0c5bc 5px, transparent 5.6px);
+  background-size: 30px 30px;
+  background-position:
+    0 0,
+    15px 15px;
+}
+.dark .polka-cocoa {
+  background-color: #3a2d1b;
+  background-image: radial-gradient(circle, #cfa59c 5px, transparent 5.6px),
+    radial-gradient(circle, #cfa59c 5px, transparent 5.6px);
+}
+/* Polka-dot ribbon for title underlines: pink dots on brown, scattered by hand.
+   One 120x20 SVG tile with dots at uneven positions and sizes, so the repeat is hard to spot. */
+.polka-ribbon-pink {
+  background-color: #4a3822;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20' fill='%23f0c5bc'%3E%3Ccircle cx='7' cy='6' r='2.6'/%3E%3Ccircle cx='16' cy='14.5' r='1.9'/%3E%3Ccircle cx='29' cy='9' r='2.2'/%3E%3Ccircle cx='38' cy='15' r='2.8'/%3E%3Ccircle cx='47' cy='4.5' r='1.7'/%3E%3Ccircle cx='58' cy='11' r='2.5'/%3E%3Ccircle cx='70' cy='5' r='2.1'/%3E%3Ccircle cx='74' cy='15.5' r='1.6'/%3E%3Ccircle cx='86' cy='9.5' r='2.9'/%3E%3Ccircle cx='98' cy='4' r='1.8'/%3E%3Ccircle cx='103' cy='14' r='2.3'/%3E%3Ccircle cx='114' cy='8' r='2'/%3E%3C/svg%3E");
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+}
+.dark .polka-ribbon-pink {
+  background-color: #3a2d1b;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20' fill='%23cfa59c'%3E%3Ccircle cx='7' cy='6' r='2.6'/%3E%3Ccircle cx='16' cy='14.5' r='1.9'/%3E%3Ccircle cx='29' cy='9' r='2.2'/%3E%3Ccircle cx='38' cy='15' r='2.8'/%3E%3Ccircle cx='47' cy='4.5' r='1.7'/%3E%3Ccircle cx='58' cy='11' r='2.5'/%3E%3Ccircle cx='70' cy='5' r='2.1'/%3E%3Ccircle cx='74' cy='15.5' r='1.6'/%3E%3Ccircle cx='86' cy='9.5' r='2.9'/%3E%3Ccircle cx='98' cy='4' r='1.8'/%3E%3Ccircle cx='103' cy='14' r='2.3'/%3E%3Ccircle cx='114' cy='8' r='2'/%3E%3C/svg%3E");
+}
+
+/* Vertical candy stripes: light blue, white, thin brown. Footer ribbon only. */
+.stripe-band {
+  background-color: #fffdf8;
+  background-image: repeating-linear-gradient(
+    90deg,
+    #9dbfdb 0 18px,
+    #fffdf8 18px 36px,
+    #9dbfdb 36px 54px,
+    #fffdf8 54px 66px,
+    #665132 66px 70px,
+    #fffdf8 70px 82px
+  );
+}
+.dark .stripe-band {
+  background-color: #2a2118;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(157, 191, 219, 0.45) 0 18px,
+    #2a2118 18px 36px,
+    rgba(157, 191, 219, 0.45) 36px 54px,
+    #2a2118 54px 66px,
+    rgba(229, 212, 183, 0.5) 66px 70px,
+    #2a2118 70px 82px
+  );
+}
+
+/* A line drawn with dots. Color comes from text-* utilities. */
+.polka-line {
+  height: 8px;
+  background-image: radial-gradient(circle, currentColor 3px, transparent 3.5px);
+  background-size: 16px 8px;
+  background-repeat: repeat-x;
+  background-position: center;
+}
+
+/* Translucent washi tape strip with torn ends. Set color with bg-* utilities. */
+.washi-tape {
+  position: absolute;
+  height: 1.6rem;
+  width: 6rem;
+  opacity: 0.85;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.35) 0 4px,
+    transparent 4px 9px
+  );
+  box-shadow: 0 1px 2px rgba(102, 81, 50, 0.15);
+  clip-path: polygon(
+    3% 0,
+    97% 0,
+    100% 20%,
+    96% 40%,
+    100% 60%,
+    96% 80%,
+    99% 100%,
+    2% 100%,
+    0 80%,
+    4% 60%,
+    0 40%,
+    4% 20%
+  );
+}
+
+/* Torn paper tape chip (solid color). Set color with bg-* utilities. */
+.torn-tape {
+  clip-path: polygon(
+    0 6%,
+    4% 0,
+    96% 4%,
+    100% 0,
+    98% 25%,
+    100% 50%,
+    97% 75%,
+    100% 100%,
+    5% 96%,
+    0 100%,
+    3% 75%,
+    0 50%,
+    3% 25%
+  );
+}
+
+/* Hard offset shadow, like a sticker or cut paper */
+.shadow-sticker {
+  box-shadow: 3px 3px 0 0 #665132;
+}
+.dark .shadow-sticker {
+  box-shadow: 3px 3px 0 0 rgba(229, 212, 183, 0.35);
+}
+
+/* Tape "presses down" when its card is hovered (works with Tailwind transform utilities) */
+.washi-tape {
+  transition: transform 200ms ease-out;
+}
+.group:hover .washi-tape {
+  --tw-scale-x: 1.06;
+  --tw-scale-y: 0.82;
+}
+
+/* ---------- First-visit intro loader ----------
+   A tiny inline script in <head> adds `intro-pending` to <html> before first paint,
+   only on the first visit of a session and only without reduced motion.
+   Without that class (or without JS) the overlay never shows. */
+.intro-overlay {
+  display: none;
+}
+html.intro-pending {
+  overflow: hidden;
+}
+html.intro-pending .intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Failsafe: hide even if JS never hydrates */
+  animation: intro-failsafe 0.4s ease 3.2s forwards;
+}
+.intro-overlay.intro-leaving {
+  transform: translateY(-104%) rotate(-2deg);
+  transition: transform 480ms cubic-bezier(0.7, 0, 0.3, 1);
+}
+.intro-card {
+  animation: intro-card-pop 520ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.intro-tape {
+  top: -0.9rem;
+  left: 50%;
+  margin-left: -3rem;
+  animation: intro-tape-stick 420ms cubic-bezier(0.34, 1.4, 0.64, 1) 120ms both;
+}
+.intro-name {
+  font-family: var(--font-hand), cursive;
+  font-weight: 700;
+  font-size: 92px;
+  fill: currentColor;
+  fill-opacity: 0;
+  stroke: currentColor;
+  stroke-width: 1.4px;
+  stroke-dasharray: 520;
+  stroke-dashoffset: 520;
+  animation:
+    intro-draw 760ms ease-out 200ms forwards,
+    intro-fill 260ms ease-out 760ms forwards;
+}
+.intro-underline {
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: intro-draw 320ms ease-out 760ms forwards;
+}
+.intro-dot {
+  animation:
+    intro-dot-pop 300ms cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    tape-bounce 900ms ease-in-out 1s infinite;
+}
+@keyframes intro-card-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) rotate(-6deg) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(-2deg) scale(1);
+  }
+}
+@keyframes intro-tape-stick {
+  from {
+    opacity: 0;
+    transform: translate(-70px, -10px) rotate(-18deg);
+  }
+  to {
+    opacity: 0.85;
+    transform: translate(0, 0) rotate(-4deg);
+  }
+}
+@keyframes intro-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes intro-fill {
+  to {
+    fill-opacity: 1;
+  }
+}
+@keyframes intro-dot-pop {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes intro-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+@keyframes tape-bounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--tilt, 0deg));
+  }
+  50% {
+    transform: translateY(-8px) rotate(calc(var(--tilt, 0deg) * -1));
+  }
+}
+.tape-bounce {
+  animation: tape-bounce 900ms ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.intro-pending .intro-overlay {
+    display: none;
+  }
+  html.intro-pending {
+    overflow: auto;
+  }
+  .tape-bounce,
+  .intro-dot {
+    animation: none;
+  }
+  .washi-tape {
+    transition: none;
+  }
+}
+
+/* Visible keyboard focus everywhere */
+a:focus-visible,
+button:focus-visible,
+[role='button']:focus-visible {
+  outline: 2px dashed #665132;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.dark a:focus-visible,
+.dark button:focus-visible,
+.dark [role='button']:focus-visible {
+  outline-color: #e5d4b7;
+}
+
 .task-list-item::before {
   @apply hidden;
 }
@@ -15,7 +390,7 @@ body {
 }
 
 .footnotes {
-  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
+  @apply mt-12 border-t border-sand pt-8 dark:border-cocoa-light;
 }
 
 .data-footnote-backref {
@@ -70,15 +445,15 @@ input:-webkit-autofill:focus {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  @apply bg-gray-200 dark:bg-gray-900;
+  @apply bg-cream dark:bg-cocoa-950;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  @apply rounded bg-gray-400 dark:bg-gray-800;
+  @apply rounded bg-sand dark:bg-cocoa-light;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-700 dark:bg-gray-700;
+  @apply bg-coral dark:bg-coral-muted;
 }

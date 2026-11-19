@@ -1,10 +1,10 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'Laksmita Widya Astuti - Front End Engineer',
-  author: 'Laksmita',
+  title: 'Laksmita Widya Astuti - Frontend Engineer',
+  author: 'Mita',
   headerTitle: 'laksmitawidya',
   description:
-    'Front End Engineer with 5+ years of experience specializing in React, TypeScript, and modern web technologies. Building scalable applications across web, desktop, and mobile platforms.',
+    'Frontend Engineer with 7+ years of experience building visual, production-ready interfaces for web, desktop, and mobile with React, Remix, Astro, Electron, and React Native.',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://laksmitawidya.com',

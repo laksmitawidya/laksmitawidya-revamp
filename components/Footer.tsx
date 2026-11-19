@@ -1,6 +1,6 @@
+import { Heart } from 'lucide-react'
 import Link from './Link'
 import siteMetadata from '@/data/siteMetadata'
-import SocialIcon from '@/components/social-icons'
 
 import SectionContainer from './SectionContainer'
 import headerNavLinks from '@/data/headerNavLinks'
@@ -8,24 +8,29 @@ import SocialMedia from './SocialMedia'
 
 export default function Footer() {
   return (
-    <footer className="mt-32 border-t border-gray-200 dark:border-gray-800">
+    <footer className="mt-32">
+      {/* Thin candy stripe ribbon */}
+      <div
+        aria-hidden="true"
+        className="stripe-band h-3 border-y-2 border-cocoa dark:border-sand/40"
+      />
       <SectionContainer>
         <div className="py-12">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {/* Brand Section */}
             <div className="space-y-4">
-              <div className="font-script text-xl text-gray-900 dark:text-gray-100">
+              <div className="font-script text-2xl text-cocoa-800 dark:text-cream">
                 {siteMetadata.author}
               </div>
-              <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                Front End Engineer specializing in React, TypeScript, and modern web technologies.
+              <p className="text-sm leading-relaxed text-cocoa dark:text-sand">
+                Frontend Engineer who loves the visual side, building for web, desktop, and mobile.
               </p>
               <SocialMedia />
             </div>
 
             {/* Navigation */}
             <div className="space-y-4">
-              <h3 className="text-sm font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              <h3 className="inline-block -rotate-1 rounded-md bg-blush px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-widest text-cocoa-800 dark:bg-blush-muted dark:text-cocoa-950">
                 Navigation
               </h3>
               <div className="flex flex-col gap-3">
@@ -33,7 +38,7 @@ export default function Footer() {
                   <Link
                     key={link.title}
                     href={link.href}
-                    className="text-sm text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+                    className="w-fit text-sm text-cocoa decoration-coral decoration-2 underline-offset-4 transition-colors hover:text-cocoa-800 hover:underline dark:text-sand dark:hover:text-cream"
                   >
                     {link.title}
                   </Link>
@@ -43,13 +48,13 @@ export default function Footer() {
 
             {/* Contact */}
             <div className="space-y-4">
-              <h3 className="text-sm font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              <h3 className="inline-block rotate-1 rounded-md bg-teal px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-widest text-cocoa-800 dark:bg-teal-muted dark:text-cocoa-950">
                 Get in Touch
               </h3>
-              <div className="flex flex-col gap-3 text-sm text-gray-600 dark:text-gray-400">
+              <div className="flex flex-col gap-3 text-sm text-cocoa dark:text-sand">
                 <a
                   href={`mailto:${siteMetadata.email}`}
-                  className="transition-colors hover:text-gray-900 dark:hover:text-gray-100"
+                  className="w-fit decoration-coral decoration-2 underline-offset-4 transition-colors hover:text-cocoa-800 hover:underline dark:hover:text-cream"
                 >
                   {siteMetadata.email}
                 </a>
@@ -57,7 +62,7 @@ export default function Footer() {
                   href={siteMetadata.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-colors hover:text-gray-900 dark:hover:text-gray-100"
+                  className="w-fit decoration-coral decoration-2 underline-offset-4 transition-colors hover:text-cocoa-800 hover:underline dark:hover:text-cream"
                 >
                   LinkedIn
                 </a>
@@ -65,7 +70,7 @@ export default function Footer() {
                   href={siteMetadata.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-colors hover:text-gray-900 dark:hover:text-gray-100"
+                  className="w-fit decoration-coral decoration-2 underline-offset-4 transition-colors hover:text-cocoa-800 hover:underline dark:hover:text-cream"
                 >
                   GitHub
                 </a>
@@ -74,20 +79,36 @@ export default function Footer() {
           </div>
 
           {/* Bottom Bar */}
-          <div className="mt-12 border-t border-gray-200 pt-8 dark:border-gray-800">
-            <div className="flex flex-col items-center justify-between gap-4 text-sm text-gray-500 dark:text-gray-400 sm:flex-row">
+          <div className="mt-12 border-t-2 border-dashed border-cocoa/30 pt-8 dark:border-sand/20">
+            <div className="flex flex-col items-center justify-between gap-4 text-sm text-cocoa dark:text-sand sm:flex-row">
               <div className="flex items-center gap-2">
                 <span>© {new Date().getFullYear()}</span>
                 <span>•</span>
-                <span>{siteMetadata.author}</span>
+                <span>Laksmita Widya Astuti</span>
               </div>
               <div className="flex items-center gap-2">
                 <span>Built with</span>
-                <span className="text-red-500">♥</span>
+                <Heart
+                  role="img"
+                  aria-label="love"
+                  className="h-4 w-4 fill-current text-coral-deep dark:text-coral"
+                />
                 <span>using Next.js</span>
               </div>
-              <div className="text-xs text-gray-400 dark:text-gray-500">
-                Powered by AI — Kiro, Claude & ChatGPT
+              <div className="text-xs text-cocoa-light dark:text-sand">
+                Powered by AI: Kiro, Claude & ChatGPT
+                <p className="mt-1 text-center font-hand text-sm font-bold text-cocoa-light dark:text-sand">
+                  Boilerplate:{' '}
+                  <a
+                    href="https://github.com/timlrx/tailwind-nextjs-starter-blog"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-teal-deep underline decoration-coral decoration-2 underline-offset-4 hover:text-cocoa-800 dark:text-teal dark:hover:text-cream"
+                  >
+                    Tailwind Nextjs Starter Blog
+                  </a>{' '}
+                  by Timothy Lin, thank you!
+                </p>
               </div>
             </div>
           </div>

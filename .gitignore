@@ -45,3 +45,17 @@ yarn-error.log*
 
 # Contentlayer
 .contentlayer
+
+# AI agent and workflow artifacts (task notes, review reports, screenshots)
+/.agents/
+/.kiro/specs/
+
+# Playwright (MCP browser snapshots, test output, caches)
+/.playwright-mcp/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# TypeScript incremental build info
+*.tsbuildinfo

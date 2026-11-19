@@ -5,7 +5,6 @@ import { genPageMetadata } from 'app/seo'
 import { notFound } from 'next/navigation'
 import SearchButton from '@/components/SearchButton'
 import SectionContainer from '@/components/SectionContainer'
-import { Spotlight } from '@/components/ui/Spotlight'
 import { Input } from '@heroui/react'
 
 const POSTS_PER_PAGE = 5

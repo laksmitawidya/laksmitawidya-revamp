@@ -2,7 +2,7 @@ import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
 
-import { Meow_Script, Rethink_Sans, Space_Grotesk, Vibur } from 'next/font/google'
+import { Caveat, Meow_Script, Rethink_Sans, Space_Grotesk, Vibur } from 'next/font/google'
 import { Analytics, AnalyticsConfig } from 'pliny/analytics'
 import { SearchProvider, SearchConfig } from 'pliny/search'
 import Header from '@/components/Header'
@@ -10,6 +10,8 @@ import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
+import IntroLoader from '@/components/ui/IntroLoader'
+import { introBootScript } from '@/components/ui/introBoot'
 
 const rethink_sans = Rethink_Sans({
   subsets: ['latin'],
@@ -30,6 +32,14 @@ const meow_script = Meow_Script({
   display: 'swap',
   variable: '--font-meow',
   weight: '400',
+  preload: true,
+})
+
+const caveat = Caveat({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-hand',
+  weight: ['500', '700'],
   preload: true,
 })
 
@@ -79,10 +89,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang={siteMetadata.language}
-      className={`${rethink_sans.variable} ${space_grotesk.variable} ${meow_script.variable} scroll-smooth`}
+      className={`${rethink_sans.variable} ${space_grotesk.variable} ${meow_script.variable} ${caveat.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <head>
+        {/* Decides before first paint whether the first-visit intro shows */}
+        <script dangerouslySetInnerHTML={{ __html: introBootScript }} />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
       </head>
@@ -110,11 +122,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         color="#5bbad5"
       />
       <meta name="msapplication-TileColor" content="#000000" />
-      <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
-      <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
+      <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FBF7F0" />
+      <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1F1811" />
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
-      <body className="bg-white text-black  antialiased transition-colors duration-700 dark:bg-gray-950 dark:text-white">
+      <body className="bg-paper text-cocoa antialiased transition-colors duration-700 dark:text-cream">
         <ThemeProviders>
+          <IntroLoader />
+          <div aria-hidden="true" className="grid-frame" />
+          <div aria-hidden="true" className="grid-frame-edge" />
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
 
           <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
