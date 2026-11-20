@@ -1,14 +1,24 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "Laksmita Widya Astuti - Frontend Engineer",
+  "short_name": "Mita",
   "icons": [
     {
-      "src": "/android-chrome-96x96.png",
+      "src": "/static/favicons/android-chrome-96x96.png",
       "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/favicons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/favicons/android-chrome-512x512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "theme_color": "#000000",
-  "background_color": "#000000",
+  "theme_color": "#FBF7F0",
+  "background_color": "#FBF7F0",
   "display": "standalone"
 }

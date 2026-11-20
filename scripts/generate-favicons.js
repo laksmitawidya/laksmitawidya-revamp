@@ -1,44 +1,78 @@
+// Generates every favicon size from the master SVG: public/static/favicons/favicon.svg
+// Run with: node scripts/generate-favicons.js
 const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
 
-const avatarPath = path.join(__dirname, '..', 'public', 'static', 'images', 'avatar.png')
 const faviconDir = path.join(__dirname, '..', 'public', 'static', 'favicons')
+const svgPath = path.join(faviconDir, 'favicon.svg')
+const CREAM = '#FBF7F0'
 
-async function generateFavicons() {
-  console.log('Generating favicons from avatar...')
+// Transparent PNG at the given size
+const png = (size) => sharp(svgPath, { density: 384 }).resize(size, size).png().toBuffer()
 
-  // favicon-16x16.png
-  await sharp(avatarPath).resize(16, 16).png().toFile(path.join(faviconDir, 'favicon-16x16.png'))
-  console.log('  ✅ favicon-16x16.png')
-
-  // favicon-32x32.png
-  await sharp(avatarPath).resize(32, 32).png().toFile(path.join(faviconDir, 'favicon-32x32.png'))
-  console.log('  ✅ favicon-32x32.png')
-
-  // apple-touch-icon.png (180x180)
-  await sharp(avatarPath)
-    .resize(180, 180)
+// Apple and Windows tiles fill transparent corners with black, so give them a cream backdrop
+const solidPng = (size) =>
+  sharp(svgPath, { density: 384 })
+    .resize(size, size)
+    .flatten({ background: CREAM })
     .png()
-    .toFile(path.join(faviconDir, 'apple-touch-icon.png'))
-  console.log('  ✅ apple-touch-icon.png')
+    .toBuffer()
 
-  // android-chrome-96x96.png
-  await sharp(avatarPath)
-    .resize(96, 96)
-    .png()
-    .toFile(path.join(faviconDir, 'android-chrome-96x96.png'))
-  console.log('  ✅ android-chrome-96x96.png')
+// Real multi-size .ico file. ICO entries may hold PNG data directly.
+function buildIco(images) {
+  const header = Buffer.alloc(6)
+  header.writeUInt16LE(0, 0) // reserved
+  header.writeUInt16LE(1, 2) // type: icon
+  header.writeUInt16LE(images.length, 4)
 
-  // mstile-150x150.png
-  await sharp(avatarPath).resize(150, 150).png().toFile(path.join(faviconDir, 'mstile-150x150.png'))
-  console.log('  ✅ mstile-150x150.png')
-
-  // favicon.ico (32x32 png as ico fallback)
-  await sharp(avatarPath).resize(32, 32).png().toFile(path.join(faviconDir, 'favicon.ico'))
-  console.log('  ✅ favicon.ico')
-
-  console.log('\n✨ All favicons generated from avatar!')
+  const entries = []
+  let offset = 6 + images.length * 16
+  for (const { size, data } of images) {
+    const entry = Buffer.alloc(16)
+    entry.writeUInt8(size >= 256 ? 0 : size, 0) // width
+    entry.writeUInt8(size >= 256 ? 0 : size, 1) // height
+    entry.writeUInt8(0, 2) // palette colors
+    entry.writeUInt8(0, 3) // reserved
+    entry.writeUInt16LE(1, 4) // color planes
+    entry.writeUInt16LE(32, 6) // bits per pixel
+    entry.writeUInt32LE(data.length, 8)
+    entry.writeUInt32LE(offset, 12)
+    offset += data.length
+    entries.push(entry)
+  }
+  return Buffer.concat([header, ...entries, ...images.map((i) => i.data)])
 }
 
-generateFavicons().catch(console.error)
+async function generateFavicons() {
+  console.log('Generating favicons from favicon.svg...')
+
+  const outputs = [
+    ['favicon-16x16.png', () => png(16)],
+    ['favicon-32x32.png', () => png(32)],
+    ['android-chrome-96x96.png', () => png(96)],
+    ['android-chrome-192x192.png', () => png(192)],
+    ['android-chrome-512x512.png', () => png(512)],
+    ['apple-touch-icon.png', () => solidPng(180)],
+    ['mstile-150x150.png', () => solidPng(150)],
+  ]
+  for (const [name, make] of outputs) {
+    fs.writeFileSync(path.join(faviconDir, name), await make())
+    console.log(`  ✅ ${name}`)
+  }
+
+  const ico = buildIco([
+    { size: 16, data: await png(16) },
+    { size: 32, data: await png(32) },
+    { size: 48, data: await png(48) },
+  ])
+  fs.writeFileSync(path.join(faviconDir, 'favicon.ico'), ico)
+  console.log('  ✅ favicon.ico (16, 32, 48)')
+
+  console.log('\n✨ All favicons generated!')
+}
+
+generateFavicons().catch((err) => {
+  console.error(err)
+  process.exit(1)
+})
