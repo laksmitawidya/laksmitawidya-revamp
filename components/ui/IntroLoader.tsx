@@ -43,40 +43,36 @@ export default function IntroLoader() {
   }, [])
 
   return (
-    <div aria-hidden="true" className={`intro-overlay bg-paper ${leaving ? 'intro-leaving' : ''}`}>
-      <div className="intro-card shadow-sticker relative flex flex-col items-center rounded-xl border-2 border-cocoa bg-cream-paper px-10 pb-7 pt-6 dark:border-sand/50 dark:bg-cocoa-900">
-        <span className="washi-tape intro-tape bg-teal" />
-        <svg
-          viewBox="0 0 260 130"
-          className="w-56 text-cocoa-800 dark:text-cream sm:w-64"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <text x="50%" y="84" textAnchor="middle" className="intro-name">
-            hello!
-          </text>
-          <path
-            d="M58 108 q 18 -9 36 0 t 36 0 t 36 0 t 36 0"
-            fill="none"
-            strokeWidth={4}
-            strokeLinecap="round"
-            className="intro-underline stroke-coral"
-          />
-        </svg>
-        <div className="mt-1 flex items-center gap-2.5">
-          <span
-            className="intro-dot h-3 w-3 rounded-full border-2 border-cocoa bg-coral dark:border-sand/60"
-            style={{ animationDelay: '620ms, 1000ms' }}
-          />
-          <span
-            className="intro-dot h-3 w-3 rounded-full border-2 border-cocoa bg-teal dark:border-sand/60"
-            style={{ animationDelay: '720ms, 1150ms' }}
-          />
-          <span
-            className="intro-dot h-3 w-3 rounded-full border-2 border-cocoa bg-sand dark:border-sand/60"
-            style={{ animationDelay: '820ms, 1300ms' }}
-          />
-        </div>
-      </div>
+    <div
+      aria-hidden="true"
+      className={`intro-overlay bg-canvas-dots ${leaving ? 'intro-leaving' : ''}`}
+    >
+      <p className="font-heading text-5xl font-medium tracking-tight text-ink dark:text-night-text sm:text-7xl">
+        <span className="intro-word" style={{ animationDelay: '0ms' }}>
+          hello,
+        </span>{' '}
+        <span className="intro-word" style={{ animationDelay: '90ms' }}>
+          I&apos;m
+        </span>{' '}
+        <span className="relative inline-block">
+          <span className="intro-word" style={{ animationDelay: '180ms' }}>
+            mita
+          </span>
+          <span className="intro-box absolute -inset-x-2 -inset-y-0.5 border-[1.5px] border-sky-strong">
+            {[
+              '-left-[5px] -top-[5px]',
+              '-right-[5px] -top-[5px]',
+              '-bottom-[5px] -left-[5px]',
+              '-bottom-[5px] -right-[5px]',
+            ].map((pos) => (
+              <span
+                key={pos}
+                className={`intro-handle absolute h-[9px] w-[9px] border-[1.5px] border-sky-strong bg-white ${pos}`}
+              />
+            ))}
+          </span>
+        </span>
+      </p>
     </div>
   )
 }

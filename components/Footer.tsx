@@ -1,153 +1,197 @@
-import { Heart } from 'lucide-react'
+'use client'
+
+import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ArrowUpRight, Check, Copy } from 'lucide-react'
 import Link from './Link'
 import siteMetadata from '@/data/siteMetadata'
-
-import SectionContainer from './SectionContainer'
 import headerNavLinks from '@/data/headerNavLinks'
-import SocialMedia from './SocialMedia'
-import { Sparkle } from '@/components/ui/Doodles'
+import { TextSelect } from '@/components/ui/Selection'
+import Magnetic from '@/components/ui/Magnetic'
+import Marquee from '@/components/ui/Marquee'
+import BlurText from '@/components/ui/BlurText'
 
-const RIBBON_ITEMS = ['Frontend Engineer', 'Web', 'Desktop', 'Mobile', 'Gen AI']
+const RIBBON = [
+  'Frontend Engineer',
+  'Web · Desktop · Mobile',
+  'Gen AI',
+  'Design-minded',
+  'Remote GMT+7',
+  'Open to collaborations',
+]
 
-function RibbonGroup() {
+function CopyEmail() {
+  const [copied, setCopied] = useState(false)
+
   return (
-    <div className="flex shrink-0 items-center gap-5 pr-5">
-      {RIBBON_ITEMS.map((item) => (
-        <span key={item} className="flex items-center gap-5">
-          <span>{item}</span>
-          <Sparkle className="h-3.5 w-3.5 text-cream-paper" />
+    <Magnetic strength={0.25}>
+      <button
+        type="button"
+        data-cursor={copied ? 'Copied!' : 'Copy email'}
+        onClick={async () => {
+          try {
+            await navigator.clipboard.writeText(siteMetadata.email)
+            setCopied(true)
+            setTimeout(() => setCopied(false), 1800)
+          } catch {
+            window.location.href = `mailto:${siteMetadata.email}`
+          }
+        }}
+        className="group inline-flex items-center gap-3 rounded-full bg-ink py-2 pl-6 pr-2 text-sm font-medium text-white shadow-lift transition-colors dark:bg-white dark:text-ink sm:text-base"
+      >
+        <span>{siteMetadata.email}</span>
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 dark:bg-ink/10">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={copied ? 'done' : 'copy'}
+              initial={{ scale: 0, rotate: -90 }}
+              animate={{ scale: 1, rotate: 0 }}
+              exit={{ scale: 0, rotate: 90 }}
+              transition={{ duration: 0.2 }}
+            >
+              {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+            </motion.span>
+          </AnimatePresence>
         </span>
-      ))}
-    </div>
+      </button>
+      <span role="status" className="sr-only">
+        {copied ? 'Email address copied' : ''}
+      </span>
+    </Magnetic>
   )
 }
 
 export default function Footer() {
+  const social = [
+    { label: 'LinkedIn', href: siteMetadata.linkedin ?? '' },
+    { label: 'GitHub', href: siteMetadata.github ?? '' },
+    { label: 'Email', href: `mailto:${siteMetadata.email}` },
+  ].filter((s) => s.href)
+
   return (
-    <footer className="relative mt-32">
-      {/* Tilted text ribbon laid over the top edge of the footer */}
-      <div
-        aria-hidden="true"
-        className="relative left-1/2 z-10 w-[106vw] -translate-x-1/2 -rotate-1 overflow-hidden border-y-2 border-cocoa bg-teal py-2 dark:border-sand/40 dark:bg-teal-muted"
-      >
-        <div className="marquee-track flex w-max font-heading text-sm font-extrabold uppercase tracking-widest text-cocoa-800 dark:text-cocoa-950">
-          <RibbonGroup />
-          <RibbonGroup />
-        </div>
+    <footer className="relative mt-32 overflow-hidden">
+      {/* Two crossing ribbons */}
+      <div className="relative h-28">
+        <Marquee
+          items={RIBBON}
+          className="absolute inset-x-[-5%] top-8 -rotate-2 bg-sky-strong py-3 font-heading text-base font-medium text-white"
+        />
+        <Marquee
+          items={RIBBON}
+          reverse
+          className="absolute inset-x-[-5%] top-8 rotate-2 bg-butter-strong py-3 font-heading text-base font-medium text-ink opacity-90"
+        />
       </div>
 
-      {/* Wavy top edge of the footer block */}
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 1440 40"
-        preserveAspectRatio="none"
-        className="-mt-5 block h-10 w-full fill-sand dark:fill-cocoa-900"
-      >
-        <path d="M0 22C120 4 240 4 360 20s240 18 360 2 240-18 360-2 240 18 360 2V40H0z" />
-      </svg>
+      <div className="px-3 pb-3 sm:px-6 sm:pb-6">
+        <div className="grain relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-lilac via-peri to-sky px-6 pb-10 pt-20 dark:from-[#221c35] dark:via-[#1a1b33] dark:to-[#14213a] sm:px-12">
+          <div
+            aria-hidden="true"
+            className="absolute -right-24 -top-24 h-72 w-72 animate-blob rounded-full bg-rose/70 blur-3xl dark:bg-rose-strong/20"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute -bottom-32 left-10 h-72 w-72 animate-blob rounded-full bg-butter/80 blur-3xl [animation-delay:-6s] dark:bg-butter-strong/10"
+          />
 
-      <div className="bg-sand dark:bg-cocoa-900">
-        <SectionContainer>
-          <div className="pb-12 pt-6">
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {/* Brand Section */}
-              <div className="space-y-4">
-                <div className="font-script text-3xl text-cocoa-800 dark:text-cream">
-                  {siteMetadata.author}
-                </div>
-                <p className="text-sm leading-relaxed text-cocoa-800 dark:text-sand">
-                  Frontend Engineer who loves the visual side, building for web, desktop, and
-                  mobile.
-                </p>
-                <SocialMedia />
-              </div>
+          <div className="relative flex flex-col items-center text-center">
+            <p className="font-hand text-2xl font-bold text-sky-deep dark:text-sky-strong">
+              got an idea brewing?
+            </p>
+            <h2 className="mt-3 font-heading text-[clamp(3rem,10vw,8rem)] font-medium leading-[0.95] tracking-tighter text-ink dark:text-night-text">
+              <BlurText inView>
+                {[
+                  "let's ",
+                  <TextSelect key="w" tone="butter">
+                    work
+                  </TextSelect>,
+                ]}
+              </BlurText>
+              <br />
+              <BlurText inView delay={0.15}>
+                {[
+                  <TextSelect key="t" tone="sky" delay={0.3}>
+                    together
+                  </TextSelect>,
+                ]}
+              </BlurText>
+            </h2>
+            <p className="mt-6 max-w-md text-base text-ink-soft dark:text-night-text/70">
+              Any question, project, or just want to talk frontend and Gen AI? My inbox is always
+              open, and I reply fast.
+            </p>
+            <div className="mt-8">
+              <CopyEmail />
+            </div>
+          </div>
 
-              {/* Navigation */}
-              <div className="space-y-4">
-                <h3 className="shadow-sticker inline-block -rotate-1 rounded-md border-2 border-cocoa bg-blush px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-widest text-cocoa-800 dark:border-sand/50 dark:bg-blush-muted dark:text-cocoa-950">
-                  Navigation
-                </h3>
-                <div className="flex flex-col gap-3">
-                  {headerNavLinks.map((link) => (
+          <div className="relative mt-20 grid gap-10 border-t border-ink/10 pt-10 dark:border-white/10 sm:grid-cols-3">
+            <div>
+              <p className="font-heading text-2xl font-semibold tracking-tight text-ink dark:text-night-text">
+                mita<span className="text-sky-strong">.</span>
+              </p>
+              <p className="mt-2 max-w-xs text-sm text-ink-soft dark:text-night-text/70">
+                Frontend Engineer who loves the visual side, building for web, desktop, and mobile.
+              </p>
+            </div>
+            <nav aria-label="Footer">
+              <p className="text-xs font-medium uppercase tracking-[0.14em] text-ink-muted dark:text-night-text/50">
+                Navigate
+              </p>
+              <ul className="mt-3 grid grid-cols-2 gap-2">
+                {headerNavLinks.map((link) => (
+                  <li key={link.title}>
                     <Link
-                      key={link.title}
                       href={link.href}
-                      className="w-fit text-sm text-cocoa-800 decoration-coral-deep decoration-2 underline-offset-4 transition-colors hover:underline dark:text-sand dark:decoration-coral dark:hover:text-cream"
+                      className="text-sm text-ink transition-colors hover:text-sky-deep dark:text-night-text dark:hover:text-sky-strong"
                     >
                       {link.title}
                     </Link>
-                  ))}
-                </div>
-              </div>
-
-              {/* Contact */}
-              <div className="space-y-4">
-                <h3 className="shadow-sticker inline-block rotate-1 rounded-md border-2 border-cocoa bg-cream-paper px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-widest text-cocoa-800 dark:border-sand/50 dark:bg-teal-muted dark:text-cocoa-950">
-                  Get in Touch
-                </h3>
-                <div className="flex flex-col gap-3 text-sm text-cocoa-800 dark:text-sand">
-                  <a
-                    href={`mailto:${siteMetadata.email}`}
-                    className="w-fit decoration-coral-deep decoration-2 underline-offset-4 transition-colors hover:underline dark:decoration-coral dark:hover:text-cream"
-                  >
-                    {siteMetadata.email}
-                  </a>
-                  <a
-                    href={siteMetadata.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-fit decoration-coral-deep decoration-2 underline-offset-4 transition-colors hover:underline dark:decoration-coral dark:hover:text-cream"
-                  >
-                    LinkedIn
-                  </a>
-                  <a
-                    href={siteMetadata.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-fit decoration-coral-deep decoration-2 underline-offset-4 transition-colors hover:underline dark:decoration-coral dark:hover:text-cream"
-                  >
-                    GitHub
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom Bar */}
-            <div className="mt-12 border-t-2 border-dashed border-cocoa/40 pt-8 dark:border-sand/20">
-              <div className="flex flex-col items-center justify-between gap-4 text-sm text-cocoa-800 dark:text-sand sm:flex-row">
-                <div className="flex items-center gap-2">
-                  <span>© {new Date().getFullYear()}</span>
-                  <span>•</span>
-                  <span>Laksmita Widya Astuti</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span>Built with</span>
-                  <Heart
-                    role="img"
-                    aria-label="love"
-                    className="h-4 w-4 fill-current text-coral-deep dark:text-coral"
-                  />
-                  <span>using Next.js</span>
-                </div>
-                <div className="text-xs text-cocoa-800 dark:text-sand">
-                  Powered by AI: Kiro, Claude & ChatGPT
-                  <p className="mt-1 text-center font-hand text-sm font-bold text-cocoa-800 dark:text-sand">
-                    Boilerplate:{' '}
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.14em] text-ink-muted dark:text-night-text/50">
+                Elsewhere
+              </p>
+              <ul className="mt-3 flex flex-col gap-2">
+                {social.map((s) => (
+                  <li key={s.label}>
                     <a
-                      href="https://github.com/timlrx/tailwind-nextjs-starter-blog"
-                      target="_blank"
+                      href={s.href}
+                      target={s.href.startsWith('mailto') ? undefined : '_blank'}
                       rel="noopener noreferrer"
-                      className="text-teal-deep underline decoration-coral-deep decoration-2 underline-offset-4 hover:text-cocoa-800 dark:text-teal dark:decoration-coral dark:hover:text-cream"
+                      className="group inline-flex items-center gap-1 text-sm text-ink transition-colors hover:text-sky-deep dark:text-night-text dark:hover:text-sky-strong"
                     >
-                      Tailwind Nextjs Starter Blog
-                    </a>{' '}
-                    by Timothy Lin, thank you!
-                  </p>
-                </div>
-              </div>
+                      {s.label}
+                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-        </SectionContainer>
+
+          <div className="relative mt-10 flex flex-col items-center justify-between gap-3 text-xs text-ink-muted dark:text-night-text/50 sm:flex-row">
+            <span>
+              © {new Date().getFullYear()} Laksmita Widya Astuti · Powered by AI: Kiro, Claude &
+              ChatGPT
+            </span>
+            <span>
+              Built with Next.js & Framer Motion · Started from{' '}
+              <a
+                href="https://github.com/timlrx/tailwind-nextjs-starter-blog"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-sky-strong underline-offset-2 hover:text-ink dark:hover:text-night-text"
+              >
+                Tailwind Nextjs Starter Blog
+              </a>{' '}
+              by Timothy Lin, thank you!
+            </span>
+          </div>
+        </div>
       </div>
     </footer>
   )

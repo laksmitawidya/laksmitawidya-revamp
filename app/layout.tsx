@@ -2,7 +2,7 @@ import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
 
-import { Caveat, Meow_Script, Rethink_Sans, Space_Grotesk, Vibur } from 'next/font/google'
+import { Caveat, DM_Sans, Poppins } from 'next/font/google'
 import { Analytics, AnalyticsConfig } from 'pliny/analytics'
 import { SearchProvider, SearchConfig } from 'pliny/search'
 import Header from '@/components/Header'
@@ -12,26 +12,22 @@ import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 import IntroLoader from '@/components/ui/IntroLoader'
 import { introBootScript } from '@/components/ui/introBoot'
+import CustomCursor from '@/components/ui/CustomCursor'
+import ScrollProgress from '@/components/ui/ScrollProgress'
 
-const rethink_sans = Rethink_Sans({
+// Geometric display face for headings, a friendly grotesk for reading, a hand for notes
+const poppins = Poppins({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-heading',
+  weight: ['300', '400', '500', '600'],
   preload: true,
 })
 
-const space_grotesk = Space_Grotesk({
+const dm_sans = DM_Sans({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-space-grotesk',
-  preload: true,
-})
-
-const meow_script = Meow_Script({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-meow',
-  weight: '400',
+  variable: '--font-body',
   preload: true,
 })
 
@@ -40,7 +36,7 @@ const caveat = Caveat({
   display: 'swap',
   variable: '--font-hand',
   weight: ['500', '700'],
-  preload: true,
+  preload: false,
 })
 
 export const metadata: Metadata = {
@@ -89,7 +85,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang={siteMetadata.language}
-      className={`${rethink_sans.variable} ${space_grotesk.variable} ${meow_script.variable} ${caveat.variable} scroll-smooth`}
+      className={`${poppins.variable} ${dm_sans.variable} ${caveat.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <head>
@@ -121,22 +117,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <link
         rel="mask-icon"
         href={`${basePath}/static/favicons/safari-pinned-tab.svg`}
-        color="#665132"
+        color="#3D8BFF"
       />
-      <meta name="msapplication-TileColor" content="#FBF7F0" />
-      <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FBF7F0" />
-      <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1F1811" />
+      <meta name="msapplication-TileColor" content="#F7F6FB" />
+      <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F7F6FB" />
+      <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0E0E13" />
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
-      <body className="bg-paper text-cocoa antialiased transition-colors duration-700 dark:text-cream">
+      <body className="bg-canvas-dots font-sans text-ink antialiased transition-colors duration-500 dark:text-night-text">
         <ThemeProviders>
           <IntroLoader />
-          <div aria-hidden="true" className="grid-frame" />
-          <div aria-hidden="true" className="grid-frame-edge" />
+          <ScrollProgress />
+          <CustomCursor />
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
 
           <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
             <Header />
-            <main className="mb-auto pt-24">{children}</main>
+            <main className="mb-auto pt-24 sm:pt-28">{children}</main>
           </SearchProvider>
           <Footer />
         </ThemeProviders>

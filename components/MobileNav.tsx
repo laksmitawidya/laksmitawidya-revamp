@@ -1,106 +1,124 @@
 'use client'
 
-import { Dialog, Transition } from '@headlessui/react'
+import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
+import { AnimatePresence, motion } from 'framer-motion'
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
-import { Fragment, useState, useEffect, useRef } from 'react'
 import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
+import siteMetadata from '@/data/siteMetadata'
+
+const DOTS = [
+  'bg-sky-strong',
+  'bg-rose-strong',
+  'bg-butter-strong',
+  'bg-mint-strong',
+  'bg-lilac-strong',
+]
 
 const MobileNav = () => {
-  const [navShow, setNavShow] = useState(false)
-  const navRef = useRef(null)
+  const [open, setOpen] = useState(false)
+  const navRef = useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = useState(false)
 
-  const onToggleNav = () => {
-    setNavShow((status) => {
-      if (status) {
-        enableBodyScroll(navRef.current)
-      } else {
-        // Prevent scrolling
-        disableBodyScroll(navRef.current)
-      }
-      return !status
-    })
-  }
+  useEffect(() => setMounted(true), [])
 
   useEffect(() => {
-    return clearAllBodyScrollLocks
-  })
+    if (!navRef.current) return
+    if (open) disableBodyScroll(navRef.current)
+    else enableBodyScroll(navRef.current)
+  }, [open])
+
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open])
+
+  useEffect(() => clearAllBodyScrollLocks, [])
 
   return (
     <>
-      <button aria-label="Toggle Menu" onClick={onToggleNav} className="sm:hidden">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="h-8 w-8 text-cocoa-800 hover:text-teal-deep dark:text-cream dark:hover:text-teal"
-        >
-          <path
-            fillRule="evenodd"
-            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-            clipRule="evenodd"
+      <button
+        aria-label={open ? 'Close menu' : 'Open menu'}
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        className="relative flex h-9 w-9 items-center justify-center rounded-full bg-ink text-white dark:bg-white dark:text-ink sm:hidden"
+      >
+        <span className="relative block h-3 w-4">
+          <span
+            className={`absolute left-0 h-0.5 w-4 rounded bg-current transition-all duration-300 ${
+              open ? 'top-1.5 rotate-45' : 'top-0'
+            }`}
           />
-        </svg>
+          <span
+            className={`absolute left-0 h-0.5 w-4 rounded bg-current transition-all duration-300 ${
+              open ? 'top-1.5 -rotate-45' : 'top-2.5'
+            }`}
+          />
+        </span>
       </button>
-      <Transition appear show={navShow} as={Fragment} unmount={false}>
-        <Dialog as="div" onClose={onToggleNav} unmount={false}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-            unmount={false}
-          >
-            <div className="fixed inset-0 z-60 bg-black/25" />
-          </Transition.Child>
 
-          <Transition.Child
-            as={Fragment}
-            enter="transition ease-in-out duration-300 transform"
-            enterFrom="translate-x-full opacity-0"
-            enterTo="translate-x-0 opacity-95"
-            leave="transition ease-in duration-200 transform"
-            leaveFrom="translate-x-0 opacity-95"
-            leaveTo="translate-x-full opacity-0"
-            unmount={false}
-          >
-            <Dialog.Panel className="bg-paper fixed left-0 top-0 z-70 h-full w-full opacity-95 duration-300 dark:opacity-[0.98]">
-              <nav
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {open && (
+              <motion.div
                 ref={navRef}
-                className="mt-8 flex h-full basis-0 flex-col items-start overflow-y-auto pl-12 pt-2 text-left"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Menu"
+                initial={{ clipPath: 'circle(0% at calc(100% - 2.5rem) 2.5rem)' }}
+                animate={{ clipPath: 'circle(150% at calc(100% - 2.5rem) 2.5rem)' }}
+                exit={{ clipPath: 'circle(0% at calc(100% - 2.5rem) 2.5rem)' }}
+                transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
+                className="bg-canvas-dots fixed inset-0 z-[95] flex flex-col justify-between px-8 pb-10 pt-28 sm:hidden"
               >
-                {headerNavLinks.map((link) => (
-                  <Link
-                    key={link.title}
-                    href={link.href}
-                    className="mb-4 py-2 pr-4 text-2xl font-bold tracking-widest text-cocoa-800 outline outline-0 hover:text-teal-deep dark:text-cream dark:hover:text-teal"
-                    onClick={onToggleNav}
-                  >
-                    {link.title}
-                  </Link>
-                ))}
-              </nav>
-
-              <button
-                className="fixed right-4 top-7 z-80 h-16 w-16 p-4 text-cocoa-800 hover:text-teal-deep dark:text-cream dark:hover:text-teal"
-                aria-label="Toggle Menu"
-                onClick={onToggleNav}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-            </Dialog.Panel>
-          </Transition.Child>
-        </Dialog>
-      </Transition>
+                <nav className="flex flex-col gap-2">
+                  {headerNavLinks.map((link, i) => (
+                    <motion.div
+                      key={link.title}
+                      initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
+                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                      transition={{
+                        delay: 0.15 + i * 0.07,
+                        duration: 0.5,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                    >
+                      <Link
+                        href={link.href}
+                        onClick={() => setOpen(false)}
+                        className="flex items-center gap-4 py-2 font-heading text-5xl font-medium tracking-tight text-ink dark:text-night-text"
+                      >
+                        <span className={`h-3 w-3 rounded-full ${DOTS[i % DOTS.length]}`} />
+                        {link.title.toLowerCase()}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </nav>
+                <motion.a
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  href={`mailto:${siteMetadata.email}`}
+                  className="self-start rounded-full bg-ink px-6 py-3 text-sm font-medium text-white dark:bg-white dark:text-ink"
+                >
+                  Say hello →
+                </motion.a>
+                <button
+                  aria-label="Close menu"
+                  onClick={() => setOpen(false)}
+                  className="absolute right-6 top-6 flex h-11 w-11 items-center justify-center rounded-full bg-ink text-2xl leading-none text-white dark:bg-white dark:text-ink"
+                >
+                  ×
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
     </>
   )
 }

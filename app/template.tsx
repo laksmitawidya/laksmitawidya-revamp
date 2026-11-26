@@ -1,29 +1,26 @@
 'use client'
 
 import { useEffect } from 'react'
-import { MotionConfig, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 // The first page load is server rendered and must stay visible before hydration,
-// so only client-side navigations get the "paper sheet slides in" animation.
+// so only client-side navigations get the fade-up page transition.
 let isFirstLoad = true
 
 export default function Template({ children }: { children: React.ReactNode }) {
-  const initial = isFirstLoad ? false : { opacity: 0, y: 18, rotate: -0.6 }
+  const initial = isFirstLoad ? false : { opacity: 0, y: 24 }
 
   useEffect(() => {
     isFirstLoad = false
   }, [])
 
   return (
-    <MotionConfig reducedMotion="user">
-      <motion.div
-        initial={initial}
-        animate={{ opacity: 1, y: 0, rotate: 0 }}
-        transition={{ type: 'spring', stiffness: 260, damping: 24, mass: 0.8 }}
-        style={{ transformOrigin: '50% 0%' }}
-      >
-        {children}
-      </motion.div>
-    </MotionConfig>
+    <motion.div
+      initial={initial}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.div>
   )
 }

@@ -1,512 +1,737 @@
 'use client'
 
-import React from 'react'
+import { ReactNode, useEffect, useRef, useState } from 'react'
+import NextImage from 'next/image'
+import {
+  animate,
+  motion,
+  useInView,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  MotionValue,
+} from 'framer-motion'
+import { ArrowDown, ArrowRight, ArrowUpRight, Briefcase, Code2, PenLine } from 'lucide-react'
 import Link from '@/components/Link'
-import SectionContainer from '@/components/SectionContainer'
-import SocialMedia from '@/components/SocialMedia'
 import siteMetadata from '@/data/siteMetadata'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import { formatDate } from 'pliny/utils/formatDate'
-import Image from '@/components/Image'
 import Reveal from '@/components/ui/Reveal'
-import { Bot, Database, FileText, HeartPulse, Settings, ShieldCheck, Sprout } from 'lucide-react'
-import {
-  DoodleArrow,
-  Pencil,
-  Polaroid,
-  Ruler,
-  Sparkle,
-  Squiggle,
-  StickerHeading,
-  Tape,
-} from '@/components/ui/Doodles'
+import BlurText from '@/components/ui/BlurText'
+import Magnetic from '@/components/ui/Magnetic'
+import Dock from '@/components/ui/Dock'
+import Marquee from '@/components/ui/Marquee'
+import SectionHeading from '@/components/ui/SectionHeading'
+import StackCards from '@/components/ui/StackCards'
+import ProjectWindow from '@/components/ui/ProjectWindow'
+import HoloCard from '@/components/ui/HoloCard'
+import DesktopFolders, { DesktopItem } from '@/components/ui/DesktopFolders'
+import { FigmaFrame, TextSelect } from '@/components/ui/Selection'
+import workHighlights from '@/data/workHighlights'
+import sideProjectsData from '@/data/sideProjectsData'
 
-const MAX_DISPLAY = 6
+const MAX_DISPLAY = 3
 
-const workHighlights = [
-  {
-    icon: Bot,
-    category: 'Gen AI',
-    title: 'Chatbot Admin Portal & RAG Chatbot',
-    description:
-      'RAG chatbot reaching ~90% answer accuracy, powered by AWS CDK, QuickSight, and Nova Pro.',
-    tags: ['React', 'AWS', 'CDK', 'Bedrock', 'RAG'],
-    stat: 'POC',
-  },
-  {
-    icon: FileText,
-    category: 'Document AI',
-    title: 'Litigation Text Extraction',
-    description:
-      'Document extraction with ~90% accuracy across newspapers, CEDs, and Gazettes using Sonnet 4.',
-    tags: ['Lambda', 'S3', 'Textract', 'Bedrock'],
-    stat: 'POC',
-  },
-  {
-    icon: Settings,
-    category: 'Admin Portal',
-    title: 'Text Extraction Admin Portal',
-    description:
-      'Scalable React + TypeScript portal with automated CI/CD pipeline and image processing.',
-    tags: ['React', 'TypeScript', 'CI/CD'],
-    stat: 'Go-Live',
-  },
-  {
-    icon: Database,
-    category: 'Data & AI',
-    title: 'Redshift Knowledge Base',
-    description: 'Integrated Redshift as an alternative knowledge base source for the POC chatbot.',
-    tags: ['Redshift', 'AWS', 'Bedrock', 'Lambda'],
-    stat: 'POC',
-  },
-  {
-    icon: ShieldCheck,
-    category: 'Data Management',
-    title: 'Data Asset Management Portal',
-    description: 'Built from scratch with Playwright E2E testing and full VAPT compliance.',
-    tags: ['React', 'Playwright', 'VAPT'],
-    stat: 'Go-Live',
-  },
-  {
-    icon: Sprout,
-    category: 'Agronomy',
-    title: 'Agronomy Admin Portal',
-    description: 'Cross-team delivery featuring postMessage auth POC and hands-on team mentoring.',
-    tags: ['React', 'TypeScript', 'Auth'],
-    stat: 'Go-Live',
-  },
-  {
-    icon: HeartPulse,
-    category: 'Healthcare',
-    title: 'Healthcare Admin Portal',
-    description:
-      'Refactored for VAPT and SonarQube compliance, resolving circular dependencies across cross-functional teams.',
-    tags: ['React', 'SonarQube', 'VAPT'],
-    stat: 'Go-Live',
-  },
-]
+/* ------------------------------------------------------------------ */
+/* Hero                                                                 */
+/* ------------------------------------------------------------------ */
 
-// Full class names written out so Tailwind JIT picks them all up
-const BLOCK_COLORS = [
-  'bg-teal dark:bg-teal-muted',
-  'bg-coral dark:bg-coral-muted',
-  'bg-sand dark:bg-sand-muted',
-  'bg-blush dark:bg-blush-muted',
-]
-
-const TAPE_COLORS = ['bg-teal', 'bg-coral', 'bg-sand', 'bg-blush']
-
-const STATS = [
-  { value: '7+', label: 'Years Exp', color: 'bg-coral dark:bg-coral-muted', tilt: '-rotate-2' },
-  { value: '10+', label: 'Projects', color: 'bg-sand dark:bg-sand-muted', tilt: 'rotate-1' },
-  { value: 'AWS', label: 'Certified', color: 'bg-teal dark:bg-teal-muted', tilt: '-rotate-1' },
-  { value: 'Remote', label: 'GMT+7', color: 'bg-blush dark:bg-blush-muted', tilt: 'rotate-2' },
-]
-
-function StatusBadge({ stat }: { stat: string }) {
-  if (stat === 'Go-Live') {
-    return (
-      <span className="inline-flex -rotate-3 items-center gap-1 rounded-full border-2 border-cocoa-800 bg-cream-paper px-2.5 py-0.5 text-[11px] font-extrabold uppercase tracking-wider text-cocoa-800 dark:border-cocoa-950 dark:text-cocoa-950">
-        <svg aria-hidden="true" viewBox="0 0 20 20" className="h-3 w-3 fill-current">
-          <path d="M8 13.6 4.4 10l-1.4 1.4L8 16.4l9-9L15.6 6z" />
-        </svg>
-        Go-Live
-      </span>
-    )
-  }
+function FloatTag({
+  children,
+  className,
+  depth,
+  mx,
+  my,
+  rotate,
+  delay,
+  bg,
+}: {
+  children: ReactNode
+  className: string
+  bg: string
+  depth: number
+  mx: MotionValue<number>
+  my: MotionValue<number>
+  rotate: number
+  delay: number
+}) {
+  // Mouse parallax: tags further "forward" (bigger depth) drift further
+  const x = useTransform(mx, (v) => v * depth)
+  const y = useTransform(my, (v) => v * depth)
   return (
-    <span className="inline-flex rotate-2 items-center rounded-full border-2 border-dashed border-cocoa-800 px-2.5 py-0.5 text-[11px] font-extrabold uppercase tracking-wider text-cocoa-800 dark:border-cocoa-950 dark:text-cocoa-950">
-      POC
+    <motion.div
+      aria-hidden="true"
+      style={{ x, y }}
+      initial={{ opacity: 0, scale: 0.6 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ type: 'spring', stiffness: 260, damping: 18, delay }}
+      className={`absolute hidden lg:block ${className}`}
+    >
+      <div
+        className={`animate-float rounded-full border border-ink/10 px-4 py-2 text-sm font-medium text-ink shadow-card ${bg}`}
+        style={{ ['--r' as string]: `${rotate}deg`, animationDelay: `${delay * -3}s` }}
+      >
+        {children}
+      </div>
+    </motion.div>
+  )
+}
+
+function Hero() {
+  const mxRaw = useMotionValue(0)
+  const myRaw = useMotionValue(0)
+  const mx = useSpring(mxRaw, { stiffness: 60, damping: 18 })
+  const my = useSpring(myRaw, { stiffness: 60, damping: 18 })
+
+  return (
+    <section
+      className="px-3 sm:px-6"
+      onPointerMove={(e) => {
+        if (e.pointerType !== 'mouse') return
+        mxRaw.set(e.clientX / window.innerWidth - 0.5)
+        myRaw.set(e.clientY / window.innerHeight - 0.5)
+      }}
+    >
+      <div className="grain relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-gradient-to-b from-peri via-lilac/70 to-canvas px-5 pb-28 pt-16 dark:from-[#1d1c38] dark:via-[#1a1530] dark:to-night sm:pt-24 md:pb-36">
+        {/* Drifting colour blobs */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+          <div className="absolute -left-20 top-10 h-80 w-80 animate-blob rounded-full bg-sky-strong/25 blur-3xl" />
+          <div className="absolute -right-10 top-24 h-96 w-96 animate-blob rounded-full bg-rose-strong/20 blur-3xl [animation-delay:-5s]" />
+          <div className="absolute bottom-0 left-1/3 h-72 w-72 animate-blob rounded-full bg-butter-strong/25 blur-3xl [animation-delay:-10s]" />
+        </div>
+
+        {/* Floating tags around the headline */}
+        <FloatTag
+          mx={mx}
+          my={my}
+          depth={-40}
+          rotate={-8}
+          delay={0.9}
+          bg="bg-sky"
+          className="left-[7%] top-[22%]"
+        >
+          ✦ Frontend Engineer
+        </FloatTag>
+        <FloatTag
+          mx={mx}
+          my={my}
+          depth={50}
+          rotate={6}
+          delay={1.0}
+          bg="bg-rose"
+          className="right-[8%] top-[18%]"
+        >
+          🤖 Gen AI builder
+        </FloatTag>
+        <FloatTag
+          mx={mx}
+          my={my}
+          depth={30}
+          rotate={5}
+          delay={1.1}
+          bg="bg-butter"
+          className="bottom-[30%] left-[10%]"
+        >
+          Web · Desktop · Mobile
+        </FloatTag>
+        <FloatTag
+          mx={mx}
+          my={my}
+          depth={-30}
+          rotate={-6}
+          delay={1.2}
+          bg="bg-mint"
+          className="bottom-[34%] right-[9%]"
+        >
+          🌏 Remote · GMT+7
+        </FloatTag>
+
+        <div className="relative mx-auto flex max-w-4xl flex-col items-center text-center">
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/60 px-3.5 py-1.5 text-xs font-medium text-ink-soft shadow-card backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-night-text/80"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-mint-strong opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-mint-strong" />
+            </span>
+            Currently building Gen AI products at Axrail
+          </motion.span>
+
+          <h1 className="mt-8 font-heading text-[clamp(2.6rem,7.5vw,5.75rem)] font-medium leading-[1.04] tracking-tighter text-ink dark:text-night-text">
+            <BlurText delay={0.2}>
+              {[
+                'Hello! ',
+                <span
+                  key="avatar"
+                  className="relative mx-1 inline-block h-[0.9em] w-[0.9em] -rotate-6 align-[-0.1em] transition-transform duration-300 hover:rotate-6 hover:scale-110"
+                >
+                  <NextImage
+                    src="/static/images/avatar-sm.webp"
+                    alt=""
+                    fill
+                    priority
+                    sizes="96px"
+                    className="rounded-full object-cover ring-4 ring-white dark:ring-night-card"
+                  />
+                </span>,
+                " I'm Mita,",
+              ]}
+            </BlurText>
+            <br />
+            <BlurText delay={0.45} className="text-[0.72em] text-ink-soft dark:text-night-text/80">
+              {[
+                'a frontend engineer with a ',
+                <TextSelect key="eye" tone="sky" delay={1.2}>
+                  <span className="text-ink dark:text-night-text">designer&apos;s eye.</span>
+                </TextSelect>,
+              ]}
+            </BlurText>
+          </h1>
+
+          <Reveal delay={0.9} y={16}>
+            <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-ink-soft dark:text-night-text/70 md:text-lg">
+              7+ years building visual, production-ready interfaces for{' '}
+              <strong className="font-semibold text-ink dark:text-night-text">
+                web, desktop and mobile
+              </strong>{' '}
+              with React, Remix, Astro, Electron and React Native, now shipping{' '}
+              <strong className="font-semibold text-ink dark:text-night-text">
+                RAG chatbots and document AI
+              </strong>{' '}
+              on AWS.
+            </p>
+          </Reveal>
+
+          <Reveal delay={1.05} y={16}>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+              <Magnetic>
+                <a
+                  href="#work"
+                  className="group inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 text-sm font-medium text-white shadow-lift transition-colors hover:bg-ink-soft dark:bg-white dark:text-ink dark:hover:bg-night-text"
+                >
+                  See my work
+                  <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+                </a>
+              </Magnetic>
+              <Magnetic>
+                <Link
+                  href="/about"
+                  className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-white/70 px-6 py-3.5 text-sm font-medium text-ink backdrop-blur transition-colors hover:bg-white dark:border-white/15 dark:bg-white/5 dark:text-night-text dark:hover:bg-white/10"
+                >
+                  More about me
+                </Link>
+              </Magnetic>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+
+      {/* Tool dock overlapping the panel's bottom edge */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 -mt-12 px-2"
+      >
+        <Dock />
+      </motion.div>
+    </section>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* Quick links (three cards straddling the hero)                         */
+/* ------------------------------------------------------------------ */
+
+const QUICK_LINKS = [
+  {
+    icon: Briefcase,
+    title: 'Client work',
+    text: 'Gen AI portals and enterprise apps for banking, healthcare and agritech.',
+    href: '#work',
+    cursor: 'Jump ↓',
+    dot: 'bg-sky',
+    tile: 'bg-sky text-sky-deep',
+  },
+  {
+    icon: Code2,
+    title: 'Side projects',
+    text: 'A 3D room builder, a piano game, an npm library and more experiments.',
+    href: '#projects',
+    cursor: 'Jump ↓',
+    dot: 'bg-butter',
+    tile: 'bg-butter text-butter-deep',
+  },
+  {
+    icon: PenLine,
+    title: 'Writing',
+    text: 'Notes on frontend craft, AI-assisted workflows and life as an engineer.',
+    href: '/blog',
+    cursor: 'Read',
+    dot: 'bg-mint',
+    tile: 'bg-mint text-mint-deep',
+  },
+]
+
+function QuickLinks() {
+  return (
+    <section className="mx-auto mt-16 grid max-w-5xl gap-5 px-4 sm:px-6 md:grid-cols-3 xl:px-0">
+      {QUICK_LINKS.map((q, i) => (
+        <Reveal key={q.title} delay={i * 0.08}>
+          <Link
+            href={q.href}
+            data-cursor={q.cursor}
+            className="surface group flex h-full flex-col rounded-3xl p-6 shadow-card transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-lift"
+          >
+            <span
+              className={`flex h-12 w-12 items-center justify-center rounded-2xl transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110 ${q.tile}`}
+            >
+              <q.icon className="h-5 w-5" strokeWidth={1.75} />
+            </span>
+            <h3 className="mt-5 font-heading text-lg font-medium text-ink dark:text-night-text">
+              {q.title}
+            </h3>
+            <p className="mt-1.5 flex-1 text-sm leading-relaxed text-ink-muted dark:text-night-text/60">
+              {q.text}
+            </p>
+            <span
+              className={`mt-5 flex h-9 w-9 items-center justify-center rounded-full text-ink transition-transform duration-300 group-hover:translate-x-1 ${q.dot}`}
+            >
+              <ArrowRight className="h-4 w-4" />
+            </span>
+          </Link>
+        </Reveal>
+      ))}
+    </section>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* Companies strip                                                      */
+/* ------------------------------------------------------------------ */
+
+function Companies() {
+  return (
+    <section className="mt-24">
+      <p className="text-center text-xs font-medium uppercase tracking-[0.18em] text-ink-muted dark:text-night-text/50">
+        Companies I&apos;ve worked at
+      </p>
+      <div className="relative mt-6 [mask-image:linear-gradient(90deg,transparent,#000_15%,#000_85%,transparent)]">
+        <Marquee
+          items={['Axrail', 'AccelByte', 'Okkami', 'tiket.com', 'Ralali.com']}
+          separator={<span className="h-1.5 w-1.5 rounded-full bg-lilac-strong" />}
+          className="font-heading text-3xl font-medium tracking-tight text-ink/25 dark:text-white/25 md:text-4xl"
+        />
+      </div>
+    </section>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* About: a little desktop with draggable folders                        */
+/* ------------------------------------------------------------------ */
+
+function CountUp({ to, suffix = '' }: { to: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const inView = useInView(ref, { once: true, amount: 0.6 })
+  const [value, setValue] = useState(0)
+
+  useEffect(() => {
+    if (!inView) return
+    const controls = animate(0, to, {
+      duration: 1.4,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate: (v) => setValue(Math.round(v)),
+    })
+    return () => controls.stop()
+  }, [inView, to])
+
+  return (
+    <span ref={ref}>
+      {value}
+      {suffix}
     </span>
   )
 }
 
-function FolderTab({ label, color }: { label: string; color: string }) {
+const STATS = [
+  { value: 7, suffix: '+', label: 'years shipping UI', bg: 'bg-butter', tilt: '-rotate-3' },
+  { value: 10, suffix: '+', label: 'production apps', bg: 'bg-rose', tilt: 'rotate-2' },
+  { value: 6, suffix: '', label: 'side projects live', bg: 'bg-mint', tilt: '-rotate-1' },
+  {
+    value: 3,
+    suffix: '',
+    label: 'platforms: web, desktop, mobile',
+    bg: 'bg-sky',
+    tilt: 'rotate-3',
+  },
+]
+
+const FOLDERS: DesktopItem[] = [
+  { label: 'GitHub', href: siteMetadata.github ?? 'https://github.com/laksmitawidya', x: 2, y: 6, external: true },
+  { label: 'LinkedIn', href: siteMetadata.linkedin ?? '/about', x: 78, y: 2, external: true },
+  { label: 'Articles', href: '/blog', x: 0, y: 66 },
+  { label: 'Projects', href: '/projects', x: 82, y: 74 },
+  { label: 'say-hi.txt', href: `mailto:${siteMetadata.email}`, x: 56, y: 87 },
+]
+
+function About() {
   return (
-    <div
-      className={`absolute left-0 top-0 z-10 flex h-9 items-center rounded-t-lg border-2 border-b-0 border-cocoa px-4 dark:border-sand/50 ${color}`}
+    <section
+      aria-labelledby="about-heading"
+      className="mx-auto mt-32 grid max-w-6xl items-center gap-16 px-4 sm:px-6 lg:grid-cols-2 xl:px-0"
     >
-      <span className="text-[11px] font-extrabold uppercase tracking-widest text-cocoa-800 dark:text-cocoa-950">
-        {label}
-      </span>
-    </div>
-  )
-}
-
-function WorkTags({ tags }: { tags: string[] }) {
-  return (
-    <div className="flex flex-wrap gap-1.5">
-      {tags.map((tag) => (
-        <span
-          key={tag}
-          className="rounded-md border border-cocoa/25 bg-cream-paper/85 px-2 py-0.5 text-xs font-semibold text-cocoa-800 dark:text-cocoa-950"
-        >
-          {tag}
-        </span>
-      ))}
-    </div>
-  )
-}
-
-function WorkBento() {
-  const [featured, ...rest] = workHighlights
-
-  return (
-    <div className="space-y-8">
-      {/* Featured folder */}
       <Reveal>
-        <div className="group relative pt-8 transition-transform duration-200 hover:-translate-y-1">
-          <FolderTab label={`01 · ${featured.category}`} color={BLOCK_COLORS[0]} />
-          <div
-            className={`shadow-sticker relative rounded-b-xl rounded-tr-xl border-2 border-cocoa p-7 dark:border-sand/50 md:p-9 ${BLOCK_COLORS[0]}`}
-          >
-            <div className="flex flex-col gap-5 md:flex-row md:items-start">
-              <div className="flex-1 space-y-4">
-                <div className="flex h-12 w-12 -rotate-3 items-center justify-center rounded-xl border-2 border-cocoa bg-cream-paper text-cocoa-800 dark:border-cocoa-950">
-                  <featured.icon aria-hidden="true" className="h-6 w-6" strokeWidth={2} />
-                </div>
-                <h3 className="font-heading text-2xl font-extrabold leading-snug text-cocoa-800 dark:text-cocoa-950 md:text-3xl">
-                  {featured.title}
-                </h3>
-                <p className="max-w-xl text-base leading-relaxed text-cocoa-800 dark:text-cocoa-950">
-                  {featured.description}
+        <DesktopFolders items={FOLDERS} className="mx-auto h-[30rem] w-full max-w-md sm:h-[34rem]">
+          {/* Layered portrait: tinted slab, taped photo in a selection frame, avatar sticker */}
+          <div className="absolute left-1/2 top-1/2 w-56 -translate-x-1/2 -translate-y-1/2 sm:w-64">
+            <div
+              aria-hidden="true"
+              className="absolute -inset-6 rotate-6 rounded-[2rem] bg-gradient-to-br from-lilac to-sky dark:from-lilac-strong/30 dark:to-sky-strong/20"
+            />
+            <FigmaFrame label="mita.webp  600 × 800" className="block -rotate-2">
+              <div className="relative overflow-hidden rounded-xl bg-white p-2 shadow-lift dark:bg-night-card">
+                <NextImage
+                  src="/static/images/me-portrait.webp"
+                  alt="Mita standing in front of a terracotta shingle wall"
+                  width={600}
+                  height={800}
+                  sizes="256px"
+                  className="aspect-[3/4] w-full rounded-lg object-cover"
+                />
+                <p className="pt-2 text-center font-hand text-xl font-bold text-ink-soft dark:text-night-text/70">
+                  that&apos;s me!
                 </p>
-                <WorkTags tags={featured.tags} />
               </div>
-              <div className="flex-shrink-0">
-                <StatusBadge stat={featured.stat} />
+            </FigmaFrame>
+            <span className="tape -top-3 left-6 -rotate-12" />
+            {/* Fake right-click menu */}
+            <div
+              aria-hidden="true"
+              className="surface absolute -right-12 top-1/2 hidden w-36 rotate-3 rounded-xl p-1 text-xs shadow-lift sm:block"
+            >
+              {['Copy', 'Paste', 'Duplicate'].map((item) => (
+                <div
+                  key={item}
+                  className="rounded-md px-2.5 py-1 text-ink-soft dark:text-night-text/70"
+                >
+                  {item}
+                </div>
+              ))}
+              <div className="rounded-md bg-sky-strong px-2.5 py-1 font-medium text-white">
+                Hire Mita ✨
               </div>
+              <svg
+                viewBox="0 0 24 24"
+                className="absolute -bottom-5 left-16 h-6 w-6 fill-ink stroke-white dark:fill-white dark:stroke-ink"
+                strokeWidth={1.5}
+              >
+                <path d="M4 2l16 9-7 2-3 7z" />
+              </svg>
             </div>
           </div>
-        </div>
+        </DesktopFolders>
       </Reveal>
 
-      {/* Folder grid */}
-      <div className="grid grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-        {rest.map((work, i) => {
-          const color = BLOCK_COLORS[(i + 1) % BLOCK_COLORS.length]
-          return (
-            <Reveal
-              key={work.title}
-              className="flex"
-              delay={(i % 3) * 0.08}
-              tilt={i % 2 === 0 ? -2 : 2}
-            >
-              <div className="group relative flex w-full flex-col pt-8 transition-transform duration-200 hover:-translate-y-1">
-                <FolderTab
-                  label={`${String(i + 2).padStart(2, '0')} · ${work.category}`}
-                  color={color}
-                />
-                <div
-                  className={`shadow-sticker relative flex flex-1 flex-col justify-between rounded-b-xl rounded-tr-xl border-2 border-cocoa p-6 dark:border-sand/50 ${color}`}
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex h-10 w-10 rotate-2 items-center justify-center rounded-lg border-2 border-cocoa bg-cream-paper text-cocoa-800 dark:border-cocoa-950">
-                        <work.icon aria-hidden="true" className="h-5 w-5" strokeWidth={2} />
-                      </div>
-                      <StatusBadge stat={work.stat} />
-                    </div>
-                    <h3 className="text-base font-bold leading-snug text-cocoa-800 dark:text-cocoa-950">
-                      {work.title}
-                    </h3>
-                    <p className="line-clamp-3 text-sm leading-relaxed text-cocoa-800 dark:text-cocoa-950">
-                      {work.description}
-                    </p>
+      <div>
+        <Reveal y={12}>
+          <span className="surface inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium uppercase tracking-[0.14em] text-ink-soft shadow-card dark:text-night-text/80">
+            Hello again
+          </span>
+        </Reveal>
+        <h2
+          id="about-heading"
+          className="mt-5 font-heading text-5xl font-medium tracking-tight text-ink dark:text-night-text md:text-6xl"
+        >
+          <BlurText inView>
+            {[
+              'about ',
+              <TextSelect key="me" tone="sky">
+                me
+              </TextSelect>,
+            ]}
+          </BlurText>
+        </h2>
+        <Reveal delay={0.1}>
+          <p className="mt-6 text-base leading-relaxed text-ink-soft dark:text-night-text/70 md:text-lg">
+            I&apos;m a Frontend Engineer who loves the visual side of building. I started in
+            software QA, which still shapes how I work: I think about failure modes early and take
+            production readiness seriously. Today I lead frontend delivery on enterprise Gen AI
+            projects, and in my spare time I build playful things like 3D room builders and piano
+            games.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.15}>
+          <ul className="mt-8 space-y-3">
+            {[
+              ['MSc Computer Science', 'Universitas Gadjah Mada'],
+              ['BEng Information Technology', 'Duta Wacana Christian University'],
+              ['AWS Certified Cloud Practitioner', 'Amazon Web Services · 2025'],
+            ].map(([title, place]) => (
+              <li key={title} className="flex items-center gap-4">
+                <span aria-hidden="true" className="mac-folder block h-7 w-9 shrink-0" />
+                <span>
+                  <span className="block text-sm font-semibold text-ink dark:text-night-text">
+                    {title}
+                  </span>
+                  <span className="block text-sm text-ink-muted dark:text-night-text/60">
+                    {place}
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
+        {/* Sticky-note stats */}
+        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          {STATS.map((s, i) => (
+            <Reveal key={s.label} delay={0.1 + i * 0.07}>
+              <div
+                className={`note-shadow transition-transform duration-300 hover:rotate-0 hover:scale-105 ${s.tilt}`}
+              >
+                <div className={`sticky-note px-3 pb-5 pt-3 ${s.bg}`}>
+                  <div className="font-heading text-3xl font-semibold text-ink">
+                    <CountUp to={s.value} suffix={s.suffix} />
                   </div>
-                  <div className="mt-4">
-                    <WorkTags tags={work.tags.slice(0, 4)} />
+                  <div className="mt-1 font-hand text-base font-bold leading-tight text-ink/80">
+                    {s.label}
                   </div>
                 </div>
               </div>
             </Reveal>
+          ))}
+        </div>
+
+        <Reveal delay={0.2}>
+          <Link
+            href="/about"
+            className="group mt-10 inline-flex items-center gap-2 text-sm font-medium text-ink underline decoration-sky-strong decoration-2 underline-offset-4 dark:text-night-text"
+          >
+            The longer story
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* Certification                                                        */
+/* ------------------------------------------------------------------ */
+
+function Certification() {
+  return (
+    <section className="mx-auto mt-32 max-w-5xl px-4 sm:px-6 xl:px-0">
+      <SectionHeading
+        index="03"
+        eyebrow="Credentials"
+        title={[
+          'officially ',
+          <TextSelect key="c" tone="mint">
+            certified
+          </TextSelect>,
+        ]}
+      />
+      <Reveal>
+        <HoloCard>
+          <a
+            href="https://www.credly.com/badges/9b7b8876-15c5-451a-b7f7-1989920a44d5/linked_in_profile"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cursor="Verify ↗"
+            className="surface relative flex flex-col gap-6 overflow-hidden rounded-[2rem] p-7 shadow-card sm:flex-row sm:items-center md:p-10"
+          >
+            <div
+              aria-hidden="true"
+              className="holo pointer-events-none absolute inset-0 opacity-0 mix-blend-multiply transition-opacity duration-500 group-hover:opacity-60 dark:mix-blend-screen dark:group-hover:opacity-25"
+            />
+            <div className="relative flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#232f3e] to-[#3b4a5e] shadow-lift">
+              <div className="flex h-[5.2rem] w-[5.2rem] flex-col items-center justify-center rounded-full border border-dashed border-[#FF9900]/70">
+                <span className="font-heading text-xl font-semibold text-white">AWS</span>
+                <span className="mt-0.5 text-[9px] font-semibold uppercase tracking-widest text-[#FF9900]">
+                  Certified
+                </span>
+              </div>
+            </div>
+            <div className="relative flex-1">
+              <p className="text-xs font-medium uppercase tracking-[0.14em] text-sky-deep dark:text-sky-strong">
+                Amazon Web Services
+              </p>
+              <h3 className="mt-1 font-heading text-2xl font-medium tracking-tight text-ink dark:text-night-text md:text-3xl">
+                AWS Certified Cloud Practitioner
+              </h3>
+              <p className="mt-2 break-all text-sm text-ink-muted dark:text-night-text/60 sm:break-normal">
+                Issued Nov 2025 · Expires Nov 2028 · ID 9b7b8876-15c5-451a-b7f7-1989920a44d5
+              </p>
+            </div>
+            <span className="relative inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white dark:bg-white dark:text-ink sm:self-center">
+              View credential
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
+            </span>
+          </a>
+        </HoloCard>
+      </Reveal>
+    </section>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* Latest posts                                                         */
+/* ------------------------------------------------------------------ */
+
+const POST_ACCENTS = ['bg-sky-strong', 'bg-rose-strong', 'bg-butter-strong', 'bg-mint-strong']
+
+function LatestPosts({ posts }) {
+  return (
+    <section className="mx-auto mt-32 max-w-5xl px-4 sm:px-6 xl:px-0">
+      <SectionHeading
+        index="04"
+        eyebrow="Writing"
+        title={[
+          'fresh from my ',
+          <TextSelect key="n" tone="rose">
+            notebook
+          </TextSelect>,
+        ]}
+        aside={
+          <Link
+            href="/blog"
+            className="group inline-flex items-center gap-2 self-start rounded-full border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-white dark:border-white/15 dark:text-night-text dark:hover:bg-white dark:hover:text-ink md:self-auto"
+          >
+            All articles
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        }
+      />
+      {!posts.length && <p className="text-ink-muted">No posts found.</p>}
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+        {posts.slice(0, MAX_DISPLAY).map((post, i) => {
+          const { slug, date, title, summary, tags } = post
+          return (
+            <Reveal key={slug} className="h-full" delay={i * 0.08}>
+              <Link
+                href={`/blog/${slug}`}
+                data-cursor="Read"
+                className="surface group relative flex h-full flex-col overflow-hidden rounded-3xl p-6 shadow-card transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-lift"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`absolute -right-10 -top-10 h-24 w-24 rounded-full opacity-20 transition-transform duration-700 group-hover:scale-[3] ${
+                    POST_ACCENTS[i % POST_ACCENTS.length]
+                  }`}
+                />
+                <time
+                  dateTime={date}
+                  className="relative text-xs font-medium uppercase tracking-[0.14em] text-ink-muted dark:text-night-text/60"
+                >
+                  {formatDate(date, siteMetadata.locale)}
+                </time>
+                <h3 className="relative mt-3 font-heading text-lg font-medium leading-snug text-ink dark:text-night-text">
+                  {title}
+                </h3>
+                {summary && (
+                  <p className="relative mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-ink-muted dark:text-night-text/60">
+                    {summary}
+                  </p>
+                )}
+                {tags && tags.length > 0 && (
+                  <div className="relative mt-5 flex flex-wrap gap-1.5">
+                    {tags.slice(0, 2).map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full bg-black/[0.04] px-2.5 py-0.5 text-xs font-medium text-ink-soft dark:bg-white/[0.06] dark:text-night-text/70"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </Link>
+            </Reveal>
           )
         })}
       </div>
-    </div>
+
+      {siteMetadata.newsletter?.provider && (
+        <div className="flex items-center justify-center pt-12">
+          <NewsletterForm />
+        </div>
+      )}
+    </section>
   )
 }
+
+/* ------------------------------------------------------------------ */
+/* Page                                                                 */
+/* ------------------------------------------------------------------ */
 
 export default function Home({ posts }) {
   return (
     <>
-      {/* Hero */}
-      <section className="mx-auto max-w-3xl px-4 pb-12 pt-10 sm:px-6 md:pt-16 xl:max-w-5xl xl:px-0">
-        <div className="grid items-center gap-14 lg:grid-cols-[1.4fr_1fr] lg:gap-10">
-          <div className="text-center lg:text-left">
-            <div className="mb-1 flex items-end justify-center gap-1 lg:justify-start">
-              <span className="-rotate-3 font-hand text-2xl font-bold text-coral-deep dark:text-coral md:text-3xl">
-                my name is
-              </span>
-              <DoodleArrow className="h-9 w-12 translate-y-4 text-coral-deep dark:text-coral" />
-            </div>
+      <Hero />
+      <QuickLinks />
+      <Companies />
+      <About />
 
-            <div className="relative isolate inline-block">
-              <h2 className="font-heading text-5xl font-extrabold tracking-tight text-cocoa-800 dark:text-cream sm:text-6xl lg:text-7xl">
-                Hi, I'm Mita!
-              </h2>
-              <span
-                aria-hidden="true"
-                className="absolute -bottom-0.5 left-1 right-1 -z-10 h-4 -rotate-1 rounded-sm bg-blush dark:bg-coral-muted/60 md:h-5"
-              />
-              <Sparkle className="absolute -right-7 -top-4 h-7 w-7 text-coral" />
-              <Sparkle className="absolute -left-6 bottom-2 h-4 w-4 text-teal" />
-            </div>
+      {/* Client work: cards pin and pile up as you scroll */}
+      <section id="work" className="mx-auto mt-32 max-w-5xl scroll-mt-28 px-4 sm:px-6 xl:px-0">
+        <SectionHeading
+          index="01"
+          eyebrow="Selected client work"
+          title={[
+            'recent ',
+            <TextSelect key="w" tone="lilac">
+              highlights
+            </TextSelect>,
+          ]}
+          intro="Things I shipped lately at Axrail, from Gen AI proofs-of-concept to portals running in production."
+        />
+        <StackCards items={workHighlights} />
+        <Reveal className="mt-10 flex justify-center">
+          <Link
+            href="/projects"
+            className="group inline-flex items-center gap-2 rounded-full border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-white dark:border-white/15 dark:text-night-text dark:hover:bg-white dark:hover:text-ink"
+          >
+            Full project history
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </Reveal>
+      </section>
 
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-              <span className="shadow-sticker -rotate-2 rounded-full border-2 border-cocoa bg-teal px-4 py-1 text-sm font-bold text-cocoa-800 dark:border-sand/50 dark:bg-teal-muted dark:text-cocoa-950">
-                Frontend Engineer
-              </span>
-              <span className="shadow-sticker rotate-1 rounded-full border-2 border-cocoa bg-cream-paper px-4 py-1 text-sm font-bold text-cocoa-800 dark:border-sand/50 dark:bg-cocoa-900 dark:text-cream">
-                Web · Desktop · Mobile
-              </span>
-              <span className="shadow-sticker rotate-1 rounded-full border-2 border-cocoa bg-blush px-4 py-1 text-sm font-bold text-cocoa-800 dark:border-sand/50 dark:bg-blush-muted dark:text-cocoa-950">
-                Gen AI
-              </span>
-              <span className="shadow-sticker -rotate-1 rounded-full border-2 border-cocoa bg-sand px-4 py-1 text-sm font-bold text-cocoa-800 dark:border-sand/50 dark:bg-sand-muted dark:text-cocoa-950">
-                Remote GMT+7
-              </span>
-            </div>
-
-            <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-cocoa dark:text-sand md:text-lg lg:mx-0">
-              Frontend Engineer who loves the visual side. Building for web, desktop, and mobile
-              with React, Remix, Astro, Electron, and React Native. Currently building Gen AI
-              solutions at Axrail.
-            </p>
-
-            {/* Stats */}
-            <div className="mx-auto my-7 grid max-w-sm grid-cols-2 gap-3 sm:max-w-none sm:grid-cols-4 lg:mx-0">
-              {STATS.map(({ value, label, color, tilt }) => (
-                <div key={label} className={`torn-tape px-4 py-3 text-center ${color} ${tilt}`}>
-                  <div className="font-heading text-xl font-extrabold text-cocoa-800 dark:text-cocoa-950">
-                    {value}
-                  </div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-cocoa-800 dark:text-cocoa-950">
-                    {label}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex justify-center lg:justify-start">
-              <SocialMedia />
-            </div>
-          </div>
-
-          {/* Taped polaroid on a solid paper cut-out */}
-          <div className="relative isolate mx-auto w-56 sm:w-64 lg:w-72">
-            <div
-              aria-hidden="true"
-              className="cutout-shadow absolute -inset-x-5 -inset-y-4 -z-10 -rotate-6 sm:-inset-x-7 sm:-inset-y-6"
+      {/* Side projects: layered browser windows with sticky notes */}
+      <section id="projects" className="mx-auto mt-32 max-w-6xl scroll-mt-28 px-4 sm:px-6 xl:px-0">
+        <SectionHeading
+          index="02"
+          eyebrow="Playground"
+          title={[
+            'side ',
+            <FigmaFrame key="p" label="Frame · for fun" delay={0.3}>
+              projects
+            </FigmaFrame>,
+          ]}
+          intro="Small things I build after hours to learn new tools: 3D, games, canvas, component libraries. Every one is live, so go poke at them."
+        />
+        <div className="grid gap-x-12 gap-y-20 md:grid-cols-2">
+          {sideProjectsData.map((project, i) => (
+            <Reveal
+              key={project.slug}
+              delay={(i % 2) * 0.1}
+              className={i % 2 === 1 ? 'md:mt-24' : ''}
             >
-              <div className="paper-cutout grid-paper-pink h-full w-full" />
-            </div>
-            <Polaroid
-              caption="that's me!"
-              className="rotate-3 transition-transform duration-300 hover:rotate-1 hover:scale-[1.02]"
-            >
-              <Image
-                src="/static/images/me.jpg"
-                alt="Mita"
-                width={288}
-                height={384}
-                priority
-                className="aspect-[3/4] w-full bg-sand object-cover object-center"
-              />
-            </Polaroid>
-            <div
-              aria-hidden="true"
-              className="shadow-sticker absolute -left-6 -top-5 flex h-16 w-16 -rotate-12 items-center justify-center rounded-full border-2 border-cocoa bg-coral font-hand text-xl font-bold text-cocoa-800 motion-safe:animate-wiggle dark:border-sand/50 dark:bg-coral-muted dark:text-cocoa-950"
-            >
-              hello!
-            </div>
-            <Sparkle className="absolute -bottom-3 -right-5 h-6 w-6 text-teal" />
-          </div>
+              <ProjectWindow project={project} index={i} />
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* Recent Work Highlights: a torn sheet of polka-dot paper pasted across the page */}
-      <section aria-labelledby="work-heading" className="relative my-10">
-        <div className="torn-band-shadow">
-          <div className="torn-paper relative bg-cream-paper dark:bg-cocoa-900">
-            <div aria-hidden="true" className="torn-paper-inner polka-blue absolute inset-0" />
-            <div className="relative py-20 md:py-24">
-              <SectionContainer>
-                <Reveal tilt={1}>
-                  <div className="mb-12 flex flex-col items-center gap-3">
-                    <div className="relative">
-                      <Tape className="-top-3 left-5 h-5 w-16 -rotate-6 bg-coral" />
-                      <Tape className="-top-3 right-5 h-5 w-16 rotate-6 bg-teal" />
-                      <h2
-                        id="work-heading"
-                        className="shadow-sticker -rotate-1 rounded-lg border-2 border-cocoa bg-cream-paper px-6 py-2.5 text-center font-heading text-2xl font-extrabold uppercase tracking-wide text-cocoa-800 dark:border-sand/60 dark:bg-cocoa-900 dark:text-cream md:text-3xl"
-                      >
-                        Recent Work Highlights
-                      </h2>
-                    </div>
-                    <span className="rotate-2 rounded-md bg-cream-paper px-2.5 font-hand text-xl font-bold text-coral-deep ring-1 ring-cocoa/15 dark:bg-cocoa-900 dark:text-coral">
-                      things I shipped lately
-                    </span>
-                  </div>
-                </Reveal>
-                <WorkBento />
-              </SectionContainer>
-            </div>
-          </div>
-        </div>
-        {/* Desk doodles poking over the torn edges */}
-        <Pencil className="pointer-events-none absolute -top-3 right-[7%] hidden w-44 -rotate-[14deg] md:block" />
-        <Ruler className="pointer-events-none absolute -bottom-5 left-[5%] hidden w-60 rotate-[7deg] lg:block" />
-      </section>
-
-      <SectionContainer>
-        {/* Certification: cream card with tape and a stamp badge */}
-        <div className="mt-16">
-          <Reveal>
-            <StickerHeading note="officially stamped!">Certification</StickerHeading>
-          </Reveal>
-          <Reveal delay={0.08} tilt={1.5}>
-            <a
-              href="https://www.credly.com/badges/9b7b8876-15c5-451a-b7f7-1989920a44d5/linked_in_profile"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative block rounded-xl border-2 border-cocoa bg-cream-paper p-7 transition-transform duration-200 hover:-translate-y-1 dark:border-sand/50 dark:bg-cocoa-900 md:p-8"
-            >
-              <Tape className="-top-3 left-8 -rotate-6 bg-teal" />
-              <Tape className="-top-3 right-8 rotate-6 bg-coral" />
-              <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center">
-                {/* Stamp */}
-                <div className="flex h-24 w-24 flex-shrink-0 -rotate-6 items-center justify-center rounded-full border-[3px] border-cocoa text-cocoa dark:border-sand dark:text-sand">
-                  <div className="flex h-[4.6rem] w-[4.6rem] flex-col items-center justify-center rounded-full border-2 border-dashed border-cocoa dark:border-sand">
-                    <span className="font-heading text-xl font-extrabold leading-none">AWS</span>
-                    <span className="mt-1 text-[9px] font-bold uppercase tracking-widest">
-                      Certified
-                    </span>
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <p className="text-xs font-bold uppercase tracking-widest text-teal-deep dark:text-teal">
-                    Amazon Web Services
-                  </p>
-                  <h3 className="mt-1 font-heading text-xl font-extrabold text-cocoa-800 dark:text-cream md:text-2xl">
-                    AWS Certified Cloud Practitioner
-                  </h3>
-                  <p className="mt-1 break-all text-sm text-cocoa-light dark:text-sand sm:break-normal">
-                    Issued Nov 2025 · Expires Nov 2028 · ID 9b7b8876-15c5-451a-b7f7-1989920a44d5
-                  </p>
-                </div>
-                <div className="flex-shrink-0">
-                  <span className="shadow-sticker inline-flex items-center gap-2 rounded-lg border-2 border-cocoa bg-cocoa px-4 py-2.5 text-sm font-bold text-cream transition-colors group-hover:bg-cocoa-800 dark:border-sand/50 dark:bg-sand dark:text-cocoa-950 dark:group-hover:bg-cream">
-                    View credential
-                    <svg
-                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                      />
-                    </svg>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </Reveal>
-        </div>
-
-        {/* Hand-drawn divider */}
-        <Squiggle className="mx-auto mt-16 text-teal" />
-
-        {/* Latest Posts */}
-        <div className="mt-12">
-          <Reveal>
-            <StickerHeading note="fresh from my notebook">Latest Posts</StickerHeading>
-          </Reveal>
-          {!posts.length && <p className="text-cocoa-light dark:text-sand">No posts found.</p>}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {posts.slice(0, MAX_DISPLAY).map((post, i) => {
-              const { slug, date, title, summary, tags } = post
-              return (
-                <Reveal
-                  key={slug}
-                  className="h-full"
-                  delay={(i % 2) * 0.08}
-                  tilt={i % 2 === 0 ? -1.5 : 1.5}
-                >
-                  <Link href={`/blog/${slug}`} className="group block h-full">
-                    <article className="relative flex h-full flex-col justify-between rounded-lg border-2 border-cocoa/80 bg-cream-paper p-6 pt-7 transition-transform duration-200 group-hover:-translate-y-1 group-hover:rotate-[-0.5deg] dark:border-sand/40 dark:bg-cocoa-900">
-                      <Tape
-                        className={`-top-3 left-1/2 h-5 w-16 -translate-x-1/2 ${
-                          i % 2 === 0 ? '-rotate-3' : 'rotate-3'
-                        } ${TAPE_COLORS[i % TAPE_COLORS.length]}`}
-                      />
-                      <div className="space-y-2">
-                        <time
-                          dateTime={date}
-                          className="font-hand text-lg font-bold text-coral-deep dark:text-coral"
-                        >
-                          {formatDate(date, siteMetadata.locale)}
-                        </time>
-                        <h3 className="text-base font-bold leading-snug text-cocoa-800 decoration-coral decoration-2 underline-offset-4 group-hover:underline dark:text-cream">
-                          {title}
-                        </h3>
-                        {summary && (
-                          <p className="line-clamp-2 text-sm leading-relaxed text-cocoa-light dark:text-sand">
-                            {summary}
-                          </p>
-                        )}
-                      </div>
-                      {tags && tags.length > 0 && (
-                        <div className="mt-4 flex flex-wrap gap-1.5">
-                          {tags.slice(0, 3).map((tag) => (
-                            <span
-                              key={tag}
-                              className="rounded-md bg-sand px-2.5 py-0.5 text-xs font-semibold text-cocoa-800 dark:bg-sand-muted dark:text-cocoa-950"
-                            >
-                              #{tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </article>
-                  </Link>
-                </Reveal>
-              )
-            })}
-          </div>
-        </div>
-
-        {posts.length > MAX_DISPLAY && (
-          <div className="mt-10 flex justify-center">
-            <Link
-              href="/blog"
-              className="shadow-sticker inline-flex items-center gap-2 rounded-lg border-2 border-cocoa bg-cream-paper px-6 py-3 text-sm font-bold text-cocoa-800 transition-colors hover:bg-blush dark:border-sand/50 dark:bg-cocoa-900 dark:text-cream dark:hover:bg-cocoa-800"
-              aria-label="All posts"
-            >
-              All Posts
-              <svg
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-          </div>
-        )}
-
-        {siteMetadata.newsletter?.provider && (
-          <div className="flex items-center justify-center pt-4">
-            <NewsletterForm />
-          </div>
-        )}
-      </SectionContainer>
+      <Certification />
+      <LatestPosts posts={posts} />
     </>
   )
 }

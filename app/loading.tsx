@@ -1,7 +1,8 @@
-const CHIPS = [
-  { color: 'bg-coral', tilt: '-6deg', delay: '0ms' },
-  { color: 'bg-teal', tilt: '4deg', delay: '150ms' },
-  { color: 'bg-sand', tilt: '-3deg', delay: '300ms' },
+const DOTS = [
+  { color: 'bg-sky-strong', delay: '0ms' },
+  { color: 'bg-rose-strong', delay: '120ms' },
+  { color: 'bg-butter-strong', delay: '240ms' },
+  { color: 'bg-mint-strong', delay: '360ms' },
 ]
 
 export default function Loading() {
@@ -11,18 +12,18 @@ export default function Loading() {
       aria-live="polite"
       className="flex min-h-[50vh] flex-col items-center justify-center gap-5"
     >
-      <div className="flex items-end gap-3">
-        {CHIPS.map(({ color, tilt, delay }) => (
+      <div className="flex items-end gap-2.5">
+        {DOTS.map(({ color, delay }) => (
           <span
             key={color}
             aria-hidden="true"
-            className={`tape-bounce torn-tape h-7 w-11 ${color}`}
-            style={{ ['--tilt' as string]: tilt, animationDelay: delay }}
+            className={`dot-bounce h-3.5 w-3.5 rounded-full ${color}`}
+            style={{ animationDelay: delay }}
           />
         ))}
       </div>
-      <span className="font-hand text-2xl font-bold text-cocoa dark:text-sand">
-        Hold on a sec...
+      <span className="font-hand text-2xl font-bold text-ink-soft dark:text-night-text/70">
+        loading the good stuff...
       </span>
       <span className="sr-only">Loading</span>
     </div>

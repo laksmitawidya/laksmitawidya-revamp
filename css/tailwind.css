@@ -2,350 +2,151 @@
 @tailwind components;
 @tailwind utilities;
 
+/* `clip` (unlike `hidden`) also stops mobile browsers widening the layout viewport
+   when decorative layers poke past the edge */
+html,
 body {
-  @apply overflow-x-hidden;
+  overflow-x: clip;
 }
 
-/* ---------- Handmade paper theme ---------- */
-
-/* Notebook paper: thin ruled lines on cream, plus a blush margin line on wider screens */
-.bg-paper {
-  background-color: #fbf7f0;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 31px,
-    rgba(157, 191, 219, 0.35) 31px,
-    rgba(157, 191, 219, 0.35) 32px
-  );
-}
-@media (min-width: 768px) {
-  .bg-paper {
-    background-image: linear-gradient(
-        to right,
-        transparent 72px,
-        rgba(232, 164, 151, 0.45) 72px,
-        rgba(232, 164, 151, 0.45) 74px,
-        transparent 74px
-      ),
-      repeating-linear-gradient(
-        to bottom,
-        transparent 0,
-        transparent 31px,
-        rgba(157, 191, 219, 0.35) 31px,
-        rgba(157, 191, 219, 0.35) 32px
-      );
-  }
-}
-.dark .bg-paper {
-  background-color: #1f1811;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 31px,
-    rgba(229, 212, 183, 0.06) 31px,
-    rgba(229, 212, 183, 0.06) 32px
-  );
+::selection {
+  background: rgba(61, 139, 255, 0.25);
 }
 
-/* Grey square-grid frame around the viewport edges (decorative, sits under the header) */
-.grid-frame {
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  pointer-events: none;
-  padding: 6px;
-  background-color: #efeae1;
-  background-image: linear-gradient(rgba(102, 81, 50, 0.13) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(102, 81, 50, 0.13) 1px, transparent 1px);
-  background-size: 12px 12px;
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask:
-    linear-gradient(#000 0 0) content-box exclude,
-    linear-gradient(#000 0 0);
+/* ---------- Designer's canvas theme ---------- */
+
+/* Page background: off-white canvas with a faint dot grid, like a design-tool artboard */
+.bg-canvas-dots {
+  background-color: #f7f6fb;
+  background-image: radial-gradient(rgba(22, 22, 29, 0.09) 1px, transparent 1.2px);
+  background-size: 22px 22px;
 }
-.grid-frame-edge {
-  position: fixed;
-  inset: 6px;
-  z-index: 40;
-  pointer-events: none;
-  border: 1px solid rgba(102, 81, 50, 0.18);
-}
-@media (min-width: 768px) {
-  .grid-frame {
-    padding: 18px;
-  }
-  .grid-frame-edge {
-    inset: 18px;
-    border-radius: 6px;
-  }
-}
-.dark .grid-frame {
-  background-color: #2a2118;
-  background-image: linear-gradient(rgba(229, 212, 183, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(229, 212, 183, 0.08) 1px, transparent 1px);
-}
-.dark .grid-frame-edge {
-  border-color: rgba(229, 212, 183, 0.15);
+.dark .bg-canvas-dots {
+  background-color: #0e0e13;
+  background-image: radial-gradient(rgba(236, 235, 245, 0.07) 1px, transparent 1.2px);
 }
 
-/* Polka-dot fabric for the Recent Work Highlights band.
-   Two offset dot layers give the staggered pattern. */
-.polka-blue {
-  background-color: #cfe4f4;
-  background-image: radial-gradient(circle, #3a2d1b 3px, transparent 3.6px),
-    radial-gradient(circle, #3a2d1b 3px, transparent 3.6px);
-  background-size: 26px 26px;
-  background-position:
-    0 0,
-    13px 13px;
-}
-/* Dark mode flips the fabric: brown background with light blue dots */
-.dark .polka-blue {
-  background-color: #3a2d1b;
-  background-image: radial-gradient(circle, #9dbfdb 3px, transparent 3.6px),
-    radial-gradient(circle, #9dbfdb 3px, transparent 3.6px);
-}
-
-/* Pastel yellow grid paper with pink lines, used behind the photos */
-.grid-paper-pink {
-  background-color: #fff9d0;
-  background-image: linear-gradient(#f28db2 1.5px, transparent 1.5px),
-    linear-gradient(90deg, #f28db2 1.5px, transparent 1.5px);
-  background-size: 28px 28px;
-  background-position: -1px -1px;
-}
-.dark .grid-paper-pink {
-  background-color: #3a2d1b;
-  background-image: linear-gradient(rgba(240, 197, 188, 0.55) 1.5px, transparent 1.5px),
-    linear-gradient(90deg, rgba(240, 197, 188, 0.55) 1.5px, transparent 1.5px);
-}
-
-/* Paper cut-out behind a photo: ragged scissor-cut edges on all four sides.
-   Wrap it in .cutout-shadow so the drop shadow follows the cut shape. */
-.cutout-shadow {
-  filter: drop-shadow(3px 4px 0 rgba(102, 81, 50, 0.55));
-}
-.dark .cutout-shadow {
-  filter: drop-shadow(3px 4px 0 rgba(0, 0, 0, 0.5));
-}
-.paper-cutout {
-  clip-path: polygon(
-    2% 3%,
-    12% 0,
-    24% 2.5%,
-    37% 0.5%,
-    50% 3%,
-    63% 0,
-    76% 2%,
-    88% 0.5%,
-    98% 2.5%,
-    100% 12%,
-    97.5% 24%,
-    100% 37%,
-    98% 50%,
-    100% 63%,
-    97.5% 76%,
-    100% 88%,
-    98% 98%,
-    87% 100%,
-    75% 97.5%,
-    62% 100%,
-    49% 98%,
-    37% 100%,
-    24% 97.5%,
-    12% 100%,
-    1.5% 98%,
-    0 87%,
-    2.5% 75%,
-    0 62%,
-    2% 50%,
-    0 37%,
-    2.5% 24%,
-    0 12%
-  );
-}
-/* Scrolling text ribbon in the footer. Content is duplicated once, so -50% loops seamlessly. */
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-.marquee-track {
-  animation: marquee 32s linear infinite;
-}
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-  }
-}
-
-/* Torn paper band: a cream sheet with ragged top/bottom edges, and a polka-dot layer
-   inside with its own ragged edge, so a thin paper rim shows around the fabric. */
-.torn-band-shadow {
-  filter: drop-shadow(0 4px 0 rgba(102, 81, 50, 0.28));
-}
-.dark .torn-band-shadow {
-  filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.45));
-}
-.torn-paper {
-  clip-path: polygon(
-    0 10px,
-    5% 2px,
-    9% 12px,
-    14% 4px,
-    19% 14px,
-    24% 3px,
-    29% 10px,
-    34% 0,
-    40% 12px,
-    45% 5px,
-    50% 14px,
-    56% 2px,
-    61% 11px,
-    66% 4px,
-    71% 13px,
-    77% 1px,
-    82% 10px,
-    87% 3px,
-    92% 12px,
-    96% 5px,
-    100% 11px,
-    100% calc(100% - 9px),
-    95% calc(100% - 1px),
-    90% calc(100% - 12px),
-    85% calc(100% - 3px),
-    80% calc(100% - 14px),
-    74% 100%,
-    69% calc(100% - 10px),
-    63% calc(100% - 2px),
-    58% calc(100% - 13px),
-    52% calc(100% - 4px),
-    47% calc(100% - 11px),
-    42% 100%,
-    36% calc(100% - 12px),
-    31% calc(100% - 3px),
-    26% calc(100% - 13px),
-    20% calc(100% - 1px),
-    15% calc(100% - 10px),
-    10% calc(100% - 2px),
-    5% calc(100% - 12px),
-    0 calc(100% - 4px)
-  );
-}
-.torn-paper-inner {
-  clip-path: polygon(
-    0 18px,
-    4% 11px,
-    8% 20px,
-    13% 12px,
-    18% 21px,
-    23% 10px,
-    28% 18px,
-    33% 8px,
-    39% 20px,
-    44% 13px,
-    49% 22px,
-    55% 10px,
-    60% 19px,
-    65% 12px,
-    70% 21px,
-    76% 9px,
-    81% 18px,
-    86% 11px,
-    91% 20px,
-    95% 13px,
-    100% 19px,
-    100% calc(100% - 17px),
-    96% calc(100% - 9px),
-    91% calc(100% - 20px),
-    86% calc(100% - 11px),
-    81% calc(100% - 21px),
-    75% calc(100% - 8px),
-    70% calc(100% - 18px),
-    64% calc(100% - 10px),
-    59% calc(100% - 21px),
-    53% calc(100% - 12px),
-    48% calc(100% - 19px),
-    43% calc(100% - 8px),
-    37% calc(100% - 20px),
-    32% calc(100% - 11px),
-    27% calc(100% - 21px),
-    21% calc(100% - 9px),
-    16% calc(100% - 18px),
-    11% calc(100% - 10px),
-    6% calc(100% - 20px),
-    0 calc(100% - 12px)
-  );
-}
-
-/* Translucent washi tape strip with torn ends. Set color with bg-* utilities. */
-.washi-tape {
+/* Fine film grain over the gradient panels so pastel blobs don't band */
+.grain::after {
+  content: '';
   position: absolute;
-  height: 1.6rem;
-  width: 6rem;
-  opacity: 0.85;
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.35) 0 4px,
-    transparent 4px 9px
-  );
-  box-shadow: 0 1px 2px rgba(102, 81, 50, 0.15);
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Hairline card surface used across the site */
+.surface {
+  @apply border border-black/[0.07] bg-white dark:border-white/[0.08] dark:bg-night-card;
+}
+
+/* Sticky note: square-ish paper with a folded corner and a soft lifted shadow */
+.sticky-note {
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
+}
+.sticky-note::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.14) 0 50%, transparent 50%);
+  filter: brightness(1.1);
+}
+.note-shadow {
+  filter: drop-shadow(0 10px 14px rgba(22, 22, 29, 0.16));
+}
+.dark .note-shadow {
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.5));
+}
+
+/* Semi-transparent tape strip holding notes and photos down */
+.tape {
+  position: absolute;
+  z-index: 10;
+  height: 1.4rem;
+  width: 5.5rem;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 1px 2px rgba(22, 22, 29, 0.12);
   clip-path: polygon(
     3% 0,
     97% 0,
-    100% 20%,
-    96% 40%,
-    100% 60%,
-    96% 80%,
-    99% 100%,
-    2% 100%,
-    0 80%,
-    4% 60%,
-    0 40%,
-    4% 20%
+    100% 25%,
+    97% 50%,
+    100% 75%,
+    97% 100%,
+    3% 100%,
+    0 75%,
+    3% 50%,
+    0 25%
   );
 }
-
-/* Torn paper tape chip (solid color). Set color with bg-* utilities. */
-.torn-tape {
-  clip-path: polygon(
-    0 6%,
-    4% 0,
-    96% 4%,
-    100% 0,
-    98% 25%,
-    100% 50%,
-    97% 75%,
-    100% 100%,
-    5% 96%,
-    0 100%,
-    3% 75%,
-    0 50%,
-    3% 25%
-  );
+.dark .tape {
+  background: rgba(236, 235, 245, 0.22);
 }
 
-/* Hard offset shadow, like a sticker or cut paper */
-.shadow-sticker {
-  box-shadow: 3px 3px 0 0 #665132;
+/* macOS-style folder: back flap and tab drawn with gradients */
+.mac-folder {
+  position: relative;
+  border-radius: 6px 6px 8px 8px;
+  background: linear-gradient(180deg, #8ecbff 0%, #5aaef7 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 6px 14px -6px rgba(26, 95, 214, 0.55);
 }
-.dark .shadow-sticker {
-  box-shadow: 3px 3px 0 0 rgba(229, 212, 183, 0.35);
+.mac-folder::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -9%;
+  width: 42%;
+  height: 22%;
+  border-radius: 6px 10px 0 0;
+  background: #6cb8fb;
+}
+.mac-folder::after {
+  content: '';
+  position: absolute;
+  inset: 16% 0 0 0;
+  border-radius: 4px 4px 8px 8px;
+  background: linear-gradient(180deg, #a9d8ff 0%, #6fbaff 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-/* Tape "presses down" when its card is hovered (works with Tailwind transform utilities) */
-.washi-tape {
-  /* Tape always sits on top of the label, card, or photo it holds down */
-  z-index: 10;
-  transition: transform 200ms ease-out;
+/* Holographic sheen for the certification card. --mx/--my follow the pointer. */
+.holo {
+  background-image: radial-gradient(
+      circle at var(--mx, 50%) var(--my, 50%),
+      rgba(255, 255, 255, 0.75),
+      transparent 38%
+    ),
+    conic-gradient(
+      from 210deg at var(--mx, 50%) var(--my, 50%),
+      #ffd6de,
+      #fff1b8,
+      #d3f5e3,
+      #d6e8ff,
+      #e7dbff,
+      #ffd6de
+    );
 }
-.group:hover .washi-tape {
-  --tw-scale-x: 1.06;
-  --tw-scale-y: 0.82;
+
+/* ---------- Custom cursor ----------
+   Only enabled for fine pointers without reduced motion (see CustomCursor.tsx). */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+html.has-custom-cursor input,
+html.has-custom-cursor textarea,
+html.has-custom-cursor select,
+html.has-custom-cursor [contenteditable='true'] {
+  cursor: text !important;
 }
 
 /* ---------- First-visit intro loader ----------
@@ -369,77 +170,42 @@ html.intro-pending .intro-overlay {
   animation: intro-failsafe 0.4s ease 3.2s forwards;
 }
 .intro-overlay.intro-leaving {
-  transform: translateY(-104%) rotate(-2deg);
-  transition: transform 480ms cubic-bezier(0.7, 0, 0.3, 1);
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 600ms cubic-bezier(0.76, 0, 0.24, 1);
 }
-.intro-card {
-  animation: intro-card-pop 520ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+.intro-overlay {
+  clip-path: inset(0 0 0 0);
 }
-.intro-tape {
-  top: -0.9rem;
-  left: 50%;
-  margin-left: -3rem;
-  animation: intro-tape-stick 420ms cubic-bezier(0.34, 1.4, 0.64, 1) 120ms both;
+.intro-word {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(14px);
+  animation: intro-word 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
-.intro-name {
-  font-family: var(--font-hand), cursive;
-  font-weight: 700;
-  font-size: 92px;
-  fill: currentColor;
-  fill-opacity: 0;
-  stroke: currentColor;
-  stroke-width: 1.4px;
-  stroke-dasharray: 520;
-  stroke-dashoffset: 520;
-  animation:
-    intro-draw 760ms ease-out 200ms forwards,
-    intro-fill 260ms ease-out 760ms forwards;
+.intro-box {
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: intro-box 520ms cubic-bezier(0.22, 1, 0.36, 1) 380ms forwards;
 }
-.intro-underline {
-  stroke-dasharray: 220;
-  stroke-dashoffset: 220;
-  animation: intro-draw 320ms ease-out 760ms forwards;
+.intro-handle {
+  opacity: 0;
+  transform: scale(0);
+  animation: intro-pop 280ms cubic-bezier(0.34, 1.56, 0.64, 1) 780ms forwards;
 }
-.intro-dot {
-  animation:
-    intro-dot-pop 300ms cubic-bezier(0.34, 1.56, 0.64, 1) both,
-    tape-bounce 900ms ease-in-out 1s infinite;
-}
-@keyframes intro-card-pop {
-  from {
-    opacity: 0;
-    transform: translateY(14px) rotate(-6deg) scale(0.92);
-  }
+@keyframes intro-word {
   to {
     opacity: 1;
-    transform: translateY(0) rotate(-2deg) scale(1);
+    filter: blur(0);
+    transform: translateY(0);
   }
 }
-@keyframes intro-tape-stick {
-  from {
-    opacity: 0;
-    transform: translate(-70px, -10px) rotate(-18deg);
-  }
+@keyframes intro-box {
   to {
-    opacity: 0.85;
-    transform: translate(0, 0) rotate(-4deg);
+    transform: scaleX(1);
   }
 }
-@keyframes intro-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-@keyframes intro-fill {
-  to {
-    fill-opacity: 1;
-  }
-}
-@keyframes intro-dot-pop {
-  from {
-    opacity: 0;
-    transform: scale(0);
-  }
+@keyframes intro-pop {
   to {
     opacity: 1;
     transform: scale(1);
@@ -452,17 +218,19 @@ html.intro-pending .intro-overlay {
     pointer-events: none;
   }
 }
-@keyframes tape-bounce {
+
+/* Loading dots */
+@keyframes dot-bounce {
   0%,
   100% {
-    transform: translateY(0) rotate(var(--tilt, 0deg));
+    transform: translateY(0);
   }
   50% {
-    transform: translateY(-8px) rotate(calc(var(--tilt, 0deg) * -1));
+    transform: translateY(-10px);
   }
 }
-.tape-bounce {
-  animation: tape-bounce 900ms ease-in-out infinite;
+.dot-bounce {
+  animation: dot-bounce 900ms ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -472,12 +240,15 @@ html.intro-pending .intro-overlay {
   html.intro-pending {
     overflow: auto;
   }
-  .tape-bounce,
-  .intro-dot {
-    animation: none;
-  }
-  .washi-tape {
-    transition: none;
+  .dot-bounce,
+  .animate-float,
+  .animate-float-slow,
+  .animate-blob,
+  .animate-marquee,
+  .animate-marquee-reverse,
+  .animate-spin-slow,
+  .animate-wiggle {
+    animation: none !important;
   }
 }
 
@@ -485,14 +256,9 @@ html.intro-pending .intro-overlay {
 a:focus-visible,
 button:focus-visible,
 [role='button']:focus-visible {
-  outline: 2px dashed #665132;
+  outline: 2px solid #3d8bff;
   outline-offset: 3px;
-  border-radius: 4px;
-}
-.dark a:focus-visible,
-.dark button:focus-visible,
-.dark [role='button']:focus-visible {
-  outline-color: #e5d4b7;
+  border-radius: 6px;
 }
 
 .task-list-item::before {
@@ -504,7 +270,7 @@ button:focus-visible,
 }
 
 .footnotes {
-  @apply mt-12 border-t border-sand pt-8 dark:border-cocoa-light;
+  @apply mt-12 border-t border-black/10 pt-8 dark:border-white/10;
 }
 
 .data-footnote-backref {
@@ -559,15 +325,15 @@ input:-webkit-autofill:focus {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  @apply bg-cream dark:bg-cocoa-950;
+  @apply bg-canvas dark:bg-night;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  @apply rounded bg-sand dark:bg-cocoa-light;
+  @apply rounded bg-lilac-strong/60 dark:bg-night-line;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-coral dark:bg-coral-muted;
+  @apply bg-sky-strong;
 }

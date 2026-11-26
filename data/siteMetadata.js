@@ -7,7 +7,7 @@ const siteMetadata = {
     'Frontend Engineer with 7+ years of experience building visual, production-ready interfaces for web, desktop, and mobile with React, Remix, Astro, Electron, and React Native.',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://laksmitawidya.com',
+  siteUrl: 'https://laksmita.space',
   siteRepo: 'https://github.com/laksmitawidya',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
