@@ -1,4 +1,13 @@
-import { Bot, Database, FileText, HeartPulse, Settings, ShieldCheck, Sprout } from 'lucide-react'
+import {
+  Bot,
+  Database,
+  FileText,
+  HeartPulse,
+  Landmark,
+  Settings,
+  ShieldCheck,
+  Sprout,
+} from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { Tone } from '@/components/ui/Selection'
 
@@ -8,13 +17,28 @@ export interface WorkHighlight {
   title: string
   description: string
   tags: string[]
-  stat: 'POC' | 'Go-Live'
+  stat: 'POC' | 'Go-Live' | 'Ongoing'
   tone: Tone
   /** Short outcomes listed beside the description */
   points: string[]
 }
 
 const workHighlights: WorkHighlight[] = [
+  {
+    icon: Landmark,
+    category: 'Banking · Document AI',
+    title: 'Loan & Mortgage AI Document Processing',
+    description:
+      "AI-powered document processing for a banking group's loan and mortgage workflows, delivered full-stack.",
+    tags: ['React', 'Python', 'AWS Lambda', 'AI'],
+    stat: 'Ongoing',
+    tone: 'mint',
+    points: [
+      'Loan & mortgage workflows',
+      'React frontend + Python on Lambda',
+      'Third-party API integrations',
+    ],
+  },
   {
     icon: Bot,
     category: 'Gen AI',

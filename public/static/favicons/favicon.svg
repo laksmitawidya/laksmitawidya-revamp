@@ -1,13 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- Hard offset shadow, like a cut-out sticker -->
-  <rect x="58" y="62" width="424" height="424" rx="104" fill="#665132"/>
-  <!-- Cream paper sticker -->
-  <rect x="36" y="36" width="424" height="424" rx="104" fill="#FFFDF8" stroke="#3A2D1B" stroke-width="24"/>
-  <!-- Hand-drawn "m": brown outline under a coral stroke -->
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M124 356 L134 226 C150 186 204 186 212 236 L218 350 M218 258 C234 196 296 190 306 244 L314 326 C318 362 352 370 392 338" stroke="#3A2D1B" stroke-width="86"/>
-    <path d="M124 356 L134 226 C150 186 204 186 212 236 L218 350 M218 258 C234 196 296 190 306 244 L314 326 C318 362 352 370 392 338" stroke="#E8A497" stroke-width="54"/>
-  </g>
-  <!-- Small teal sparkle -->
-  <path d="M388 82 C392 112 402 124 432 130 C402 136 392 148 388 178 C384 148 374 136 344 130 C374 124 384 112 388 82 Z" fill="#60A8AD" stroke="#3A2D1B" stroke-width="10" stroke-linejoin="round"/>
+  <!-- Ink tile with a soft top sheen -->
+  <defs>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2A2A36"/>
+      <stop offset="1" stop-color="#16161D"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#sheen)"/>
+  <!-- Geometric lowercase "m", matching the Poppins wordmark -->
+  <path d="M136 344 V222 a46 46 0 0 1 92 0 V344 M228 222 a46 46 0 0 1 92 0 V344"
+        fill="none" stroke="#FFFFFF" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- The blue dot from the "mita•" logo -->
+  <circle cx="378" cy="334" r="30" fill="#3D8BFF"/>
 </svg>

@@ -8,7 +8,7 @@ summary: "How my daily routine as a frontend engineer changed with AI. Kiro pick
 
 # My AI Workday: From Jira Ticket to Ready for QA with Kiro and MCP
 
-A year ago my morning started with five browser tabs: Jira, Confluence, Slack, the repo, and the app running locally. Today it starts with one window. This is how my workday looks now, and which parts I still keep firmly in my own hands.
+A year ago my morning started with four browser tabs: Jira, Slack, the repo, and the app running locally. Today it starts with one window. This is how my workday looks now, and which parts I still keep firmly in my own hands.
 
 ---
 
@@ -27,7 +27,7 @@ The rest of this post walks through each step.
 
 ## What MCP is, in one paragraph
 
-MCP (Model Context Protocol) is a standard way to give an AI assistant tools. Instead of copying ticket text into a chat, the assistant can call a Jira tool, a browser tool, or a Git tool directly. In Kiro, MCP servers are configured once in `.kiro/settings/mcp.json`, and after that they are available in every session. I use two every day: the **Atlassian MCP** for Jira and Confluence, and the **Playwright MCP** for the browser.
+MCP (Model Context Protocol) is a standard way to give an AI assistant tools. Instead of copying ticket text into a chat, the assistant can call a Jira tool, a browser tool, or a Git tool directly. In Kiro, MCP servers are configured once in `.kiro/settings/mcp.json`, and after that they are available in every session. I use two every day: the **Atlassian MCP** for Jira, and the **Playwright MCP** for the browser.
 
 ---
 
@@ -45,7 +45,7 @@ This sounds small, but it changes the feel of the morning. I start by thinking a
 
 ## Step 2: Work on the highest priority first
 
-I pick the top ticket and ask Kiro to read it properly: the description, acceptance criteria, linked tickets, and any Confluence page it references. Then we agree on a plan before anyone writes code.
+I pick the top ticket and ask Kiro to read it properly: the description, acceptance criteria, and any linked tickets. Then we agree on a plan before anyone writes code.
 
 For small fixes I stay in a quick back-and-forth chat. For bigger features I use a **spec**: Kiro writes the requirements, a design, and a task list, and I review each one before implementation starts. This is the part where my experience matters most. I catch the edge cases the ticket did not mention, push back on designs that do not fit the codebase, and decide what is out of scope.
 

@@ -61,9 +61,17 @@ function Card({
             className={`mr-12 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold md:mr-16 ${
               work.stat === 'Go-Live'
                 ? 'bg-ink text-white dark:bg-white dark:text-ink'
+                : work.stat === 'Ongoing'
+                ? 'bg-white/80 text-ink dark:bg-white/10 dark:text-night-text'
                 : 'border border-dashed border-ink/40 text-ink dark:border-white/40 dark:text-night-text'
             }`}
           >
+            {work.stat === 'Ongoing' && (
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-strong opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-sky-strong" />
+              </span>
+            )}
             {work.stat === 'Go-Live' && (
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-mint-strong opacity-75" />

@@ -7,9 +7,9 @@ export interface Project {
 
 const projectsData: Project[] = [
   {
-    title: 'LAD Platform — Banking Sector',
+    title: 'Loan & Mortgage AI Document Processing — Banking Sector',
     description:
-      'Full-stack delivery for a LAD platform at a major banking group. Built the frontend in React and the backend services on AWS Lambda with Python, including integrations with external third-party APIs, working closely with backend engineers on data flow and API contracts.',
+      "AI-powered document processing for a banking group's loan and mortgage workflows. Full-stack delivery: built the React frontend and the backend services on AWS Lambda with Python, including integrations with external third-party APIs, working closely with backend engineers on data flow and API contracts.",
   },
   {
     title: 'Data Asset Management Portal',

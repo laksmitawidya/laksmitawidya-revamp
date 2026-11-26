@@ -47,9 +47,6 @@ export default function AuthorLayout({ children, content }: Props) {
                 </div>
               </FigmaFrame>
               <span className="tape -top-3 right-6 rotate-12" />
-              <div className="absolute -bottom-6 -left-8 h-20 w-20 -rotate-12 animate-float overflow-hidden rounded-full shadow-lift ring-4 ring-white [--r:-12deg] dark:ring-night-card">
-                <Image src="/static/images/avatar-sm.webp" alt="" fill sizes="80px" />
-              </div>
             </div>
           </Reveal>
 

@@ -6,16 +6,16 @@ const fs = require('fs')
 
 const faviconDir = path.join(__dirname, '..', 'public', 'static', 'favicons')
 const svgPath = path.join(faviconDir, 'favicon.svg')
-const CREAM = '#FBF7F0'
+const INK = '#16161D'
 
 // Transparent PNG at the given size
 const png = (size) => sharp(svgPath, { density: 384 }).resize(size, size).png().toBuffer()
 
-// Apple and Windows tiles fill transparent corners with black, so give them a cream backdrop
+// Apple and Windows tiles fill transparent corners themselves, so give them a solid ink backdrop
 const solidPng = (size) =>
   sharp(svgPath, { density: 384 })
     .resize(size, size)
-    .flatten({ background: CREAM })
+    .flatten({ background: INK })
     .png()
     .toBuffer()
 

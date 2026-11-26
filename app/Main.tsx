@@ -161,25 +161,7 @@ function Hero() {
           </motion.span>
 
           <h1 className="mt-8 font-heading text-[clamp(2.6rem,7.5vw,5.75rem)] font-medium leading-[1.04] tracking-tighter text-ink dark:text-night-text">
-            <BlurText delay={0.2}>
-              {[
-                'Hello! ',
-                <span
-                  key="avatar"
-                  className="relative mx-1 inline-block h-[0.9em] w-[0.9em] -rotate-6 align-[-0.1em] transition-transform duration-300 hover:rotate-6 hover:scale-110"
-                >
-                  <NextImage
-                    src="/static/images/avatar-sm.webp"
-                    alt=""
-                    fill
-                    priority
-                    sizes="96px"
-                    className="rounded-full object-cover ring-4 ring-white dark:ring-night-card"
-                  />
-                </span>,
-                " I'm Mita,",
-              ]}
-            </BlurText>
+            <BlurText delay={0.2}>{"Hello! I'm Mita,"}</BlurText>
             <br />
             <BlurText delay={0.45} className="text-[0.72em] text-ink-soft dark:text-night-text/80">
               {[
