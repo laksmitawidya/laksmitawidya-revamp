@@ -36,23 +36,21 @@ export default function PageHero({
           <Reveal
             delay={0.9}
             y={8}
-            className="absolute -top-10 left-[calc(100%-1rem)] hidden w-max rotate-6 lg:block"
+            className="absolute -top-6 left-[calc(100%-0.5rem)] hidden w-max lg:block"
           >
-            <span className="block font-hand text-2xl font-bold tracking-normal text-sky-deep dark:text-sky-strong">
-              {note}
-            </span>
+            {/* Collaborator-cursor bubble, like a teammate's pointer on a whiteboard */}
             <svg
               aria-hidden="true"
-              viewBox="0 0 60 40"
-              className="ml-4 hidden h-8 w-12 -scale-x-100 text-sky-deep dark:text-sky-strong md:block"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              strokeLinecap="round"
+              viewBox="0 0 24 24"
+              className="-mb-1 -ml-3 h-6 w-6 -rotate-12 fill-sky-strong stroke-white"
+              strokeWidth={1.5}
+              strokeLinejoin="round"
             >
-              <path d="M5 5 C 20 30, 40 32, 55 22" />
-              <path d="M47 16 L55 22 L46 27" />
+              <path d="M3 2l17 8-7 2.5L9.5 20z" />
             </svg>
+            <span className="block rounded-full border-2 border-white bg-sky px-4 py-1.5 font-note text-base font-semibold tracking-normal text-ink shadow-card dark:border-night-card">
+              {note}
+            </span>
           </Reveal>
         )}
       </h1>

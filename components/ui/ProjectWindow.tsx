@@ -86,7 +86,7 @@ export default function ProjectWindow({
           className={`note-shadow absolute -bottom-6 -right-2 w-40 transition-transform duration-500 sm:-right-5 sm:w-44 ${noteTilt} group-hover:rotate-6 group-hover:scale-105`}
         >
           <div className={`sticky-note ${NOTE_BG[project.tone]} px-4 pb-5 pt-4`}>
-            <p className="font-hand text-lg font-bold leading-tight text-ink">{project.note}</p>
+            <p className="font-note text-sm font-semibold leading-snug text-ink">{project.note}</p>
           </div>
           <span className="tape -top-2.5 left-1/2 h-5 w-14 -translate-x-1/2 -rotate-2" />
         </div>
@@ -94,11 +94,11 @@ export default function ProjectWindow({
 
       <div className="mt-10 pr-2">
         <div className="flex items-start justify-between gap-4">
-          <div>
+          <div className="min-w-0">
             <p className="text-xs font-medium uppercase tracking-[0.14em] text-ink-muted dark:text-night-text/60">
               {project.year} · Side project
             </p>
-            <h3 className="mt-1.5 font-heading text-2xl font-medium tracking-tight text-ink dark:text-night-text">
+            <h3 className="mt-1.5 break-words font-heading text-xl font-medium tracking-tight text-ink dark:text-night-text sm:text-2xl">
               {project.title}
             </h3>
             <p className="mt-1 text-sm text-ink-soft dark:text-night-text/70">{project.tagline}</p>

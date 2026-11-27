@@ -8,17 +8,7 @@ import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import { TextSelect } from '@/components/ui/Selection'
 import Magnetic from '@/components/ui/Magnetic'
-import Marquee from '@/components/ui/Marquee'
 import BlurText from '@/components/ui/BlurText'
-
-const RIBBON = [
-  'Frontend Engineer',
-  'Web · Desktop · Mobile',
-  'Gen AI',
-  'Design-minded',
-  'Remote GMT+7',
-  'Open to collaborations',
-]
 
 function CopyEmail() {
   const [copied, setCopied] = useState(false)
@@ -69,20 +59,7 @@ export default function Footer() {
   ].filter((s) => s.href)
 
   return (
-    <footer className="relative mt-32 overflow-hidden">
-      {/* Two crossing ribbons */}
-      <div className="relative h-28">
-        <Marquee
-          items={RIBBON}
-          className="absolute inset-x-[-5%] top-8 -rotate-2 bg-sky-strong py-3 font-heading text-base font-medium text-white"
-        />
-        <Marquee
-          items={RIBBON}
-          reverse
-          className="absolute inset-x-[-5%] top-8 rotate-2 bg-butter-strong py-3 font-heading text-base font-medium text-ink opacity-90"
-        />
-      </div>
-
+    <footer className="relative mt-40 overflow-hidden">
       <div className="px-3 pb-3 sm:px-6 sm:pb-6">
         <div className="grain relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-lilac via-peri to-sky px-6 pb-10 pt-20 dark:from-[#221c35] dark:via-[#1a1b33] dark:to-[#14213a] sm:px-12">
           <div
@@ -95,7 +72,7 @@ export default function Footer() {
           />
 
           <div className="relative flex flex-col items-center text-center">
-            <p className="font-hand text-2xl font-bold text-sky-deep dark:text-sky-strong">
+            <p className="font-note text-base font-semibold text-sky-deep dark:text-sky-strong">
               got an idea brewing?
             </p>
             <h2 className="mt-3 font-heading text-[clamp(3rem,10vw,8rem)] font-medium leading-[0.95] tracking-tighter text-ink dark:text-night-text">

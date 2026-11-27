@@ -91,8 +91,8 @@ const sideProjectsData: SideProject[] = [
     title: 'This portfolio',
     tagline: 'The site you are looking at',
     description:
-      'An MDX blog and portfolio with a custom cursor, scroll-linked stacking cards, a magnifying tool dock, draggable desktop folders and blur-in type, all respecting reduced-motion settings.',
-    note: 'yes, you can drag the folders',
+      'An MDX blog and portfolio with a custom cursor, scroll-linked stacking cards, a magnifying tool dock and draggable desktop folders. Honestly vibe-coded with AI (Kiro & Claude), then reviewed, tested on real devices and tuned by hand.',
+    note: 'vibe-coded with AI, reviewed by me',
     stack: ['Next.js 15', 'Framer Motion', 'Contentlayer', 'Tailwind'],
     live: 'https://laksmita.space',
     repo: 'https://github.com/laksmitawidya/laksmitawidya-revamp',

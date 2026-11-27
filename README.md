@@ -2,7 +2,7 @@
 
 # mita<span>.</span>
 
-### Hello! I'm Mita, a frontend engineer with a designer's eye.
+### Hello! I'm Mita, a frontend engineer who loves pixel-perfect details.
 
 The portfolio and blog of **Laksmita Widya Astuti**: 7+ years building visual, production-ready interfaces for web, desktop and mobile, now shipping Gen AI products on AWS.
 
@@ -15,7 +15,7 @@ The portfolio and blog of **Laksmita Widya Astuti**: 7+ years building visual, p
 ![MDX](https://img.shields.io/badge/MDX-FF5A6E?style=flat-square&logo=mdx&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/license-MIT-4FD69C?style=flat-square)
 
-<img src="public/static/images/projects/portfolio.webp" alt="The laksmita.space homepage: a pastel hero reading 'Hello! I'm Mita, a frontend engineer with a designer's eye' with floating tags and a tool dock" width="100%" />
+<img src="public/static/images/projects/portfolio.webp" alt="The laksmita.space homepage: a pastel hero reading 'Hello! I'm Mita, a frontend engineer who loves pixel-perfect details' with floating tags and a tool dock" width="100%" />
 
 </div>
 
@@ -23,7 +23,7 @@ The portfolio and blog of **Laksmita Widya Astuti**: 7+ years building visual, p
 
 ## ✦ The idea
 
-The site is designed as a **designer's canvas**: an off-white artboard with a dot grid, pastel accents, and the small UI details from design tools and operating systems that I love. It's playful in the details and professional where it matters.
+The site is designed like a **design-tool canvas**: an off-white artboard with a dot grid, pastel accents, and the small UI details from design tools and operating systems that I love. It's playful in the details and professional where it matters.
 
 | Motif | Where you'll find it |
 | --- | --- |
@@ -32,7 +32,7 @@ The site is designed as a **designer's canvas**: an off-white artboard with a do
 | 🖱️ **Custom cursor** | A dot plus a soft trailing ring that turns into a button reading `Open ↗`, `Read`, `Code` or `Drag · Open` over cards |
 | 🗂️ **Tactile UI** | Sticky notes with folded corners, washi tape, macOS folders you can drag around, case-file tabs |
 | 🍰 **Layered design** | Browser windows with sticky notes overlapping them, cards that pile up as you scroll, icon tiles peeking off edges |
-| 🧰 **Tool dock** | My stack as app icons in a macOS-style dock that magnifies under the pointer |
+| 🧰 **Tool dock** | My stack as real logo app icons in a macOS-style dock that magnifies under the pointer |
 
 ## ✦ Motion
 
@@ -45,7 +45,7 @@ All motion uses [Framer Motion](https://motion.dev) and **respects `prefers-redu
 - **3D holo card**: the certification card tilts toward the pointer with a holographic sheen
 - **Draggable desktop**: folders around my photo can be dragged, and a click still opens them
 - **Shared-layout pills**: the nav highlight and project filters glide between options
-- **Scroll progress bar**, an **animated count-up** for stats, **marquee ribbons**, a **circle-reveal mobile menu** and a **first-visit intro**
+- **Scroll progress bar**, an **animated count-up** for stats, a **circle-reveal mobile menu** and a **first-visit intro**
 
 ## ✦ Side projects featured on the site
 
@@ -72,7 +72,7 @@ Side projects live in [`data/sideProjectsData.ts`](data/sideProjectsData.ts), cl
 | `butter` | ![](https://img.shields.io/badge/-%23FFF1B8-FFF1B8?style=flat-square) ![](https://img.shields.io/badge/-%23FFD84D-FFD84D?style=flat-square) | Sticky notes and highlights |
 | `mint` | ![](https://img.shields.io/badge/-%23D3F5E3-D3F5E3?style=flat-square) ![](https://img.shields.io/badge/-%234FD69C-4FD69C?style=flat-square) | Status dots and notes |
 
-Type is **Poppins** for display, **DM Sans** for reading and **Caveat** for handwritten notes. Tokens live in [`tailwind.config.js`](tailwind.config.js). Older class names (`cocoa`, `cream`, `coral`…) are mapped onto the new palette, so legacy MDX still renders in the new colours.
+Type is **Poppins** for display, **DM Sans** for reading and **Plus Jakarta Sans** for sticky notes and labels. Logos in the tool dock come from [Simple Icons](https://simpleicons.org) (CC0). Tokens live in [`tailwind.config.js`](tailwind.config.js). Older class names (`cocoa`, `cream`, `coral`…) are mapped onto the new palette, so legacy MDX still renders in the new colours.
 
 ## ✦ Under the hood
 
@@ -93,6 +93,10 @@ data/                 # Blog MDX, author bio, site metadata, project data
 layouts/              # About and blog list layouts
 public/static/images/ # Portraits and project screenshots
 ```
+
+## ✦ How it was built
+
+Honestly: this site was largely vibe-coded with AI (Kiro and Claude), then reviewed, tested on real devices and tuned by hand. That's how I like to work now: hand-written code where it matters, AI where it speeds things up, and a human owning what ships.
 
 ## ✦ Run it locally
 

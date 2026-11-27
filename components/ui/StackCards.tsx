@@ -48,12 +48,12 @@ function Card({
           CARD_BG[work.tone]
         }`}
       >
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-baseline gap-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2">
             <span className="font-heading text-5xl font-light tracking-tight text-ink/80 dark:text-night-text/80 md:text-6xl">
               {String(i + 1).padStart(2, '0')}
             </span>
-            <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-medium uppercase tracking-[0.14em] text-ink-soft dark:bg-white/10 dark:text-night-text/80">
+            <span className="whitespace-nowrap rounded-full bg-white/70 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.12em] text-ink-soft dark:bg-white/10 dark:text-night-text/80 sm:text-xs sm:tracking-[0.14em]">
               {work.category}
             </span>
           </div>

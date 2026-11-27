@@ -8,9 +8,9 @@ import sideProjectsData from '@/data/sideProjectsData'
 import ProjectWindow from '@/components/ui/ProjectWindow'
 
 const FILTERS = [
-  { id: 'all', label: 'Everything' },
+  { id: 'all', label: 'All' },
   { id: 'side', label: 'Side projects' },
-  { id: 'client', label: 'Client & career' },
+  { id: 'client', label: 'Client work' },
 ] as const
 
 type Filter = (typeof FILTERS)[number]['id']
@@ -84,7 +84,7 @@ export default function ProjectsBoard() {
             role="tab"
             aria-selected={filter === f.id}
             onClick={() => setFilter(f.id)}
-            className={`relative rounded-full px-4 py-2 text-sm font-medium transition-colors sm:px-5 ${
+            className={`relative whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors sm:px-5 ${
               filter === f.id
                 ? 'text-white dark:text-ink'
                 : 'text-ink-muted hover:text-ink dark:text-night-text/60 dark:hover:text-night-text'
@@ -131,7 +131,7 @@ export default function ProjectsBoard() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.15 }}
                     transition={{ duration: 0.6, delay: (i % 2) * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                    className={i % 2 === 1 ? 'md:mt-24' : ''}
+                    className={`min-w-0 ${i % 2 === 1 ? 'md:mt-24' : ''}`}
                   >
                     <ProjectWindow project={p} index={i} priority={i < 2} />
                   </motion.div>

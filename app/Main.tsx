@@ -19,8 +19,8 @@ import { formatDate } from 'pliny/utils/formatDate'
 import Reveal from '@/components/ui/Reveal'
 import BlurText from '@/components/ui/BlurText'
 import Magnetic from '@/components/ui/Magnetic'
-import Dock from '@/components/ui/Dock'
 import Marquee from '@/components/ui/Marquee'
+import Dock from '@/components/ui/Dock'
 import SectionHeading from '@/components/ui/SectionHeading'
 import StackCards from '@/components/ui/StackCards'
 import ProjectWindow from '@/components/ui/ProjectWindow'
@@ -65,7 +65,7 @@ function FloatTag({
       initial={{ opacity: 0, scale: 0.6 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ type: 'spring', stiffness: 260, damping: 18, delay }}
-      className={`absolute hidden lg:block ${className}`}
+      className={`absolute hidden xl:block ${className}`}
     >
       <div
         className={`animate-float rounded-full border border-ink/10 px-4 py-2 text-sm font-medium text-ink shadow-card ${bg}`}
@@ -130,7 +130,7 @@ function Hero() {
           rotate={5}
           delay={1.1}
           bg="bg-butter"
-          className="bottom-[30%] left-[10%]"
+          className="bottom-[24%] left-[3%] 2xl:left-[8%]"
         >
           Web · Desktop · Mobile
         </FloatTag>
@@ -141,7 +141,7 @@ function Hero() {
           rotate={-6}
           delay={1.2}
           bg="bg-mint"
-          className="bottom-[34%] right-[9%]"
+          className="bottom-[28%] right-[3%] 2xl:right-[8%]"
         >
           🌏 Remote · GMT+7
         </FloatTag>
@@ -160,30 +160,28 @@ function Hero() {
             Currently building Gen AI products at Axrail
           </motion.span>
 
-          <h1 className="mt-8 font-heading text-[clamp(2.6rem,7.5vw,5.75rem)] font-medium leading-[1.04] tracking-tighter text-ink dark:text-night-text">
+          <h1 className="mt-8 font-heading text-[clamp(2.4rem,7.5vw,5.75rem)] font-medium leading-[1.04] tracking-tighter text-ink [text-wrap:balance] dark:text-night-text">
             <BlurText delay={0.2}>{"Hello! I'm Mita,"}</BlurText>
             <br />
             <BlurText delay={0.45} className="text-[0.72em] text-ink-soft dark:text-night-text/80">
-              {[
-                'a frontend engineer with a ',
-                <TextSelect key="eye" tone="sky" delay={1.2}>
-                  <span className="text-ink dark:text-night-text">designer&apos;s eye.</span>
-                </TextSelect>,
-              ]}
+              a frontend engineer who loves
+              <TextSelect key="visual" tone="sky" delay={1.2}>
+                <span className="text-ink dark:text-night-text">pixel-perfect details.</span>
+              </TextSelect>
             </BlurText>
           </h1>
 
           <Reveal delay={0.9} y={16}>
             <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-ink-soft dark:text-night-text/70 md:text-lg">
-              7+ years building visual, production-ready interfaces for{' '}
+              7+ years writing production interfaces for{' '}
               <strong className="font-semibold text-ink dark:text-night-text">
                 web, desktop and mobile
               </strong>{' '}
-              with React, Remix, Astro, Electron and React Native, now shipping{' '}
+              with React, Remix, Astro, Electron and React Native. These days I also pair with{' '}
               <strong className="font-semibold text-ink dark:text-night-text">
-                RAG chatbots and document AI
+                AI coding tools like Kiro and Claude
               </strong>{' '}
-              on AWS.
+              to move faster, while still owning the review, the tests and what ships.
             </p>
           </Reveal>
 
@@ -266,21 +264,23 @@ function QuickLinks() {
           <Link
             href={q.href}
             data-cursor={q.cursor}
-            className="surface group flex h-full flex-col rounded-3xl p-6 shadow-card transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-lift"
+            className="surface group grid h-full grid-cols-[auto_1fr_auto] items-center gap-4 rounded-3xl p-4 shadow-card transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-lift sm:p-5 md:flex md:flex-col md:items-start md:gap-0 md:p-6"
           >
             <span
-              className={`flex h-12 w-12 items-center justify-center rounded-2xl transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110 ${q.tile}`}
+              className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110 ${q.tile}`}
             >
               <q.icon className="h-5 w-5" strokeWidth={1.75} />
             </span>
-            <h3 className="mt-5 font-heading text-lg font-medium text-ink dark:text-night-text">
-              {q.title}
-            </h3>
-            <p className="mt-1.5 flex-1 text-sm leading-relaxed text-ink-muted dark:text-night-text/60">
-              {q.text}
-            </p>
+            <span className="min-w-0 md:mt-5 md:flex-1">
+              <h3 className="font-heading text-lg font-medium text-ink dark:text-night-text">
+                {q.title}
+              </h3>
+              <p className="mt-1 text-sm leading-relaxed text-ink-muted dark:text-night-text/60 md:mt-1.5">
+                {q.text}
+              </p>
+            </span>
             <span
-              className={`mt-5 flex h-9 w-9 items-center justify-center rounded-full text-ink transition-transform duration-300 group-hover:translate-x-1 ${q.dot}`}
+              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink transition-transform duration-300 group-hover:translate-x-1 md:mt-5 ${q.dot}`}
             >
               <ArrowRight className="h-4 w-4" />
             </span>
@@ -353,7 +353,13 @@ const STATS = [
 ]
 
 const FOLDERS: DesktopItem[] = [
-  { label: 'GitHub', href: siteMetadata.github ?? 'https://github.com/laksmitawidya', x: 2, y: 6, external: true },
+  {
+    label: 'GitHub',
+    href: siteMetadata.github ?? 'https://github.com/laksmitawidya',
+    x: 2,
+    y: 6,
+    external: true,
+  },
   { label: 'LinkedIn', href: siteMetadata.linkedin ?? '/about', x: 78, y: 2, external: true },
   { label: 'Articles', href: '/blog', x: 0, y: 66 },
   { label: 'Projects', href: '/projects', x: 82, y: 74 },
@@ -384,7 +390,7 @@ function About() {
                   sizes="256px"
                   className="aspect-[3/4] w-full rounded-lg object-cover"
                 />
-                <p className="pt-2 text-center font-hand text-xl font-bold text-ink-soft dark:text-night-text/70">
+                <p className="pt-2 text-center font-note text-sm font-semibold text-ink-soft dark:text-night-text/70">
                   that&apos;s me!
                 </p>
               </div>
@@ -442,8 +448,9 @@ function About() {
             I&apos;m a Frontend Engineer who loves the visual side of building. I started in
             software QA, which still shapes how I work: I think about failure modes early and take
             production readiness seriously. Today I lead frontend delivery on enterprise Gen AI
-            projects, and in my spare time I build playful things like 3D room builders and piano
-            games.
+            projects. I&apos;m comfortable writing every line myself, and just as comfortable
+            handing the scaffolding to an AI agent and spending my time on review, edge cases and
+            polish. In my spare time I build playful things like 3D room builders and piano games.
           </p>
         </Reveal>
 
@@ -480,7 +487,7 @@ function About() {
                   <div className="font-heading text-3xl font-semibold text-ink">
                     <CountUp to={s.value} suffix={s.suffix} />
                   </div>
-                  <div className="mt-1 font-hand text-base font-bold leading-tight text-ink/80">
+                  <div className="mt-1 font-note text-xs font-semibold leading-snug text-ink/75">
                     {s.label}
                   </div>
                 </div>
@@ -704,7 +711,7 @@ export default function Home({ posts }) {
             <Reveal
               key={project.slug}
               delay={(i % 2) * 0.1}
-              className={i % 2 === 1 ? 'md:mt-24' : ''}
+              className={`min-w-0 ${i % 2 === 1 ? 'md:mt-24' : ''}`}
             >
               <ProjectWindow project={project} index={i} />
             </Reveal>

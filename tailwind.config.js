@@ -107,7 +107,7 @@ module.exports = {
       fontFamily: {
         sans: ['var(--font-body)', ...fontFamily.sans],
         heading: ['var(--font-heading)', ...fontFamily.sans],
-        hand: ['var(--font-hand)', 'cursive'],
+        note: ['var(--font-note)', ...fontFamily.sans],
       },
       boxShadow: {
         card: '0 1px 2px rgba(22,22,29,0.04), 0 10px 30px -12px rgba(22,22,29,0.16)',

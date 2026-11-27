@@ -22,7 +22,7 @@ export default function AuthorLayout({ children, content }: Props) {
         title="about me"
         tone="sky"
         note="hi, nice to meet you!"
-        intro="Frontend engineer, former QA, Gen AI tinkerer, and someone who cares how things look and feel."
+        intro="Frontend engineer and former QA who writes code by hand and keeps up with AI-assisted workflows."
       />
 
       <div className="grid items-start gap-14 lg:grid-cols-[22rem_1fr]">

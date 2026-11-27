@@ -22,7 +22,7 @@ export default function Loading() {
           />
         ))}
       </div>
-      <span className="font-hand text-2xl font-bold text-ink-soft dark:text-night-text/70">
+      <span className="font-note text-base font-semibold text-ink-soft dark:text-night-text/70">
         loading the good stuff...
       </span>
       <span className="sr-only">Loading</span>
