@@ -110,6 +110,12 @@ export default function Footer() {
               <p className="mt-2 max-w-xs text-sm text-ink-soft dark:text-night-text/70">
                 Frontend Engineer who loves the visual side, building for web, desktop, and mobile.
               </p>
+              <p className="mt-3 text-sm font-medium text-ink dark:text-night-text">
+                📍 Yogyakarta, Indonesia
+                <span className="mt-0.5 block text-xs font-normal text-ink-muted dark:text-night-text/60">
+                  Open to remote, hybrid & onsite · freelance projects welcome
+                </span>
+              </p>
             </div>
             <nav aria-label="Footer">
               <p className="text-xs font-medium uppercase tracking-[0.14em] text-ink-muted dark:text-night-text/50">
@@ -152,8 +158,8 @@ export default function Footer() {
 
           <div className="relative mt-10 flex flex-col items-center justify-between gap-3 text-xs text-ink-muted dark:text-night-text/50 sm:flex-row">
             <span>
-              © {new Date().getFullYear()} Laksmita Widya Astuti · Powered by AI: Kiro, Claude &
-              ChatGPT
+              © {new Date().getFullYear()} Laksmita Widya Astuti · Built by hand, UI polished with
+              a little AI help
             </span>
             <span>
               Built with Next.js & Framer Motion · Started from{' '}

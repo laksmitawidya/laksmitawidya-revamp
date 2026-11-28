@@ -9,6 +9,7 @@ import Link from './Link'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
+import { RollText } from './ui/ScrollMotion'
 
 const Header = () => {
   const pathname = usePathname()
@@ -82,13 +83,13 @@ const Header = () => {
           <ThemeSwitch />
           <a
             href={`mailto:${siteMetadata.email}`}
-            className="hidden items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-medium text-white transition-transform hover:scale-[1.03] dark:bg-white dark:text-ink md:inline-flex"
+            className="group hidden items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-medium text-white transition-transform hover:scale-[1.03] dark:bg-white dark:text-ink md:inline-flex"
           >
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-mint-strong opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-mint-strong" />
             </span>
-            Let&apos;s talk
+            <RollText>Let&apos;s talk</RollText>
           </a>
           <MobileNav />
         </div>

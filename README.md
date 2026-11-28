@@ -96,7 +96,7 @@ public/static/images/ # Portraits and project screenshots
 
 ## ✦ How it was built
 
-Honestly: this site was largely vibe-coded with AI (Kiro and Claude), then reviewed, tested on real devices and tuned by hand. That's how I like to work now: hand-written code where it matters, AI where it speeds things up, and a human owning what ships.
+This site started from Timothy Lin's [Tailwind Nextjs Starter Blog](https://github.com/timlrx/tailwind-nextjs-starter-blog) and has been rebuilt incrementally by hand: new pages, components, motion and content, one fix at a time. AI tools helped refine the UI along the way, but the structure, decisions and code reviews are mine.
 
 ## ✦ Run it locally
 

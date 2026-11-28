@@ -1,17 +1,8 @@
 'use client'
 
-import { ReactNode, useEffect, useRef, useState } from 'react'
-import NextImage from 'next/image'
-import {
-  animate,
-  motion,
-  useInView,
-  useMotionValue,
-  useSpring,
-  useTransform,
-  MotionValue,
-} from 'framer-motion'
-import { ArrowDown, ArrowRight, ArrowUpRight, Briefcase, Code2, PenLine } from 'lucide-react'
+import { ReactNode } from 'react'
+import { motion, useMotionValue, useSpring, useTransform, MotionValue } from 'framer-motion'
+import { ArrowDown, ArrowRight, ArrowUpRight } from 'lucide-react'
 import Link from '@/components/Link'
 import siteMetadata from '@/data/siteMetadata'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
@@ -20,15 +11,14 @@ import Reveal from '@/components/ui/Reveal'
 import BlurText from '@/components/ui/BlurText'
 import Magnetic from '@/components/ui/Magnetic'
 import Marquee from '@/components/ui/Marquee'
+import AboutIntro from '@/components/AboutIntro'
+import { RollText, ScrollAway } from '@/components/ui/ScrollMotion'
 import Dock from '@/components/ui/Dock'
 import SectionHeading from '@/components/ui/SectionHeading'
 import StackCards from '@/components/ui/StackCards'
-import ProjectWindow from '@/components/ui/ProjectWindow'
 import HoloCard from '@/components/ui/HoloCard'
-import DesktopFolders, { DesktopItem } from '@/components/ui/DesktopFolders'
-import { FigmaFrame, TextSelect } from '@/components/ui/Selection'
+import { TextSelect } from '@/components/ui/Selection'
 import workHighlights from '@/data/workHighlights'
-import sideProjectsData from '@/data/sideProjectsData'
 
 const MAX_DISPLAY = 3
 
@@ -143,10 +133,10 @@ function Hero() {
           bg="bg-mint"
           className="bottom-[28%] right-[3%] 2xl:right-[8%]"
         >
-          🌏 Remote · GMT+7
+          📍 Yogyakarta · GMT+7
         </FloatTag>
 
-        <div className="relative mx-auto flex max-w-4xl flex-col items-center text-center">
+        <ScrollAway className="relative mx-auto flex max-w-4xl flex-col items-center text-center">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -164,7 +154,7 @@ function Hero() {
             <BlurText delay={0.2}>{"Hello! I'm Mita,"}</BlurText>
             <br />
             <BlurText delay={0.45} className="text-[0.72em] text-ink-soft dark:text-night-text/80">
-              a frontend engineer who loves
+              a frontend engineer who loves{' '}
               <TextSelect key="visual" tone="sky" delay={1.2}>
                 <span className="text-ink dark:text-night-text">pixel-perfect details.</span>
               </TextSelect>
@@ -192,21 +182,21 @@ function Hero() {
                   href="#work"
                   className="group inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 text-sm font-medium text-white shadow-lift transition-colors hover:bg-ink-soft dark:bg-white dark:text-ink dark:hover:bg-night-text"
                 >
-                  See my work
+                  <RollText>See my work</RollText>
                   <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
                 </a>
               </Magnetic>
               <Magnetic>
                 <Link
                   href="/about"
-                  className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-white/70 px-6 py-3.5 text-sm font-medium text-ink backdrop-blur transition-colors hover:bg-white dark:border-white/15 dark:bg-white/5 dark:text-night-text dark:hover:bg-white/10"
+                  className="group inline-flex items-center gap-2 rounded-full border border-ink/15 bg-white/70 px-6 py-3.5 text-sm font-medium text-ink backdrop-blur transition-colors hover:bg-white dark:border-white/15 dark:bg-white/5 dark:text-night-text dark:hover:bg-white/10"
                 >
-                  More about me
+                  <RollText>More about me</RollText>
                 </Link>
               </Magnetic>
             </div>
           </Reveal>
-        </div>
+        </ScrollAway>
       </div>
 
       {/* Tool dock overlapping the panel's bottom edge */}
@@ -218,75 +208,6 @@ function Hero() {
       >
         <Dock />
       </motion.div>
-    </section>
-  )
-}
-
-/* ------------------------------------------------------------------ */
-/* Quick links (three cards straddling the hero)                         */
-/* ------------------------------------------------------------------ */
-
-const QUICK_LINKS = [
-  {
-    icon: Briefcase,
-    title: 'Client work',
-    text: 'Gen AI portals and enterprise apps for banking, healthcare and agritech.',
-    href: '#work',
-    cursor: 'Jump ↓',
-    dot: 'bg-sky',
-    tile: 'bg-sky text-sky-deep',
-  },
-  {
-    icon: Code2,
-    title: 'Side projects',
-    text: 'A 3D room builder, a piano game, an npm library and more experiments.',
-    href: '#projects',
-    cursor: 'Jump ↓',
-    dot: 'bg-butter',
-    tile: 'bg-butter text-butter-deep',
-  },
-  {
-    icon: PenLine,
-    title: 'Writing',
-    text: 'Notes on frontend craft, AI-assisted workflows and life as an engineer.',
-    href: '/blog',
-    cursor: 'Read',
-    dot: 'bg-mint',
-    tile: 'bg-mint text-mint-deep',
-  },
-]
-
-function QuickLinks() {
-  return (
-    <section className="mx-auto mt-16 grid max-w-5xl gap-5 px-4 sm:px-6 md:grid-cols-3 xl:px-0">
-      {QUICK_LINKS.map((q, i) => (
-        <Reveal key={q.title} delay={i * 0.08}>
-          <Link
-            href={q.href}
-            data-cursor={q.cursor}
-            className="surface group grid h-full grid-cols-[auto_1fr_auto] items-center gap-4 rounded-3xl p-4 shadow-card transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-lift sm:p-5 md:flex md:flex-col md:items-start md:gap-0 md:p-6"
-          >
-            <span
-              className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110 ${q.tile}`}
-            >
-              <q.icon className="h-5 w-5" strokeWidth={1.75} />
-            </span>
-            <span className="min-w-0 md:mt-5 md:flex-1">
-              <h3 className="font-heading text-lg font-medium text-ink dark:text-night-text">
-                {q.title}
-              </h3>
-              <p className="mt-1 text-sm leading-relaxed text-ink-muted dark:text-night-text/60 md:mt-1.5">
-                {q.text}
-              </p>
-            </span>
-            <span
-              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink transition-transform duration-300 group-hover:translate-x-1 md:mt-5 ${q.dot}`}
-            >
-              <ArrowRight className="h-4 w-4" />
-            </span>
-          </Link>
-        </Reveal>
-      ))}
     </section>
   )
 }
@@ -313,204 +234,6 @@ function Companies() {
 }
 
 /* ------------------------------------------------------------------ */
-/* About: a little desktop with draggable folders                        */
-/* ------------------------------------------------------------------ */
-
-function CountUp({ to, suffix = '' }: { to: number; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, amount: 0.6 })
-  const [value, setValue] = useState(0)
-
-  useEffect(() => {
-    if (!inView) return
-    const controls = animate(0, to, {
-      duration: 1.4,
-      ease: [0.22, 1, 0.36, 1],
-      onUpdate: (v) => setValue(Math.round(v)),
-    })
-    return () => controls.stop()
-  }, [inView, to])
-
-  return (
-    <span ref={ref}>
-      {value}
-      {suffix}
-    </span>
-  )
-}
-
-const STATS = [
-  { value: 7, suffix: '+', label: 'years shipping UI', bg: 'bg-butter', tilt: '-rotate-3' },
-  { value: 10, suffix: '+', label: 'production apps', bg: 'bg-rose', tilt: 'rotate-2' },
-  { value: 6, suffix: '', label: 'side projects live', bg: 'bg-mint', tilt: '-rotate-1' },
-  {
-    value: 3,
-    suffix: '',
-    label: 'platforms: web, desktop, mobile',
-    bg: 'bg-sky',
-    tilt: 'rotate-3',
-  },
-]
-
-const FOLDERS: DesktopItem[] = [
-  {
-    label: 'GitHub',
-    href: siteMetadata.github ?? 'https://github.com/laksmitawidya',
-    x: 2,
-    y: 6,
-    external: true,
-  },
-  { label: 'LinkedIn', href: siteMetadata.linkedin ?? '/about', x: 78, y: 2, external: true },
-  { label: 'Articles', href: '/blog', x: 0, y: 66 },
-  { label: 'Projects', href: '/projects', x: 82, y: 74 },
-  { label: 'say-hi.txt', href: `mailto:${siteMetadata.email}`, x: 56, y: 87 },
-]
-
-function About() {
-  return (
-    <section
-      aria-labelledby="about-heading"
-      className="mx-auto mt-32 grid max-w-6xl items-center gap-16 px-4 sm:px-6 lg:grid-cols-2 xl:px-0"
-    >
-      <Reveal>
-        <DesktopFolders items={FOLDERS} className="mx-auto h-[30rem] w-full max-w-md sm:h-[34rem]">
-          {/* Layered portrait: tinted slab, taped photo in a selection frame, avatar sticker */}
-          <div className="absolute left-1/2 top-1/2 w-56 -translate-x-1/2 -translate-y-1/2 sm:w-64">
-            <div
-              aria-hidden="true"
-              className="absolute -inset-6 rotate-6 rounded-[2rem] bg-gradient-to-br from-lilac to-sky dark:from-lilac-strong/30 dark:to-sky-strong/20"
-            />
-            <FigmaFrame label="mita.webp  600 × 800" className="block -rotate-2">
-              <div className="relative overflow-hidden rounded-xl bg-white p-2 shadow-lift dark:bg-night-card">
-                <NextImage
-                  src="/static/images/me-portrait.webp"
-                  alt="Mita standing in front of a terracotta shingle wall"
-                  width={600}
-                  height={800}
-                  sizes="256px"
-                  className="aspect-[3/4] w-full rounded-lg object-cover"
-                />
-                <p className="pt-2 text-center font-note text-sm font-semibold text-ink-soft dark:text-night-text/70">
-                  that&apos;s me!
-                </p>
-              </div>
-            </FigmaFrame>
-            <span className="tape -top-3 left-6 -rotate-12" />
-            {/* Fake right-click menu */}
-            <div
-              aria-hidden="true"
-              className="surface absolute -right-12 top-1/2 hidden w-36 rotate-3 rounded-xl p-1 text-xs shadow-lift sm:block"
-            >
-              {['Copy', 'Paste', 'Duplicate'].map((item) => (
-                <div
-                  key={item}
-                  className="rounded-md px-2.5 py-1 text-ink-soft dark:text-night-text/70"
-                >
-                  {item}
-                </div>
-              ))}
-              <div className="rounded-md bg-sky-strong px-2.5 py-1 font-medium text-white">
-                Hire Mita ✨
-              </div>
-              <svg
-                viewBox="0 0 24 24"
-                className="absolute -bottom-5 left-16 h-6 w-6 fill-ink stroke-white dark:fill-white dark:stroke-ink"
-                strokeWidth={1.5}
-              >
-                <path d="M4 2l16 9-7 2-3 7z" />
-              </svg>
-            </div>
-          </div>
-        </DesktopFolders>
-      </Reveal>
-
-      <div>
-        <Reveal y={12}>
-          <span className="surface inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium uppercase tracking-[0.14em] text-ink-soft shadow-card dark:text-night-text/80">
-            Hello again
-          </span>
-        </Reveal>
-        <h2
-          id="about-heading"
-          className="mt-5 font-heading text-5xl font-medium tracking-tight text-ink dark:text-night-text md:text-6xl"
-        >
-          <BlurText inView>
-            {[
-              'about ',
-              <TextSelect key="me" tone="sky">
-                me
-              </TextSelect>,
-            ]}
-          </BlurText>
-        </h2>
-        <Reveal delay={0.1}>
-          <p className="mt-6 text-base leading-relaxed text-ink-soft dark:text-night-text/70 md:text-lg">
-            I&apos;m a Frontend Engineer who loves the visual side of building. I started in
-            software QA, which still shapes how I work: I think about failure modes early and take
-            production readiness seriously. Today I lead frontend delivery on enterprise Gen AI
-            projects. I&apos;m comfortable writing every line myself, and just as comfortable
-            handing the scaffolding to an AI agent and spending my time on review, edge cases and
-            polish. In my spare time I build playful things like 3D room builders and piano games.
-          </p>
-        </Reveal>
-
-        <Reveal delay={0.15}>
-          <ul className="mt-8 space-y-3">
-            {[
-              ['MSc Computer Science', 'Universitas Gadjah Mada'],
-              ['BEng Information Technology', 'Duta Wacana Christian University'],
-              ['AWS Certified Cloud Practitioner', 'Amazon Web Services · 2025'],
-            ].map(([title, place]) => (
-              <li key={title} className="flex items-center gap-4">
-                <span aria-hidden="true" className="mac-folder block h-7 w-9 shrink-0" />
-                <span>
-                  <span className="block text-sm font-semibold text-ink dark:text-night-text">
-                    {title}
-                  </span>
-                  <span className="block text-sm text-ink-muted dark:text-night-text/60">
-                    {place}
-                  </span>
-                </span>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-
-        {/* Sticky-note stats */}
-        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {STATS.map((s, i) => (
-            <Reveal key={s.label} delay={0.1 + i * 0.07}>
-              <div
-                className={`note-shadow transition-transform duration-300 hover:rotate-0 hover:scale-105 ${s.tilt}`}
-              >
-                <div className={`sticky-note px-3 pb-5 pt-3 ${s.bg}`}>
-                  <div className="font-heading text-3xl font-semibold text-ink">
-                    <CountUp to={s.value} suffix={s.suffix} />
-                  </div>
-                  <div className="mt-1 font-note text-xs font-semibold leading-snug text-ink/75">
-                    {s.label}
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-
-        <Reveal delay={0.2}>
-          <Link
-            href="/about"
-            className="group mt-10 inline-flex items-center gap-2 text-sm font-medium text-ink underline decoration-sky-strong decoration-2 underline-offset-4 dark:text-night-text"
-          >
-            The longer story
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </Reveal>
-      </div>
-    </section>
-  )
-}
-
-/* ------------------------------------------------------------------ */
 /* Certification                                                        */
 /* ------------------------------------------------------------------ */
 
@@ -518,7 +241,7 @@ function Certification() {
   return (
     <section className="mx-auto mt-32 max-w-5xl px-4 sm:px-6 xl:px-0">
       <SectionHeading
-        index="03"
+        index="02"
         eyebrow="Credentials"
         title={[
           'officially ',
@@ -580,7 +303,7 @@ function LatestPosts({ posts }) {
   return (
     <section className="mx-auto mt-32 max-w-5xl px-4 sm:px-6 xl:px-0">
       <SectionHeading
-        index="04"
+        index="03"
         eyebrow="Writing"
         title={[
           'fresh from my ',
@@ -664,9 +387,8 @@ export default function Home({ posts }) {
   return (
     <>
       <Hero />
-      <QuickLinks />
       <Companies />
-      <About />
+      <AboutIntro />
 
       {/* Client work: cards pin and pile up as you scroll */}
       <section id="work" className="mx-auto mt-32 max-w-5xl scroll-mt-28 px-4 sm:px-6 xl:px-0">
@@ -691,32 +413,6 @@ export default function Home({ posts }) {
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </Reveal>
-      </section>
-
-      {/* Side projects: layered browser windows with sticky notes */}
-      <section id="projects" className="mx-auto mt-32 max-w-6xl scroll-mt-28 px-4 sm:px-6 xl:px-0">
-        <SectionHeading
-          index="02"
-          eyebrow="Playground"
-          title={[
-            'side ',
-            <FigmaFrame key="p" label="Frame · for fun" delay={0.3}>
-              projects
-            </FigmaFrame>,
-          ]}
-          intro="Small things I build after hours to learn new tools: 3D, games, canvas, component libraries. Every one is live, so go poke at them."
-        />
-        <div className="grid gap-x-12 gap-y-20 md:grid-cols-2">
-          {sideProjectsData.map((project, i) => (
-            <Reveal
-              key={project.slug}
-              delay={(i % 2) * 0.1}
-              className={`min-w-0 ${i % 2 === 1 ? 'md:mt-24' : ''}`}
-            >
-              <ProjectWindow project={project} index={i} />
-            </Reveal>
-          ))}
-        </div>
       </section>
 
       <Certification />

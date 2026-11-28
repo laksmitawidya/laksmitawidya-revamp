@@ -91,8 +91,8 @@ const sideProjectsData: SideProject[] = [
     title: 'This portfolio',
     tagline: 'The site you are looking at',
     description:
-      'An MDX blog and portfolio with a custom cursor, scroll-linked stacking cards, a magnifying tool dock and draggable desktop folders. Honestly vibe-coded with AI (Kiro & Claude), then reviewed, tested on real devices and tuned by hand.',
-    note: 'vibe-coded with AI, reviewed by me',
+      'An MDX blog and portfolio with a custom cursor, scroll-linked stacking cards, a magnifying tool dock and draggable desktop folders. Started from Timothy Lin\'s Tailwind Next.js starter and rebuilt piece by piece by hand, with AI helping to refine the UI.',
+    note: 'built by hand, one fix at a time',
     stack: ['Next.js 15', 'Framer Motion', 'Contentlayer', 'Tailwind'],
     live: 'https://laksmita.space',
     repo: 'https://github.com/laksmitawidya/laksmitawidya-revamp',

@@ -1,4 +1,7 @@
+'use client'
+
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import type { SideProject } from '@/data/sideProjectsData'
 import { Github as GithubMark } from '@/components/social-icons/icons'
@@ -69,16 +72,33 @@ export default function ProjectWindow({
             </div>
             <span className="w-10" />
           </div>
-          <div className="relative aspect-[16/10] overflow-hidden bg-canvas dark:bg-night">
-            <Image
-              src={project.image}
-              alt={`${project.title}: ${project.tagline}`}
-              fill
-              priority={priority}
-              sizes="(min-width: 1024px) 520px, 100vw"
-              className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
-            />
-          </div>
+          {/* Screenshot is wiped in from the bottom the first time it scrolls into view.
+              The outer box is what's watched for visibility: an element whose own clip-path
+              hides it never counts as "in view", so the clip lives on the inner layer. */}
+          <motion.div
+            className="relative aspect-[16/10] overflow-hidden bg-canvas dark:bg-night"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <motion.div
+              className="absolute inset-0 motion-reduce:![clip-path:none]"
+              variants={{
+                hidden: { clipPath: 'inset(100% 0% 0% 0%)' },
+                show: { clipPath: 'inset(0% 0% 0% 0%)' },
+              }}
+              transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1], delay: 0.1 }}
+            >
+              <Image
+                src={project.image}
+                alt={`${project.title}: ${project.tagline}`}
+                fill
+                priority={priority}
+                sizes="(min-width: 1024px) 520px, 100vw"
+                className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+              />
+            </motion.div>
+          </motion.div>
         </div>
 
         {/* Sticky note layered over the corner */}

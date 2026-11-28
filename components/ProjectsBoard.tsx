@@ -6,6 +6,7 @@ import { ArrowUpRight } from 'lucide-react'
 import projectsData from '@/data/projectsData'
 import sideProjectsData from '@/data/sideProjectsData'
 import ProjectWindow from '@/components/ui/ProjectWindow'
+import { Parallax } from '@/components/ui/ScrollMotion'
 
 const FILTERS = [
   { id: 'all', label: 'All' },
@@ -133,7 +134,9 @@ export default function ProjectsBoard() {
                     transition={{ duration: 0.6, delay: (i % 2) * 0.1, ease: [0.22, 1, 0.36, 1] }}
                     className={`min-w-0 ${i % 2 === 1 ? 'md:mt-24' : ''}`}
                   >
-                    <ProjectWindow project={p} index={i} priority={i < 2} />
+                    <Parallax speed={i % 2 === 1 ? 110 : 40}>
+                      <ProjectWindow project={p} index={i} priority={i < 2} />
+                    </Parallax>
                   </motion.div>
                 ))}
               </div>
